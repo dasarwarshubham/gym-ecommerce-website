@@ -37,7 +37,7 @@ const Footer = (props) => {
             </p>
           </Col>
           <Col lg={3} md={4} sm={12}>
-            <div class="collapse dont-collapse-sm" id="collapseExample">
+            <div className="collapse dont-collapse-sm" id="collapseExample">
               <ul>
                 <li>Home</li>
                 <li>About Us</li>

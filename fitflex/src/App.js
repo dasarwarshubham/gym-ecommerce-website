@@ -14,6 +14,7 @@ import HomeEquipmentsPage from './pages/equipments/HomeEquipmentsPage';
 import CommercialEquipmentsPage from './pages/equipments/CommercialEquipmentsPage';
 import BlogListPage from './pages/blogs/BlogListPage';
 import BlogDetailsPage from './pages/blogs/BlogDetailsPage';
+import EquipmentDetailsPage from "./pages/equipments/EquipmentDetailsPage";
 
 function App() {
   return (
@@ -26,8 +27,9 @@ function App() {
         <Route path="/faqs" Component={FaqsPage} />
         <Route path="/home-equipments" Component={HomeEquipmentsPage} />
         <Route path="/commercial-equipments" Component={CommercialEquipmentsPage} />
+        <Route path="/equipments/:productId" Component={EquipmentDetailsPage} />
         <Route path="/blogs" Component={BlogListPage} />
-        <Route path="/blogDetails" Component={BlogDetailsPage} />
+        <Route path="/blogs/:blogId" Component={BlogDetailsPage} />
       </Routes>
       <FooterContainer />
     </Router>

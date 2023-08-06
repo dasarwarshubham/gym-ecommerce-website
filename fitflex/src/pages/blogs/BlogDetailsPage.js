@@ -1,6 +1,8 @@
 import React from "react"
+import { useParams } from "react-router-dom";
 
 const BlogDetailsPage = (props) => {
+  let { blogId } = useParams();
   return (
     <div
       style={{
@@ -11,7 +13,7 @@ const BlogDetailsPage = (props) => {
         border: '1px solid hotpink',
       }}
     >
-      BlogDetailsPage
+      BlogDetailsPage { blogId }
     </div>
   );
 };
