@@ -1,18 +1,22 @@
-import React from "react"
+import React from "react";
+
+import Banner from "../containers/home/banner/Banner";
+import Featured from "../containers/home/Featured";
+import AboutContainer from "../containers/home/AboutContainer";
+import Testimonials from "../containers/home/Testimonials";
+import Services from "../containers/home/Services";
+import CtaContainer from "../containers/home/CtaContainer";
 
 const HomePage = (props) => {
   return (
-    <div
-      style={{
-        display: 'flex',
-        justifyContent: 'center',
-        alignItems: 'center',
-        minHeight: '75vh',
-        border: '1px solid hotpink',
-      }}
-    >
-      HomePage
-    </div>
+    <>
+      <Banner />
+      <Featured />
+      <AboutContainer />
+      <Testimonials />
+      <Services />
+      <CtaContainer />
+    </>
   );
 };
 
