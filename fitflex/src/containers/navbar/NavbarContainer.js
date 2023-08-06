@@ -9,19 +9,13 @@ import NavDropdown from "react-bootstrap/NavDropdown";
 import Offcanvas from "react-bootstrap/Offcanvas";
 
 import logo from "../../logo.svg";
-
+import * as ROUTES from "../../constants/routes";
 
 const Logo = styled.img`
-    height: 5rem;
-`
+  height: 5rem;
+`;
 const NavLink = styled(Nav.Link)`
-    margin: 0 1.8rem;
-    /* padding: 0 5rem; */
-    /* &:hover{
-        background-color: #ffffff;
-        color: #000000;
-    } */
-    /* border: 1px solid hotpink; */
+  margin: 0 1.8rem;
 `;
 
 function Navbar() {
@@ -35,7 +29,7 @@ function Navbar() {
       className="py-3"
     >
       <Container fluid className="py-0">
-        <CustomNavbar.Brand href="#">
+        <CustomNavbar.Brand as={Link} to={ROUTES.HOME}>
           <Logo src={logo} alt="fitflex logo" />
         </CustomNavbar.Brand>
         <CustomNavbar.Toggle
@@ -53,22 +47,32 @@ function Navbar() {
           </Offcanvas.Header>
           <Offcanvas.Body>
             <Nav className="justify-content-end flex-grow-1 pe-3">
-              <NavLink className="nav-link" as={Link} to="/">Home</NavLink>
-              <NavLink className="nav-link" as={Link} to="/about">About</NavLink>
+              <NavLink className="nav-link" as={Link} to={ROUTES.HOME_ALT}>
+                Home
+              </NavLink>
+              <NavLink className="nav-link" as={Link} to={ ROUTES.ABOUT}>
+                About
+              </NavLink>
               <NavDropdown
                 title="Equipments"
                 id={`offcanvasCustomNavbarDropdown-expand-lg`}
               >
-                <NavDropdown.Item as={ Link} to="/home-equipments">
+                <NavDropdown.Item as={Link} to={ ROUTES.EQUIPMENTS_HOME}>
                   Home Equipment
-                </NavDropdown.Item >
-                <NavDropdown.Item as={ Link } to="/commercial-equipments">
+                </NavDropdown.Item>
+                <NavDropdown.Item as={Link} to={ROUTES.EQUIPMENTS_COMMERCIAL}>
                   Commercial Equipment
                 </NavDropdown.Item>
               </NavDropdown>
-              <NavLink className="nav-link" as={Link} to="/blogs">Blog</NavLink>
-              <NavLink className="nav-link" as={Link} to="/faqs">FAQs</NavLink>
-              <NavLink className="nav-link" as={Link} to="/contact">Contact</NavLink>
+              <NavLink className="nav-link" as={Link} to={ROUTES.BLOGS}>
+                Blog
+              </NavLink>
+              <NavLink className="nav-link" as={Link} to={ROUTES.FAQS}>
+                FAQs
+              </NavLink>
+              <NavLink className="nav-link" as={Link} to={ROUTES.CONTACT}>
+                Contact
+              </NavLink>
             </Nav>
           </Offcanvas.Body>
         </CustomNavbar.Offcanvas>
