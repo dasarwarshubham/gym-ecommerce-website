@@ -11,7 +11,6 @@ $font-size-root: 10px; //browser root default font-size
 $font-size-base: 1.6rem;
 $nav-link-font-size: 1.6rem;
 
-
 // $primary: #111111;
 // $white: #ffffff;
 
@@ -55,37 +54,21 @@ $accordion-body-padding-y: 1.5rem;
 //   xxl: 1320px,
 // ) !default;
 
-// // extra border radius variables
-// $border-radius-md: 0.3rem !default;
-// $border-radius-lg: 0.5rem !default;
-// $border-radius-xl: 0.75rem !default;
-// $border-radius-xxl: 1rem !default;
+//Input fields variables
+$input-bg: $white;
+$input-placeholder-color: #b9bdc2;
 
-// //Input fields variables
-// $input-bg: $white;
-// $input-border-width: 0;
-// $input-border-radius: $border-radius-lg;
-// $input-placeholder-color: #ced5dd;
+input:-webkit-autofill {
+  -webkit-box-shadow: 0 0 0 30px white inset !important;
+}
 
-// input:-webkit-autofill {
-//   -webkit-box-shadow: 0 0 0 30px white inset !important;
-// }
-
-// input[type="number"]::-webkit-inner-spin-button,
-// input[type="number"]::-webkit-outer-spin-button {
-//   -webkit-appearance: none;
-//   -moz-appearance: none;
-//   appearance: none;
-//   margin: 0;
-// }
-// input[type="number"] {
-//   -moz-appearance: textfield;
-// }
-
-// a {
-//   color: $primary !important;
-//   text-decoration: none !important;
-// }
+input[type="number"]::-webkit-inner-spin-button,
+input[type="number"]::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  margin: 0;
+}
 
 @import "bootstrap/scss/variables";
 @import "bootstrap/scss/variables-dark";
