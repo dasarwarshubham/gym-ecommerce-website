@@ -1,0 +1,207 @@
+// Configuration
+@import "bootstrap/scss/functions";
+
+// // add default variable overrides here
+
+// font size 
+$font-size-root: 10px; //browser root default font-size
+$font-size-base: 1.6rem;
+$nav-link-font-size: 1.6rem;
+
+// $primary: #111111;
+// $white: #ffffff;
+
+// $component-active-color: $white;
+// $component-active-bg: $primary;
+// $modal-content-bg: #fafafa;
+
+// // accordion
+// $accordion-bg: transparent;
+// $accordion-button-active-bg: transparent;
+// $accordion-button-focus-border-color: transparent;
+// $btn-focus-box-shadow: none;
+
+// //
+// $grid-breakpoints: (
+//   xs: 0,
+//   mobile: 375px,
+//   sm: 576px,
+//   md: 768px,
+//   lg: 992px,
+//   xl: 1200px,
+//   xxl: 1400px,
+// ) !default;
+
+// $container-max-widths: (
+//   mobile: 350px,
+//   sm: 540px,
+//   md: 720px,
+//   lg: 960px,
+//   xl: 1140px,
+//   xxl: 1320px,
+// ) !default;
+
+// // extra border radius variables
+// $border-radius-md: 0.3rem !default;
+// $border-radius-lg: 0.5rem !default;
+// $border-radius-xl: 0.75rem !default;
+// $border-radius-xxl: 1rem !default;
+
+// //Input fields variables
+// $input-bg: $white;
+// $input-border-width: 0;
+// $input-border-radius: $border-radius-lg;
+// $input-placeholder-color: #ced5dd;
+
+// input:-webkit-autofill {
+//   -webkit-box-shadow: 0 0 0 30px white inset !important;
+// }
+
+// input[type="number"]::-webkit-inner-spin-button,
+// input[type="number"]::-webkit-outer-spin-button {
+//   -webkit-appearance: none;
+//   -moz-appearance: none;
+//   appearance: none;
+//   margin: 0;
+// }
+// input[type="number"] {
+//   -moz-appearance: textfield;
+// }
+
+// a {
+//   color: $primary !important;
+//   text-decoration: none !important;
+// }
+
+@import "bootstrap/scss/variables";
+@import "bootstrap/scss/variables-dark";
+@import "bootstrap/scss/mixins";
+@import "~bootstrap/scss/maps";
+@import "bootstrap/scss/utilities";
+
+// $utilities: map-merge(
+//   $utilities,
+//   (
+//     "rounded":
+//       map-merge(
+//         map-get($utilities, "rounded"),
+//         (
+//           values:
+//             map-merge(
+//               map-get(map-get($utilities, "rounded"), "values"),
+//               (
+//                 4: $border-radius-xl,
+//                 5: $border-radius-xxl,
+//               )
+//             ),
+//         )
+//       ),
+//     // "width":
+//     // map-merge(
+//     //   map-get($utilities, "width"),
+//     //   (
+//     //     values:
+//     //       map-merge(
+//     //         map-get(map-get($utilities, "width"), "values"),
+//     //         (
+//     //           10: 10%,
+//     //           20: 20%,
+//     //           30: 30%,
+//     //           40: 40%,
+//     //           60: 60%,
+//     //           70: 70%,
+//     //           80: 80%,
+//     //           90: 90%,
+//     //         )
+//     //       ),
+//     //   )
+//     // ),,,,,,,,,,,,,,,,,,,,,,,
+//   )
+// );
+
+// Layout & components
+@import "bootstrap/scss/root";
+@import "bootstrap/scss/reboot";
+@import "bootstrap/scss/type";
+@import "bootstrap/scss/containers";
+@import "bootstrap/scss/forms";
+@import "bootstrap/scss/buttons";
+@import "bootstrap/scss/button-group";
+@import "bootstrap/scss/nav";
+@import "bootstrap/scss/navbar";
+@import "bootstrap/scss/grid";
+@import "bootstrap/scss/spinners";
+@import "bootstrap/scss/transitions";
+@import "bootstrap/scss/images";
+@import "bootstrap/scss/offcanvas";
+@import "bootstrap/scss/accordion";
+@import "bootstrap/scss/card";
+@import "bootstrap/scss/modal";
+@import "bootstrap/scss/close";
+@import "bootstrap/scss/tables";
+@import "bootstrap/scss/badge";
+@import "bootstrap/scss/tooltip";
+@import "bootstrap/scss/toasts";
+@import "bootstrap/scss/progress";
+@import "bootstrap/scss/dropdown";
+// @import "bootstrap/scss/alert";
+// @import "bootstrap/scss/breadcrumb";
+// @import "bootstrap/scss/pagination";
+// @import "bootstrap/scss/list-group";
+// @import "bootstrap/scss/popover";
+// @import "bootstrap/scss/carousel";
+// @import "bootstrap/scss/placeholders";
+
+// Helpers
+@import "bootstrap/scss/helpers/visually-hidden";
+@import "bootstrap/scss/helpers/text-truncation";
+@import "bootstrap/scss/helpers/position";
+// @import "bootstrap/scss/helpers/colored-links";
+// @import "bootstrap/scss/helpers/clearfix";
+// @import "bootstrap/scss/helpers/ratio";
+// @import "bootstrap/scss/helpers/stacks";
+// @import "bootstrap/scss/helpers/stretched-link";
+// @import "bootstrap/scss/helpers/vr";
+
+// Utilities
+@import "bootstrap/scss/utilities/api";
+// scss-docs-end import-stack
+
+// .btn-white {
+//   @include button-variant($white, $white);
+
+//   border-radius: 0;
+//   &:focus,
+//   &:active,
+//   &:active:focus {
+//     box-shadow: none;
+//   }
+//   &:focus-visible {
+//     box-shadow: 0 0 0 0.25rem rgba(217, 217, 217, 0.5) !important;
+//   }
+// }
+
+// .modal-content {
+//   background: rgb(199, 213, 240);
+//   background: -moz-linear-gradient(
+//     329deg,
+//     rgba(199, 213, 240, 1) 0%,
+//     rgba(223, 248, 253, 1) 65%,
+//     rgba(222, 222, 246, 1) 100%
+//   );
+//   background: -webkit-linear-gradient(
+//     329deg,
+//     rgba(199, 213, 240, 1) 0%,
+//     rgba(223, 248, 253, 1) 65%,
+//     rgba(222, 222, 246, 1) 100%
+//   );
+//   background: linear-gradient(
+//     329deg,
+//     rgba(199, 213, 240, 1) 0%,
+//     rgba(223, 248, 253, 1) 65%,
+//     rgba(222, 222, 246, 1) 100%
+//   );
+//   filter: progid:DXImageTransform.Microsoft.gradient(startColorstr="#c7d5f0",endColorstr="#dedef6",GradientType=1);
+// }
+
+
