@@ -1,11 +1,11 @@
 import React from "react";
 import { Container, Row, Col } from "react-bootstrap";
-import styled from "styled-components";
+import styled from "styled-components/macro";
 
 import logo from "../../logo.svg";
 
 const FooterContainer = styled.div`
-  background-color: #212129;
+  background-color: #111111;
   color: #ffffff;
   padding-top: 5rem;
   padding-bottom: 5rem;

@@ -1,17 +1,21 @@
 import React from "react";
+import PageHeader from "../containers/about/PageHeader";
+import AboutSection from "../containers/about/AboutSection";
+import TeamSection from "../containers/about/TeamSection";
+import ValuesSection from "../containers/about/ValuesSection";
+import ContactSection from "../containers/about/ContactSection";
 
-const AboutPage = (props) => {
+const AboutPage = () => {
   return (
-    <div
-      style={{
-        display: "flex",
-        justifyContent: "center",
-        alignItems: "center",
-        minHeight: "75vh",
-        border: "1px solid hotpink",
-      }}
-    >
-      AboutPage
+    <div>
+      <PageHeader title="About Us" />
+
+      <div className="container">
+        <AboutSection />
+        <TeamSection />
+        <ValuesSection />
+        <ContactSection />
+      </div>
     </div>
   );
 };

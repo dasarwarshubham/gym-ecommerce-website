@@ -2,11 +2,15 @@
 @import "bootstrap/scss/functions";
 
 // // add default variable overrides here
+$primary: #111111;
+$white: #ffffff;
+$gray-900: #111111;
 
-// font size 
+// font size
 $font-size-root: 10px; //browser root default font-size
 $font-size-base: 1.6rem;
 $nav-link-font-size: 1.6rem;
+
 
 // $primary: #111111;
 // $white: #ffffff;
@@ -15,11 +19,21 @@ $nav-link-font-size: 1.6rem;
 // $component-active-bg: $primary;
 // $modal-content-bg: #fafafa;
 
-// // accordion
-// $accordion-bg: transparent;
-// $accordion-button-active-bg: transparent;
-// $accordion-button-focus-border-color: transparent;
-// $btn-focus-box-shadow: none;
+// accordion
+$accordion-bg: transparent;
+$accordion-button-active-bg: $primary;
+$accordion-button-focus-border-color: transparent;
+$btn-focus-box-shadow: none;
+$accordion-button-active-color: $white;
+
+$accordion-icon-color: $primary;
+$accordion-icon-color-dark: $white;
+$accordion-icon-active-color: $white;
+$accordion-icon-active-color-dark: $primary;
+
+$accordion-icon-active-color: $white;
+$accordion-button-padding-y: 1.5rem;
+$accordion-body-padding-y: 1.5rem;
 
 // //
 // $grid-breakpoints: (
@@ -203,5 +217,3 @@ $nav-link-font-size: 1.6rem;
 //   );
 //   filter: progid:DXImageTransform.Microsoft.gradient(startColorstr="#c7d5f0",endColorstr="#dedef6",GradientType=1);
 // }
-
-
