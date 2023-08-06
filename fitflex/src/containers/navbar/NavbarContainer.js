@@ -1,6 +1,8 @@
 import Container from "react-bootstrap/Container";
 import styled from "styled-components/macro";
 
+import { Link } from "react-router-dom";
+
 import Nav from "react-bootstrap/Nav";
 import CustomNavbar from "react-bootstrap/Navbar";
 import NavDropdown from "react-bootstrap/NavDropdown";
@@ -20,8 +22,7 @@ const NavLink = styled(Nav.Link)`
         color: #000000;
     } */
     /* border: 1px solid hotpink; */
-`
-
+`;
 
 function Navbar() {
   return (
@@ -52,22 +53,22 @@ function Navbar() {
           </Offcanvas.Header>
           <Offcanvas.Body>
             <Nav className="justify-content-end flex-grow-1 pe-3">
-              <NavLink href="#action1">Home</NavLink>
-              <NavLink href="#action2">About</NavLink>
+              <NavLink className="nav-link" as={Link} to="/">Home</NavLink>
+              <NavLink className="nav-link" as={Link} to="/about">About</NavLink>
               <NavDropdown
                 title="Equipments"
                 id={`offcanvasCustomNavbarDropdown-expand-lg`}
               >
-                <NavDropdown.Item href="#action3">
+                <NavDropdown.Item as={ Link} to="/home-equipments">
                   Home Equipment
-                </NavDropdown.Item>
-                <NavDropdown.Item href="#action4">
+                </NavDropdown.Item >
+                <NavDropdown.Item as={ Link } to="/commercial-equipments">
                   Commercial Equipment
                 </NavDropdown.Item>
               </NavDropdown>
-              <NavLink href="#action6">Blog</NavLink>
-              <NavLink href="#action7">FAQs</NavLink>
-              <NavLink href="#action8">Contact</NavLink>
+              <NavLink className="nav-link" as={Link} to="/blogs">Blog</NavLink>
+              <NavLink className="nav-link" as={Link} to="/faqs">FAQs</NavLink>
+              <NavLink className="nav-link" as={Link} to="/contact">Contact</NavLink>
             </Nav>
           </Offcanvas.Body>
         </CustomNavbar.Offcanvas>
