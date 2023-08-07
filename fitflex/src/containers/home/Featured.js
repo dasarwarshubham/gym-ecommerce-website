@@ -8,22 +8,22 @@ import Container from "react-bootstrap/Container";
 const Featured = (props) => {
   const featuredItems = [
     {
-      image: "/images//featured-products/treadmills.png",
+      image: "/images/featured-products/treadmills.png",
       alt: "Treadmill",
       title: "TreadMill",
     },
     {
-      image: "/images//featured-products/excercise-bikes.png",
+      image: "/images/featured-products/excercise-bikes.png",
       alt: "Exercise bikes",
       title: "Exercise bikes",
     },
     {
-      image: "/images//featured-products/weights-and-dumbbells.png",
+      image: "/images/featured-products/weights-and-dumbbells.png",
       alt: "Weights & Dumbbells",
       title: "Weights & Dumbbells",
     },
     {
-      image: "/images//featured-products/yoga-and-accessories.png",
+      image: "/images/featured-products/yoga-and-accessories.png",
       alt: "Yoga mats and accessories",
       title: "Yoga mats and accessories",
     },

@@ -1,83 +1,33 @@
 import React, { lazy, Suspense } from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 
-import Spinner from "react-bootstrap/Spinner";
+import Loader from "./components/loader/Loader";
 
 import FooterContainer from "./containers/footer/FooterContainer";
 import Navbar from "./containers/navbar/NavbarContainer";
 
 import * as ROUTES from "./constants/routes";
 
-const HomePage = lazy(() =>
-  import(/* webpackChunkName: "HomePage" */ "./pages/HomePage")
-);
-const AboutPage = lazy(() =>
-  import(/* webpackChunkName: "AboutPage" */ "./pages/AboutPage")
-);
-const ContactPage = lazy(() =>
-  import(/* webpackChunkName: "ContactPage" */ "./pages/ContactPage")
-);
-const FaqsPage = lazy(() =>
-  import(/* webpackChunkName: "FaqsPage" */ "./pages/FaqsPage")
-);
+const HomePage                 = lazy(() => import(/* webpackChunkName: "homePage" */ "./pages/HomePage"));
+const AboutPage                = lazy(() => import(/* webpackChunkName: "aboutPage" */ "./pages/AboutPage"));
+const ContactPage              = lazy(() => import(/* webpackChunkName: "contactPage" */ "./pages/ContactPage"));
+const FaqsPage                 = lazy(() => import(/* webpackChunkName: "faqsPage" */ "./pages/FaqsPage"));
 
-const EquipmentsPage = lazy(() =>
-  import(
-    /* webpackChunkName: "EquipmentsPage" */ "./pages/equipments/EquipmentsPage"
-  )
-);
-const HomeEquipmentsPage = lazy(() =>
-  import(
-    /* webpackChunkName: "HomeEquipmentsPage" */ "./pages/equipments/HomeEquipmentsPage"
-  )
-);
-const CommercialEquipmentsPage = lazy(() =>
-  import(
-    /* webpackChunkName: "CommercialEquipmentsPage" */ "./pages/equipments/CommercialEquipmentsPage"
-  )
-);
-const EquipmentDetailsPage = lazy(() =>
-  import(
-    /* webpackChunkName: "EquipmentDetailsPage" */ "./pages/equipments/EquipmentDetailsPage"
-  )
-);
+const EquipmentsPage           = lazy(() => import(/* webpackChunkName: "equipmentsPage" */ "./pages/equipments/EquipmentsPage"));
+const HomeEquipmentsPage       = lazy(() => import(/* webpackChunkName: "homeEquipmentsPage" */ "./pages/equipments/HomeEquipmentsPage"));
+const CommercialEquipmentsPage = lazy(() => import(/* webpackChunkName: "commercialEquipmentsPage" */ "./pages/equipments/CommercialEquipmentsPage"));
+const EquipmentDetailsPage     = lazy(() => import(/* webpackChunkName: "equipmentDetailsPage" */ "./pages/equipments/EquipmentDetailsPage"));
 
-const BlogListPage = lazy(() =>
-  import(/* webpackChunkName: "BlogListPage" */ "./pages/blogs/BlogListPage")
-);
-const BlogDetailsPage = lazy(() =>
-  import(
-    /* webpackChunkName: "BlogDetailsPage" */ "./pages/blogs/BlogDetailsPage"
-  )
-);
-const PageNotFound = lazy(() =>
-  import(/* webpackChunkName: "PageNotFound" */ "./pages/PageNotFound")
-);
+const BlogListPage             = lazy(() => import(/* webpackChunkName: "blogListPage" */ "./pages/blogs/BlogListPage"));
+const BlogDetailsPage          = lazy(() => import(/* webpackChunkName: "blogDetailsPage" */ "./pages/blogs/BlogDetailsPage"));
+const PageNotFound             = lazy(() => import(/* webpackChunkName: "pageNotFound" */ "./pages/PageNotFound"));
 
-const renderLoader = () => {
-  const loaderStyles = {
-    width: "100%",
-    minHeight: "75vh",
-    display: "flex",
-    justifyContent: "center",
-    alignItems: "center",
-  };
-  return (
-    <>
-      <div style={loaderStyles}>
-        <Spinner animation="border" variant="dark" role="status">
-          <span className="visually-hidden">Loading...</span>
-        </Spinner>
-      </div>
-    </>
-  );
-};
 
 function App() {
   return (
     <Router>
       <Navbar />
-      <Suspense fallback={renderLoader()}>
+      <Suspense fallback={Loader()}>
         <Routes>
           <Route path={ROUTES.HOME} Component={HomePage} />
           <Route path={ROUTES.HOME_ALT} Component={HomePage} />
