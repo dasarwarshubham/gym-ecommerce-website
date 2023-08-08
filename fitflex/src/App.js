@@ -13,6 +13,11 @@ const AboutPage                = lazy(() => import(/* webpackChunkName: "aboutPa
 const ContactPage              = lazy(() => import(/* webpackChunkName: "contactPage" */ "./pages/ContactPage"));
 const FaqsPage                 = lazy(() => import(/* webpackChunkName: "faqsPage" */ "./pages/FaqsPage"));
 
+
+const LoginPage                = lazy(()=> import( /*webpackChunkName: "loginPage" */ "./pages/account/LoginPage"));
+const SignupPage               = lazy(()=> import( /*webpackChunkName: "signupPage" */ "./pages/account/SignupPage"))
+const ProfilePage              = lazy(()=> import( /*webpackChunkName: "profilePage" */ "./pages/account/ProfilePage"))
+
 const EquipmentsPage           = lazy(() => import(/* webpackChunkName: "equipmentsPage" */ "./pages/equipments/EquipmentsPage"));
 const HomeEquipmentsPage       = lazy(() => import(/* webpackChunkName: "homeEquipmentsPage" */ "./pages/equipments/HomeEquipmentsPage"));
 const CommercialEquipmentsPage = lazy(() => import(/* webpackChunkName: "commercialEquipmentsPage" */ "./pages/equipments/CommercialEquipmentsPage"));
@@ -34,6 +39,10 @@ function App() {
           <Route path={ROUTES.ABOUT} Component={AboutPage} />
           <Route path={ROUTES.CONTACT} Component={ContactPage} />
           <Route path={ROUTES.FAQS} Component={FaqsPage} />
+
+          <Route path={ROUTES.LOGIN} Component={LoginPage} />
+          <Route path={ROUTES.SIGNUP} Component={SignupPage} />
+          <Route path={ROUTES.PROFILE} Component={ProfilePage} />
 
           <Route path={ROUTES.EQUIPMENTS}>
             <Route index Component={EquipmentsPage} />

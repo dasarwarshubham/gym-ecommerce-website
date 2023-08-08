@@ -5,7 +5,12 @@ import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 
 import * as Yup from "yup";
-import { FormikForm, FormField, FormButton } from "../components/form";
+import {
+  FormikForm,
+  FormField,
+  FormButton,
+  FormState,
+} from "../components/form";
 
 import { EMAIL } from "../constants/routes";
 
@@ -81,6 +86,7 @@ const ContactPage = () => {
                 info@fitflex.com
               </a>
             </p>
+            <FormState />
           </FormikForm>
         </Col>
       </Row>

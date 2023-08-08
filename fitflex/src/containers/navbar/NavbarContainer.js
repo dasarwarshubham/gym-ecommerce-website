@@ -50,14 +50,14 @@ function Navbar() {
               <NavLink className="nav-link" as={Link} to={ROUTES.HOME_ALT}>
                 Home
               </NavLink>
-              <NavLink className="nav-link" as={Link} to={ ROUTES.ABOUT}>
+              <NavLink className="nav-link" as={Link} to={ROUTES.ABOUT}>
                 About
               </NavLink>
               <NavDropdown
                 title="Equipments"
                 id={`offcanvasCustomNavbarDropdown-expand-lg`}
               >
-                <NavDropdown.Item as={Link} to={ ROUTES.EQUIPMENTS_HOME}>
+                <NavDropdown.Item as={Link} to={ROUTES.EQUIPMENTS_HOME}>
                   Home Equipment
                 </NavDropdown.Item>
                 <NavDropdown.Item as={Link} to={ROUTES.EQUIPMENTS_COMMERCIAL}>
@@ -72,6 +72,9 @@ function Navbar() {
               </NavLink>
               <NavLink className="nav-link" as={Link} to={ROUTES.CONTACT}>
                 Contact
+              </NavLink>
+              <NavLink className="nav-link" as={Link} to={ROUTES.LOGIN}>
+                Login
               </NavLink>
             </Nav>
           </Offcanvas.Body>
