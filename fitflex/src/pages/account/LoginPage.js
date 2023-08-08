@@ -1,5 +1,6 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import { Link, Navigate } from "react-router-dom";
+import { connect } from "react-redux";
 
 import Container from "react-bootstrap/Container";
 import Row from "react-bootstrap/Row";
@@ -13,37 +14,34 @@ import {
   FormState,
 } from "../../components/form";
 
-import { SIGNUP } from "../../constants/routes";
+import { PROFILE, SIGNUP } from "../../constants/routes";
+
+import { loginUser as authLogin } from "../../redux/auth/authActions";
 
 const initialValues = {
-  email: "",
+  username: "",
   password: "",
 };
 
 const validationSchema = Yup.object().shape({
-  email: Yup.string().required().email().label("Username"),
+  username: Yup.string().required().email().label("Username"),
   password: Yup.string().required().label("Password"),
 });
 
-function simulateNetworkRequest(delay) {
-  return new Promise((resolve) => setTimeout(resolve, delay));
-}
-
-const LoginPage = () => {
+const LoginPage = ({ isAuthenticated, error, login }) => {
   const handleClick = (values, setSubmitting, resetForm) => {
-    simulateNetworkRequest(1000)
+    login(values)
       .then(() => {
-        alert(JSON.stringify(values));
-      })
-      .then(() => {
-        simulateNetworkRequest(1000).then(() => {
-          setSubmitting(false);
-        });
+        setSubmitting(false);
       })
       .finally(() => {
         resetForm();
       });
   };
+
+  if (isAuthenticated) {
+    return <Navigate to={PROFILE} />;
+  }
 
   return (
     <Container>
@@ -61,8 +59,9 @@ const LoginPage = () => {
               handleClick(values, setSubmitting, resetForm)
             }
           >
-            <FormField label="Username" type="email" name="email" />
-            <FormField label="Passward" type="password" name="password" />
+            {error && <p className="text-danger">{error}</p>}
+            <FormField label="Username" type="email" name="username" />
+            <FormField label="Password" type="password" name="password" />
             {/* <Link
               className="btn btn-link btn-sm p-0 mx-auto mb-5 mt-2"
               to={FORGOT_PASSWORD}
@@ -91,4 +90,18 @@ const LoginPage = () => {
   );
 };
 
-export default LoginPage;
+// export default Login
+const mapStateToProps = (state) => {
+  return {
+    error: state.auth.error,
+    isAuthenticated: state.auth.token !== null,
+  };
+};
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+    login: (username, password) => dispatch(authLogin(username, password)),
+  };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(LoginPage);

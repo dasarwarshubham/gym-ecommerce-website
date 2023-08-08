@@ -11,7 +11,7 @@ export const PAGE_NOT_FOUND_404 = "/not-found";
 
 export const LOGIN = "/login";
 export const SIGNUP = "/signup";
-export const PROFILE = "/profile";
+export const PROFILE = "/account";
 
 export const EMAIL = "mailto:info@fitflex.com";
 export const TWITTER = "https://www.twitter.com";

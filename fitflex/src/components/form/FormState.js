@@ -13,7 +13,7 @@ const FormikState = ({ display = "block" }) => {
         bottom: 0,
         right: 0,
         width: "25%",
-        height: "800px",
+        height: "400px",
         borderRadius: "0.25rem",
         margin: "1rem 0",
         background: "#f6f8fa",

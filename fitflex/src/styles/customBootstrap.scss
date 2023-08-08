@@ -6,6 +6,11 @@ $primary: #111111;
 $white: #ffffff;
 $gray-900: #111111;
 
+//Ofcanvas below navbar
+$btn-close-color: $white;
+$offcanvas-bg-color: $primary;
+$zindex-sticky: 1046;
+
 // font size
 $font-size-root: 10px; //browser root default font-size
 $font-size-base: 1.6rem;

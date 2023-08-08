@@ -1,16 +1,19 @@
+import React, { useState } from "react";
 import Container from "react-bootstrap/Container";
 import styled from "styled-components/macro";
 
 import { Link } from "react-router-dom";
 
 import Nav from "react-bootstrap/Nav";
-import CustomNavbar from "react-bootstrap/Navbar";
+import Navbar from "react-bootstrap/Navbar";
 import NavDropdown from "react-bootstrap/NavDropdown";
 import Offcanvas from "react-bootstrap/Offcanvas";
+import { MdAccountCircle } from "react-icons/md";
 
 import logo from "../../logo.svg";
 import * as ROUTES from "../../constants/routes";
 
+/****************** Styles ****************************/
 const Logo = styled.img`
   height: 5rem;
 `;
@@ -18,70 +21,107 @@ const NavLink = styled(Nav.Link)`
   margin: 0 1.8rem;
 `;
 
-function Navbar() {
+const OffCanvas = styled(Offcanvas)`
+  width: 100% !important;
+  padding: 0;
+
+  .nav-link {
+    font-size: calc(20px + (35 - 20) * ((100vw - 320px) / (1920 - 320)));
+    font-weight: bold;
+    margin: 1rem auto;
+
+    &:hover {
+      color: orange;
+    }
+  }
+  .dropdown {
+    text-align: center;
+    padding: 0;
+  }
+  .dropdown-menu {
+    font-size: calc(20px + (35 - 20) * ((100vw - 320px) / (1920 - 320)));
+    font-weight: bold;
+    text-align: center;
+    background-color: #111111;
+  }
+  .dropdown-toggle {
+    margin: 0;
+  }
+  .dropdown-item {
+    font-size: calc(20px + (35 - 20) * ((100vw - 320px) / (1920 - 320)));
+    font-weight: bold;
+    color: #ffffff;
+    margin: 1rem auto;
+    &:hover {
+      background-color: #111111;
+      color: orange;
+    }
+  }
+`;
+
+/************************** Navbar Component ******************************/
+function NavbarContainer() {
+  const [show, setShow] = useState(false);
+
+  const handleToggle = () => setShow(!show);
+  const handleClose = () => show && setShow(false);
+
   return (
-    <CustomNavbar
-      key="lg"
+    <Navbar
+      key={false}
       bg="dark"
       variant="dark"
-      expand="lg"
+      expand={false}
       sticky="top"
       className="py-3"
     >
       <Container fluid className="py-0">
-        <CustomNavbar.Brand as={Link} to={ROUTES.HOME}>
-          <Logo src={logo} alt="fitflex logo" />
-        </CustomNavbar.Brand>
-        <CustomNavbar.Toggle
-          aria-controls={`offcanvasCustomNavbar-expand-lg`}
+        <Navbar.Toggle
+          aria-controls={`offcanvasNavbar-expand-lg`}
+          onClick={handleToggle}
         />
-        <CustomNavbar.Offcanvas
-          id={`offcanvasCustomNavbar-expand-lg`}
-          aria-labelledby={`offcanvasCustomNavbarLabel-expand-lg`}
-          placement="end"
-        >
-          <Offcanvas.Header closeButton>
-            <Offcanvas.Title id={`offcanvasCustomNavbarLabel-expand-lg`}>
-              Offcanvas
-            </Offcanvas.Title>
-          </Offcanvas.Header>
-          <Offcanvas.Body>
-            <Nav className="justify-content-end flex-grow-1 pe-3">
-              <NavLink className="nav-link" as={Link} to={ROUTES.HOME_ALT}>
+        <Navbar.Brand as={Link} to={ROUTES.HOME} onClick={handleClose}>
+          <Logo src={logo} alt="fitflex logo" />
+        </Navbar.Brand>
+        <NavLink className="nav-link" onClick={handleClose} as={Link} to={ROUTES.LOGIN}>
+          <MdAccountCircle style={{ color: "#ffffff" }} size={28} />
+        </NavLink>
+        <OffCanvas show={show} onHide={handleToggle}>
+          <OffCanvas.Body className="d-flex justify-content-center">
+            <Nav className="d-flex justify-content-center align-items-center text-light">
+              <NavLink className="nav-link" onClick={handleClose} as={Link} to={ROUTES.HOME_ALT}>
                 Home
               </NavLink>
-              <NavLink className="nav-link" as={Link} to={ROUTES.ABOUT}>
+              <NavLink className="nav-link" onClick={handleClose} as={Link} to={ROUTES.ABOUT}>
                 About
               </NavLink>
               <NavDropdown
                 title="Equipments"
-                id={`offcanvasCustomNavbarDropdown-expand-lg`}
+                id={`offcanvasNavbarDropdown-expand-lg`}
+                className="nav-link"
               >
-                <NavDropdown.Item as={Link} to={ROUTES.EQUIPMENTS_HOME}>
+                <NavDropdown.Item onClick={handleClose} as={Link} to={ROUTES.EQUIPMENTS_HOME}>
                   Home Equipment
                 </NavDropdown.Item>
-                <NavDropdown.Item as={Link} to={ROUTES.EQUIPMENTS_COMMERCIAL}>
+                <NavDropdown.Item onClick={handleClose} as={Link} to={ROUTES.EQUIPMENTS_COMMERCIAL}>
                   Commercial Equipment
                 </NavDropdown.Item>
               </NavDropdown>
-              <NavLink className="nav-link" as={Link} to={ROUTES.BLOGS}>
+              <NavLink className="nav-link" onClick={handleClose} as={Link} to={ROUTES.BLOGS}>
                 Blog
               </NavLink>
-              <NavLink className="nav-link" as={Link} to={ROUTES.FAQS}>
+              <NavLink className="nav-link" onClick={handleClose} as={Link} to={ROUTES.FAQS}>
                 FAQs
               </NavLink>
-              <NavLink className="nav-link" as={Link} to={ROUTES.CONTACT}>
+              <NavLink className="nav-link" onClick={handleClose} as={Link} to={ROUTES.CONTACT}>
                 Contact
               </NavLink>
-              <NavLink className="nav-link" as={Link} to={ROUTES.LOGIN}>
-                Login
-              </NavLink>
             </Nav>
-          </Offcanvas.Body>
-        </CustomNavbar.Offcanvas>
+          </OffCanvas.Body>
+        </OffCanvas>
       </Container>
-    </CustomNavbar>
+    </Navbar>
   );
 }
 
-export default Navbar;
+export default NavbarContainer;
