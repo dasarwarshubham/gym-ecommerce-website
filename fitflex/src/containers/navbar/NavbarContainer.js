@@ -33,6 +33,9 @@ const OffCanvas = styled(Offcanvas)`
     &:hover {
       color: orange;
     }
+    &:focus {
+      outline: -webkit-focus-ring-color auto 5px;
+    }
   }
   .dropdown {
     text-align: center;
@@ -55,6 +58,10 @@ const OffCanvas = styled(Offcanvas)`
     &:hover {
       background-color: #111111;
       color: orange;
+    }
+    &:focus {
+      background-color: #111111;
+      outline: -webkit-focus-ring-color auto 5px;
     }
   }
 `;
@@ -83,16 +90,31 @@ function NavbarContainer() {
         <Navbar.Brand as={Link} to={ROUTES.HOME} onClick={handleClose}>
           <Logo src={logo} alt="fitflex logo" />
         </Navbar.Brand>
-        <NavLink className="nav-link" onClick={handleClose} as={Link} to={ROUTES.LOGIN}>
+        <NavLink
+          className="nav-link"
+          onClick={handleClose}
+          as={Link}
+          to={ROUTES.LOGIN}
+        >
           <MdAccountCircle style={{ color: "#ffffff" }} size={28} />
         </NavLink>
         <OffCanvas show={show} onHide={handleToggle}>
           <OffCanvas.Body className="d-flex justify-content-center">
             <Nav className="d-flex justify-content-center align-items-center text-light">
-              <NavLink className="nav-link" onClick={handleClose} as={Link} to={ROUTES.HOME_ALT}>
+              <NavLink
+                className="nav-link"
+                onClick={handleClose}
+                as={Link}
+                to={ROUTES.HOME_ALT}
+              >
                 Home
               </NavLink>
-              <NavLink className="nav-link" onClick={handleClose} as={Link} to={ROUTES.ABOUT}>
+              <NavLink
+                className="nav-link"
+                onClick={handleClose}
+                as={Link}
+                to={ROUTES.ABOUT}
+              >
                 About
               </NavLink>
               <NavDropdown
@@ -100,20 +122,43 @@ function NavbarContainer() {
                 id={`offcanvasNavbarDropdown-expand-lg`}
                 className="nav-link"
               >
-                <NavDropdown.Item onClick={handleClose} as={Link} to={ROUTES.EQUIPMENTS_HOME}>
+                <NavDropdown.Item
+                  onClick={handleClose}
+                  as={Link}
+                  to={ROUTES.EQUIPMENTS_HOME}
+                >
                   Home Equipment
                 </NavDropdown.Item>
-                <NavDropdown.Item onClick={handleClose} as={Link} to={ROUTES.EQUIPMENTS_COMMERCIAL}>
+                <NavDropdown.Item
+                  onClick={handleClose}
+                  as={Link}
+                  to={ROUTES.EQUIPMENTS_COMMERCIAL}
+                >
                   Commercial Equipment
                 </NavDropdown.Item>
               </NavDropdown>
-              <NavLink className="nav-link" onClick={handleClose} as={Link} to={ROUTES.BLOGS}>
+              <NavLink
+                className="nav-link"
+                onClick={handleClose}
+                as={Link}
+                to={ROUTES.BLOGS}
+              >
                 Blog
               </NavLink>
-              <NavLink className="nav-link" onClick={handleClose} as={Link} to={ROUTES.FAQS}>
+              <NavLink
+                className="nav-link"
+                onClick={handleClose}
+                as={Link}
+                to={ROUTES.FAQS}
+              >
                 FAQs
               </NavLink>
-              <NavLink className="nav-link" onClick={handleClose} as={Link} to={ROUTES.CONTACT}>
+              <NavLink
+                className="nav-link"
+                onClick={handleClose}
+                as={Link}
+                to={ROUTES.CONTACT}
+              >
                 Contact
               </NavLink>
             </Nav>
