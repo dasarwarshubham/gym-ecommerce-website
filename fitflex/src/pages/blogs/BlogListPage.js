@@ -1,27 +1,81 @@
-import React from "react";
-import { Link } from "react-router-dom";
+import React, { useEffect } from "react";
+import { connect } from "react-redux";
 
-const BlogListPage = (props) => {
+import { Container, Row, Col, Spinner } from "react-bootstrap";
+
+import BlogCard from "../../components/cards/BlogCard";
+
+import { retrieveBlogs } from "../../redux/blogs/blogActions";
+
+const BlogListPage = ({ blogList, loading, error, getData }) => {
+  useEffect(() => {
+    getData();
+  }, [getData]);
+
+  if (loading) {
+    return (
+      <div
+        className="d-flex justify-content-center align-items-center"
+        style={{ height: "75vh" }}
+      >
+        <Spinner animation="border" variant="dark" />
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div
+        className="d-flex justify-content-center align-items-center"
+        style={{ height: "75vh" }}
+      >
+        <h1>{error}</h1>
+      </div>
+    );
+  }
+
+  if (blogList.length < 1) {
+    return (
+      <Container
+        fluid="xxl"
+        className="mt-3 px-md-5 py-md-5 mb-4 pb-4 mb-md-5 pb-md-5 text-center d-flex flex-column align-items-center justify-content-center"
+        style={{ minHeight: "50vh" }}
+      >
+        <>
+          <p className="fs-4 mb-1">Please stay tuned.</p>
+          <p className="fs-4">We will add new blogs soon...</p>
+        </>
+      </Container>
+    );
+  }
+
   return (
-    <div
-      style={{
-        display: "flex",
-        justifyContent: "center",
-        alignItems: "center",
-        minHeight: "75vh",
-        border: "1px solid hotpink",
-      }}
-    >
-      <ul>
-        <li key={`blog-1`}><Link to="/blogs/1">Blog 1</Link></li>
-        <li key={`blog-2`}><Link to="/blogs/2">Blog 2</Link></li>
-        <li key={`blog-3`}><Link to="/blogs/3">Blog 3</Link></li>
-        <li key={`blog-4`}><Link to="/blogs/4">Blog 4</Link></li>
-        <li key={`blog-5`}><Link to="/blogs/5">Blog 5</Link></li>
-        <li key={`blog-6`}><Link to="/blogs/6">Blog 6</Link></li>
-      </ul>
-    </div>
+    <Container className="my-5 py-5">
+      <h2 className="text-center mb-5">Blogs</h2>
+      <Row className="g-5">
+        {blogList.map((blog) => (
+          <Col key={blog.id} md={4}>
+            <BlogCard blog={blog} />
+          </Col>
+        ))}
+      </Row>
+    </Container>
   );
 };
 
-export default BlogListPage;
+const mapStateToProps = (state, ownProps) => {
+  return {
+    blogList: state.blogs.blogList,
+    loading: state.blogs.loading,
+    error: state.blogs.error,
+    ...ownProps,
+  };
+};
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+    getData: () => dispatch(retrieveBlogs()),
+  };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(BlogListPage);
