@@ -13,6 +13,12 @@ export const LOGIN = "/login";
 export const SIGNUP = "/signup";
 export const PROFILE = "/account";
 
+export const CART = "/cart";
+export const SHIPPING = "/shipping";
+export const REVIEW = "/review";
+export const PAYMENT = "/payment";
+export const CONFIRMATION = "/confirmation";
+
 export const EMAIL = "mailto:info@fitflex.com";
 export const TWITTER = "https://www.twitter.com";
 export const LINKEDIN = "https://www.linkedin.com";

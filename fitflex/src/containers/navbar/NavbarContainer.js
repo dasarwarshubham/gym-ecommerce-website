@@ -8,7 +8,7 @@ import Nav from "react-bootstrap/Nav";
 import Navbar from "react-bootstrap/Navbar";
 import NavDropdown from "react-bootstrap/NavDropdown";
 import Offcanvas from "react-bootstrap/Offcanvas";
-import { MdAccountCircle } from "react-icons/md";
+import { MdAccountCircle, MdOutlineShoppingCart } from "react-icons/md";
 
 import logo from "../../logo.svg";
 import * as ROUTES from "../../constants/routes";
@@ -90,14 +90,25 @@ function NavbarContainer() {
         <Navbar.Brand as={Link} to={ROUTES.HOME} onClick={handleClose}>
           <Logo src={logo} alt="fitflex logo" />
         </Navbar.Brand>
-        <NavLink
-          className="nav-link"
-          onClick={handleClose}
-          as={Link}
-          to={ROUTES.LOGIN}
-        >
-          <MdAccountCircle style={{ color: "#ffffff" }} size={28} />
-        </NavLink>
+        <div className="d-flex">
+          <NavLink
+            className="nav-link"
+            onClick={handleClose}
+            as={Link}
+            to={ROUTES.LOGIN}
+          >
+            <MdAccountCircle style={{ color: "#ffffff" }} size={28} />
+          </NavLink>
+          <NavLink
+            className="nav-link"
+            onClick={handleClose}
+            as={Link}
+            to={ROUTES.CART}
+          >
+            <MdOutlineShoppingCart style={{ color: "#ffffff" }} size={28} />
+          </NavLink>
+        </div>
+
         <OffCanvas show={show} onHide={handleToggle}>
           <OffCanvas.Body className="d-flex justify-content-center">
             <Nav className="d-flex justify-content-center align-items-center text-light">

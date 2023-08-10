@@ -76,7 +76,6 @@ export const getBlogDetailsWithId = async (id) => {
     } else {
       throw new Error("Blog Not Found");
     }
-    return response;
   } catch (error) {
     const errorMsg = "Sorry, Page Not Found";
     throw new Error(errorMsg);

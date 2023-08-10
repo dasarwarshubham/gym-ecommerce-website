@@ -1,31 +1,50 @@
-import React, { useState } from "react";
-import { Link } from "react-router-dom";
-
+import React from "react";
+import { Link, useNavigate } from "react-router-dom";
+import { connect } from "react-redux";
 import { Card, Button } from "react-bootstrap";
+import { MdCheckCircle, MdOutlineShoppingCart } from "react-icons/md";
 
-import { EQUIPMENTS } from "../../constants/routes";
+import { addToCart } from "../../redux/checkout/cartActions";
+import { CART, EQUIPMENTS } from "../../constants/routes";
 
-const EquipmentCard = ({ data }) => {
-  const [isAddedToCart, setIsAddedToCart] = useState(false);
+const EquipmentCard = ({ data, loading, cartItems, addItem }) => {
+  const navigate = useNavigate();
+
+  const alreadyInCart = cartItems.find((cartItem) => cartItem.id === data.id);
 
   const handleAddToCart = () => {
-    setIsAddedToCart(!isAddedToCart);
+    if (alreadyInCart) {
+      navigate(CART);
+    } else {
+      addItem({ item: data, quantity: 1 });
+    }
   };
 
   return (
-    <Card className="border h-100">
-      <Card.Img variant="top" src={data.image} alt={data.name} />
+    <Card className="border-0 shadow h-100 text-decoration-none">
+      <div style={{ position: "relative" }}>
+        <Card.Img variant="top" src={data.image} alt={data.name} />
+        <Link
+          to={`${EQUIPMENTS}/${data.id}`}
+          style={{ position: "absolute", top: 0, bottom: 0, left: 0, right: 0 }}
+        />
+      </div>
       <Card.Body>
-        <Card.Title as={Link} to={`${EQUIPMENTS}/${data.id}`}>
-          {data.name}
-        </Card.Title>
-        {/* <Card.Text>{data.description}</Card.Text> */}
+        <Card.Title>{data.name}</Card.Title>
+        <Card.Text>Price: ${data.price}</Card.Text>
         <div className="d-grid">
-          <Button
-            variant={isAddedToCart ? "success" : "primary"}
-            onClick={handleAddToCart}
-          >
-            {isAddedToCart ? "Added to Cart" : "Add to Cart"}
+          <Button variant="primary" onClick={handleAddToCart}>
+            {alreadyInCart ? (
+              <>
+                Added To Cart&nbsp;
+                <MdCheckCircle color="green" />
+              </>
+            ) : (
+              <>
+                Add to Cart&nbsp;
+                <MdOutlineShoppingCart />
+              </>
+            )}
           </Button>
         </div>
       </Card.Body>
@@ -33,4 +52,17 @@ const EquipmentCard = ({ data }) => {
   );
 };
 
-export default EquipmentCard;
+const mapStateToProps = (state) => {
+  return {
+    loading: state.cart.loading,
+    cartItems: state.cart.items,
+  };
+};
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+    addItem: (values) => dispatch(addToCart(values)),
+  };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(EquipmentCard);

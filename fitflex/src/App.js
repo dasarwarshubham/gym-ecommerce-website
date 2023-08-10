@@ -8,24 +8,29 @@ import Navbar from "./containers/navbar/NavbarContainer";
 
 import * as ROUTES from "./constants/routes";
 
-const HomePage                 = lazy(() => import(/* webpackChunkName: "homePage" */ "./pages/HomePage"));
-const AboutPage                = lazy(() => import(/* webpackChunkName: "aboutPage" */ "./pages/AboutPage"));
-const ContactPage              = lazy(() => import(/* webpackChunkName: "contactPage" */ "./pages/ContactPage"));
-const FaqsPage                 = lazy(() => import(/* webpackChunkName: "faqsPage" */ "./pages/FaqsPage"));
+const Home                  = lazy(() => import(/* webpackChunkName: "homePage" */ "./pages/Home"));
+const About                 = lazy(() => import(/* webpackChunkName: "aboutPage" */ "./pages/About"));
+const Contact               = lazy(() => import(/* webpackChunkName: "contactPage" */ "./pages/Contact"));
+const Faqs                  = lazy(() => import(/* webpackChunkName: "faqsPage" */ "./pages/Faqs"));
 
+const Login                 = lazy(() => import( /* webpackChunkName: "loginPage" */ "./pages/account/Login"));
+const Signup                = lazy(() => import( /* webpackChunkName: "signupPage" */ "./pages/account/Signup"));
+const Profile               = lazy(() => import( /* webpackChunkName: "profilePage" */ "./pages/account/Profile"));
 
-const LoginPage                = lazy(()=> import( /*webpackChunkName: "loginPage" */ "./pages/account/LoginPage"));
-const SignupPage               = lazy(()=> import( /*webpackChunkName: "signupPage" */ "./pages/account/SignupPage"))
-const ProfilePage              = lazy(()=> import( /*webpackChunkName: "profilePage" */ "./pages/account/ProfilePage"))
+const Equipments            = lazy(() => import(/* webpackChunkName: "equipmentsPage" */ "./pages/equipments/Equipments"));
+const HomeEquipments        = lazy(() => import(/* webpackChunkName: "homeEquipmentsPage" */ "./pages/equipments/HomeEquipments"));
+const CommercialEquipments  = lazy(() => import(/* webpackChunkName: "commercialEquipmentsPage" */ "./pages/equipments/CommercialEquipments"));
+const EquipmentDetails      = lazy(() => import(/* webpackChunkName: "equipmentDetailsPage" */ "./pages/equipments/EquipmentDetails"));
 
-const EquipmentsPage           = lazy(() => import(/* webpackChunkName: "equipmentsPage" */ "./pages/equipments/EquipmentsPage"));
-const HomeEquipmentsPage       = lazy(() => import(/* webpackChunkName: "homeEquipmentsPage" */ "./pages/equipments/HomeEquipmentsPage"));
-const CommercialEquipmentsPage = lazy(() => import(/* webpackChunkName: "commercialEquipmentsPage" */ "./pages/equipments/CommercialEquipmentsPage"));
-const EquipmentDetailsPage     = lazy(() => import(/* webpackChunkName: "equipmentDetailsPage" */ "./pages/equipments/EquipmentDetailsPage"));
+const BlogList              = lazy(() => import(/* webpackChunkName: "blogListPage" */ "./pages/blogs/BlogList"));
+const BlogDetails           = lazy(() => import(/* webpackChunkName: "blogDetailsPage" */ "./pages/blogs/BlogDetails"));
+const PageNotFound          = lazy(() => import(/* webpackChunkName: "pageNotFound" */ "./pages/PageNotFound"));
 
-const BlogListPage             = lazy(() => import(/* webpackChunkName: "blogListPage" */ "./pages/blogs/BlogListPage"));
-const BlogDetailsPage          = lazy(() => import(/* webpackChunkName: "blogDetailsPage" */ "./pages/blogs/BlogDetailsPage"));
-const PageNotFound             = lazy(() => import(/* webpackChunkName: "pageNotFound" */ "./pages/PageNotFound"));
+const Cart                  = lazy(() => import(/* webpackChunkName: "cartPage" */ "./pages/checkout/Cart"));
+const Shipping              = lazy(() => import(/* webpackChunkName: "shippingPage" */ "./pages/checkout/Shipping"));
+const Review                = lazy(() => import(/* webpackChunkName: "reviewPage" */ "./pages/checkout/Review"));
+const Payment               = lazy(() => import(/* webpackChunkName: "paymentPage" */ "./pages/checkout/Payment"));
+const Confirmation          = lazy(() => import(/* webpackChunkName: "confirmationPage" */ "./pages/checkout/Confirmation"));
 
 
 function App() {
@@ -34,26 +39,32 @@ function App() {
       <Navbar />
       <Suspense fallback={Loader()}>
         <Routes>
-          <Route path={ROUTES.HOME} Component={HomePage} />
-          <Route path={ROUTES.HOME_ALT} Component={HomePage} />
-          <Route path={ROUTES.ABOUT} Component={AboutPage} />
-          <Route path={ROUTES.CONTACT} Component={ContactPage} />
-          <Route path={ROUTES.FAQS} Component={FaqsPage} />
+          <Route path={ROUTES.HOME}         Component={Home} />
+          <Route path={ROUTES.HOME_ALT}     Component={Home} />
+          <Route path={ROUTES.ABOUT}        Component={About} />
+          <Route path={ROUTES.CONTACT}      Component={Contact} />
+          <Route path={ROUTES.FAQS}         Component={Faqs} />
 
-          <Route path={ROUTES.LOGIN} Component={LoginPage} />
-          <Route path={ROUTES.SIGNUP} Component={SignupPage} />
-          <Route path={ROUTES.PROFILE} Component={ProfilePage} />
+          <Route path={ROUTES.LOGIN}        Component={Login} />
+          <Route path={ROUTES.SIGNUP}       Component={Signup} />
+          <Route path={ROUTES.PROFILE}      Component={Profile} />
+
+          <Route path={ROUTES.CART}         Component={Cart} />
+          <Route path={ROUTES.SHIPPING}     Component={Shipping} />
+          <Route path={ROUTES.REVIEW}       Component={Review} />
+          <Route path={ROUTES.PAYMENT}      Component={Payment} />
+          <Route path={ROUTES.CONFIRMATION} Component={Confirmation} />
 
           <Route path={ROUTES.EQUIPMENTS}>
-            <Route index Component={EquipmentsPage} />
-            <Route path="home" Component={HomeEquipmentsPage} />
-            <Route path="commercial" Component={CommercialEquipmentsPage} />
-            <Route path=":productId" Component={EquipmentDetailsPage} />
+          <Route index                Component={Equipments} />
+            <Route path="home"        Component={HomeEquipments} />
+            <Route path="commercial"  Component={CommercialEquipments} />
+            <Route path=":productId"  Component={EquipmentDetails} />
           </Route>
 
           <Route path={ROUTES.BLOGS}>
-            <Route index Component={BlogListPage} />
-            <Route path=":blogId" Component={BlogDetailsPage} />
+            <Route index          Component={BlogList} />
+            <Route path=":blogId" Component={BlogDetails} />
           </Route>
 
           <Route path="*" element={<PageNotFound />} />
@@ -65,3 +76,4 @@ function App() {
 }
 
 export default App;
+  
