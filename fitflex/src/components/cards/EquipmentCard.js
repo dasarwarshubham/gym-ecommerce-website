@@ -10,13 +10,20 @@ import { CART, EQUIPMENTS } from "../../constants/routes";
 const EquipmentCard = ({ data, loading, cartItems, addItem }) => {
   const navigate = useNavigate();
 
-  const alreadyInCart = cartItems.find((cartItem) => cartItem.id === data.id);
+  const alreadyInCart = cartItems.find(
+    (cartItem) => cartItem.productId === data.id
+  );
 
   const handleAddToCart = () => {
     if (alreadyInCart) {
       navigate(CART);
     } else {
-      addItem({ item: data, quantity: 1 });
+      addItem({
+        productId: data.id,
+        quantity: 1,
+        product: data,
+      });
+      // addItem({ item: data, quantity: 1 });
     }
   };
 

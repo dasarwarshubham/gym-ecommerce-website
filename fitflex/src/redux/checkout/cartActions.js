@@ -12,22 +12,29 @@ const updateCartOnServer = async (cartItems) => {
 
 export const addToCart = createAsyncThunk(
   "cart/addToCart",
-  async ({ item, quantity }, { getState }) => {
+  async ({ productId, quantity, product }, { getState }) => {
     const state = getState();
+    console.log({ productId, quantity, product });
     const existingItem = state.cart.items.find(
-      (cartItem) => cartItem.id === item.id
+      (cartItem) => cartItem.productId === productId
     );
 
     let updatedCartItems;
 
     if (existingItem) {
       updatedCartItems = state.cart.items.map((cartItem) =>
-        cartItem.id === item.id
-          ? { ...cartItem, quantity: cartItem.quantity + quantity }
+        cartItem.id === productId
+          ? {
+              ...cartItem,
+              quantity: cartItem.quantity + quantity,
+            }
           : cartItem
       );
     } else {
-      updatedCartItems = [...state.cart.items, { ...item, quantity }];
+      updatedCartItems = [
+        ...state.cart.items,
+        { productId, quantity, product },
+      ];
     }
     return updateCartOnServer(updatedCartItems);
   }
@@ -38,7 +45,7 @@ export const removeFromCart = createAsyncThunk(
   async (itemId, { getState }) => {
     const state = getState();
     const updatedCartItems = state.cart.items.filter(
-      (cartItem) => cartItem.id !== itemId
+      (cartItem) => cartItem.productId !== itemId
     );
     return updateCartOnServer(updatedCartItems);
   }
@@ -49,7 +56,7 @@ export const updateQuantity = createAsyncThunk(
   async ({ itemId, quantity }, { getState }) => {
     const state = getState();
     const updatedCartItems = state.cart.items.map((cartItem) =>
-      cartItem.id === itemId ? { ...cartItem, quantity } : cartItem
+      cartItem.productId === itemId ? { ...cartItem, quantity } : cartItem
     );
     return updateCartOnServer(updatedCartItems);
   }

@@ -35,7 +35,12 @@ const EquipmentDetailsPage = ({ loading, cartItems, addItem }) => {
     if (alreadyInCart) {
       navigate(CART);
     } else {
-      addItem({ item: equipment, quantity: 1 });
+      addItem({
+        productId: equipment.id,
+        quantity: 1,
+        product: equipment,
+      });
+      // addItem({ item: equipment, quantity: 1 });
     }
   };
 

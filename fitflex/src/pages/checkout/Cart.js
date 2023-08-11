@@ -10,7 +10,7 @@ import { clearCart } from "../../redux/checkout/cartActions";
 
 const CartPage = ({ loading, cartItems, removeALlItem }) => {
   const cartTotal = cartItems.reduce(
-    (total, item) => total + item.price * item.quantity,
+    (total, item) => total + item.product.price * item.quantity,
     0
   );
 
@@ -34,7 +34,7 @@ const CartPage = ({ loading, cartItems, removeALlItem }) => {
         <Row className="g-4">
           <Col md={8}>
             {cartItems.map((item) => (
-              <CartCard key={item.id} item={item} />
+              <CartCard key={item.productId} item={item} />
             ))}
             <Button
               onClick={handleCartClear}

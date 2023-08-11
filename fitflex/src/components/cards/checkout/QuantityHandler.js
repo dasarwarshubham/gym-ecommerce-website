@@ -16,15 +16,15 @@ const QuantityHandler = ({
   removeItem,
 }) => {
   const handleRemove = () => {
-    removeItem(item.id);
+    removeItem(item.productId);
   };
 
   const handleQuantityChange = (change) => {
     const newQuantity = item.quantity + change;
     if (newQuantity > 0) {
-      updateItemQty({ itemId: item.id, quantity: newQuantity });
+      updateItemQty({ itemId: item.productId, quantity: newQuantity });
     } else {
-      removeItem(item.id);
+      removeItem(item.productId);
     }
   };
 
