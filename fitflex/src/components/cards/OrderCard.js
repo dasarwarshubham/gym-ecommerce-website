@@ -1,5 +1,5 @@
 import React from "react";
-import { Card, Col, ListGroup, Media, Row } from "react-bootstrap";
+import { Card, Col, ListGroup, Row } from "react-bootstrap";
 
 const OrderCard = ({ order }) => {
   return (

@@ -21,10 +21,12 @@ const blogListSlice = createSlice({
       .addCase(retrieveBlogs.fulfilled, (state, action) => {
         state.loading = false;
         state.blogList = action.payload;
+        state.error = null;
       })
       .addCase(getBlogById.fulfilled, (state, action) => {
         state.loading = false;
         state.blogDetails = action.payload;
+        state.error = null;
       })
       .addMatcher(isPendingAction, (state) => {
         state.loading = true;
