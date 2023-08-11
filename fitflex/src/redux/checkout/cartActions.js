@@ -14,7 +14,6 @@ export const addToCart = createAsyncThunk(
   "cart/addToCart",
   async ({ productId, quantity, product }, { getState }) => {
     const state = getState();
-    console.log({ productId, quantity, product });
     const existingItem = state.cart.items.find(
       (cartItem) => cartItem.productId === productId
     );

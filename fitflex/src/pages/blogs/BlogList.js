@@ -1,14 +1,19 @@
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
+
+// import custom hook
 import useInitialLoad from "../../hooks/useInitialLoad";
 
-import { Container, Row, Col } from "react-bootstrap";
+// import required Components
 import Loader from "../../components/loader/Loader";
-
+import { Container, Row, Col } from "react-bootstrap";
 import BlogCard from "../../components/cards/BlogCard";
 
-import { retrieveBlogs } from "../../redux/blogs/blogActions";
-import { selectAllBlogs, selectError } from "../../redux/blogs/blogSelectors";
+// import required redux actions
+import { retrieveBlogs } from "../../redux/blog/blogActions";
+
+// import required redux selectors
+import { selectAllBlogs, selectError } from "../../redux/blog/blogSelectors";
 
 const BlogListPage = () => {
   const dispatch = useDispatch();
@@ -18,6 +23,7 @@ const BlogListPage = () => {
 
   useEffect(() => {
     dispatch(retrieveBlogs());
+    // eslint-disable-next-line
   }, []);
 
   if (initialLoad) {

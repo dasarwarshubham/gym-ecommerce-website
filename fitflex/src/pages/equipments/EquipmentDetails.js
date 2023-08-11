@@ -1,7 +1,8 @@
-import React from "react";
-import { connect } from "react-redux";
+import React, { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { useNavigate, useParams } from "react-router-dom";
 
+// import required Components
 import {
   Container,
   Row,
@@ -13,40 +14,79 @@ import {
 } from "react-bootstrap";
 import { MdCheckCircle, MdOutlineShoppingCart } from "react-icons/md";
 import Ratings from "../../components/ratings/Ratings";
+import Loader from "../../components/loader/Loader";
 import QuantityHandler from "../../components/cards/checkout/QuantityHandler";
 
-import equipmentData from "./fixtures/equipmentsData";
+// import required redux selectors
 import {
-  addToCart,
-  removeFromCart,
-  updateQuantity,
-} from "../../redux/checkout/cartActions";
+  selectSelectedProduct,
+  selectLoadingStatus,
+  selectError,
+} from "../../redux/product/productSelectors";
+import {
+  selectCartItems,
+  selectLoadingStatus as selectCartLoadingStatus,
+  selectError as selectCartError,
+} from "../../redux/checkout/cartSelectors";
+
+// import required redux actions
+import { addToCart } from "../../redux/checkout/cartActions";
+import { getProductById } from "../../redux/product/productActions";
+
+// import required routes
 import { CART } from "../../constants/routes";
 
-const EquipmentDetailsPage = ({ loading, cartItems, addItem }) => {
-  const navigate = useNavigate();
-
+const EquipmentDetailsPage = () => {
   const { productId } = useParams();
-  const equipment = equipmentData.find(
-    (item) => item.id.toString() === productId
-  );
+
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+
+  const loading = useSelector(selectLoadingStatus);
+  const equipment = useSelector(selectSelectedProduct);
+  const error = useSelector(selectError);
+
+  const cartLoading = useSelector(selectCartLoadingStatus);
+  const cartItems = useSelector(selectCartItems);
+  const cartError = useSelector(selectCartError);
+
+  useEffect(() => {
+    dispatch(getProductById(productId));
+    // eslint-disable-next-line
+  }, [productId]);
 
   const handleAddToCart = () => {
     if (alreadyInCart) {
       navigate(CART);
     } else {
-      addItem({
-        productId: equipment.id,
-        quantity: 1,
-        product: equipment,
-      });
-      // addItem({ item: equipment, quantity: 1 });
+      dispatch(
+        addToCart({
+          productId: equipment.id,
+          quantity: 1,
+          product: equipment,
+        })
+      );
     }
   };
 
   const alreadyInCart = cartItems.find(
-    (cartItem) => cartItem.id === equipment.id
+    (cartItem) => cartItem.productId === equipment?.id
   );
+
+  if (loading) {
+    return <Loader />;
+  }
+
+  if (error) {
+    return (
+      <div
+        className="d-flex justify-content-center align-items-center"
+        style={{ height: "75vh" }}
+      >
+        <h1>{error}</h1>
+      </div>
+    );
+  }
 
   if (!equipment) {
     return <div>Equipment not found</div>;
@@ -65,11 +105,12 @@ const EquipmentDetailsPage = ({ loading, cartItems, addItem }) => {
         <Col md={6}>
           <h1 className="d-flex align-items-center">
             {equipment?.name}&nbsp;
-            {loading && (
+            {cartLoading && (
               <Spinner animation="grow">
                 <span className="visually-hidden">Loading...</span>
               </Spinner>
             )}
+            {cartError && <span className="text-danger">{cartError}</span>}
           </h1>
           <Table bordered>
             <tbody>
@@ -123,22 +164,4 @@ const EquipmentDetailsPage = ({ loading, cartItems, addItem }) => {
   );
 };
 
-const mapStateToProps = (state) => {
-  return {
-    loading: state.cart.loading,
-    cartItems: state.cart.items,
-  };
-};
-
-const mapDispatchToProps = (dispatch) => {
-  return {
-    addItem: (values) => dispatch(addToCart(values)),
-    removeItem: (id) => dispatch(removeFromCart(id)),
-    updateItemQty: (item) => dispatch(updateQuantity(item)),
-  };
-};
-
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(EquipmentDetailsPage);
+export default EquipmentDetailsPage;

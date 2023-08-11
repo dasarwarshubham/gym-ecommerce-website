@@ -1,21 +1,37 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import { connect } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 
+// import required Components
 import { Button, Card, Col, Container, Row, Spinner } from "react-bootstrap";
-
-import { SHIPPING } from "../../constants/routes";
 import CartCard from "../../components/cards/checkout/CartCard";
+
+// import required redux selectors
+import {
+  selectCartItems,
+  selectLoadingStatus,
+  selectError as selectCartError,
+} from "../../redux/checkout/cartSelectors";
+
+// import required redux actions
 import { clearCart } from "../../redux/checkout/cartActions";
 
-const CartPage = ({ loading, cartItems, removeALlItem }) => {
+// import required routes
+import { SHIPPING } from "../../constants/routes";
+
+const CartPage = () => {
+  const dispatch = useDispatch();
+  const loading = useSelector(selectLoadingStatus);
+  const cartItems = useSelector(selectCartItems);
+  const error = useSelector(selectCartError);
+
   const cartTotal = cartItems.reduce(
     (total, item) => total + item.product.price * item.quantity,
     0
   );
 
   const handleCartClear = () => {
-    removeALlItem();
+    dispatch(clearCart());
   };
 
   return (
@@ -27,6 +43,7 @@ const CartPage = ({ loading, cartItems, removeALlItem }) => {
             <span className="visually-hidden">Loading...</span>
           </Spinner>
         )}
+        {error && <span className="text-danger">{error}</span>}
       </h2>
       {cartItems.length === 0 ? (
         <p>Your cart is empty.</p>
@@ -66,17 +83,4 @@ const CartPage = ({ loading, cartItems, removeALlItem }) => {
   );
 };
 
-const mapStateToProps = (state) => {
-  return {
-    loading: state.cart.loading,
-    cartItems: state.cart.items,
-  };
-};
-
-const mapDispatchToProps = (dispatch) => {
-  return {
-    removeALlItem: () => dispatch(clearCart()),
-  };
-};
-
-export default connect(mapStateToProps, mapDispatchToProps)(CartPage);
+export default CartPage;

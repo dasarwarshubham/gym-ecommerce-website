@@ -1,18 +1,23 @@
 import React, { useEffect } from "react";
 import { useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import useInitialLoad from "../../hooks/useInitialLoad";
 
-import { getBlogById } from "../../redux/blogs/blogActions";
+// import custom hooks
+// import useInitialLoad from "../../hooks/useInitialLoad";
 
+// import required Components
 import { Container } from "react-bootstrap";
 import Loader from "../../components/loader/Loader";
 
+// import required redux selectors
 import {
   selectLoadingStatus,
   selectSelectedBlog,
   selectError,
-} from "../../redux/blogs/blogSelectors";
+} from "../../redux/blog/blogSelectors";
+
+// import required redux actions
+import { getBlogById } from "../../redux/blog/blogActions";
 
 const BlogDetailsPage = () => {
   const { blogId } = useParams();
@@ -21,10 +26,11 @@ const BlogDetailsPage = () => {
   const loading = useSelector(selectLoadingStatus);
   const blogDetails = useSelector(selectSelectedBlog);
   const error = useSelector(selectError);
-  const { initialLoad } = useInitialLoad(blogDetails);
+  // const { initialLoad } = useInitialLoad(blogDetails);
 
   useEffect(() => {
     dispatch(getBlogById(blogId));
+    // eslint-disable-next-line
   }, [blogId]);
 
   if (loading) {

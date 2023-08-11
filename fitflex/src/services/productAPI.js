@@ -1,4 +1,4 @@
-const equipmentData = [
+const productsData = [
   {
     id: 1,
     name: "Treadmill",
@@ -330,4 +330,37 @@ const equipmentData = [
   },
 ];
 
-export default equipmentData;
+function simulateNetworkRequest(delay) {
+  return new Promise((resolve) => setTimeout(resolve, delay));
+}
+
+export const getProductList = async () => {
+  try {
+    // const response = await axios.get(`${api_route}/products/`);
+    const response = await simulateNetworkRequest(1000).then(() => {
+      return productsData;
+    });
+    return response;
+  } catch (error) {
+    // const errorMsg = error.message
+    const errorMsg = "Sorry, Page Not Found";
+    throw new Error(errorMsg);
+  }
+};
+
+export const getProductDetailsWithId = async (id) => {
+  try {
+    // const response = await axios.get(`${api_route}/products/${id}/`);
+    const response = await simulateNetworkRequest(1000).then(() => {
+      return productsData.find((product) => product.id === parseInt(id));
+    });
+    if (response) {
+      return response;
+    } else {
+      throw new Error("Equipment Not Found");
+    }
+  } catch (error) {
+    const errorMsg = "Sorry, Page Not Found";
+    throw new Error(errorMsg);
+  }
+};
