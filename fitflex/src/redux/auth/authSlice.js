@@ -17,12 +17,11 @@ const authSlice = createSlice({
         state.loading = true;
       })
       .addCase(loginUser.fulfilled, (state, action) => {
-        console.log(action);
         state.loading = false;
+        state.isAuthenticated = true;
         state.token = action.payload;
       })
       .addCase(loginUser.rejected, (state, action) => {
-        console.log(action);
         state.loading = false;
         state.error = action.error.message;
       })
@@ -32,6 +31,7 @@ const authSlice = createSlice({
       .addCase(logoutUser.fulfilled, (state) => {
         state.loading = false;
         state.token = null;
+        state.isAuthenticated = false;
       });
   },
 });

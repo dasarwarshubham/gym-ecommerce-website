@@ -24,6 +24,7 @@ const EquipmentList = () => {
 
   useEffect(() => {
     dispatch(retrieveProducts());
+    // eslint-disable-next-line
   }, []);
 
   if (loading) {

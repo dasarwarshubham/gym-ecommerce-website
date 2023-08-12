@@ -7,11 +7,12 @@ export const loginUser = createAsyncThunk(
   actionTypes.LOGIN,
   async (userData) => {
     const response = await login(userData);
+    localStorage.setItem("token", response);
     return response;
   }
 );
 
 export const logoutUser = createAsyncThunk(actionTypes.LOGOUT, async () => {
   await logout();
+  localStorage.removeItem("token");
 });
-
