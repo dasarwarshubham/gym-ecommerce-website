@@ -28,10 +28,10 @@ const FormField = ({
         controlId={name}
         className={fieldClass ? fieldClass : "mb-3"}
       >
-        <FormLabel column xs={12} md="4">
+        <FormLabel column xs={12} md={4}>
           {label}
         </FormLabel>
-        <Col xs={12} md="8">
+        <Col xs={12} md={8}>
           {type === "select" ? (
             <FormSelect
               aria-label={label}
