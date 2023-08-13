@@ -30,7 +30,7 @@ const FormikState = ({ display = "block" }) => {
         zIndex: 100,
       }}
     >
-      <strong class="d-inline-flex gap-1 justify-content-between w-100">
+      <strong className="d-inline-flex gap-1 justify-content-between w-100">
         {/* Injected Formik props (the form&apos;s state)*/}
         Form&apos;s state
         <Button onClick={toggle} size="sm">
