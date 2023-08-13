@@ -1,6 +1,6 @@
 import React from "react";
-import { Link, Navigate } from "react-router-dom";
-import { connect } from "react-redux";
+import { Link, useNavigate } from "react-router-dom";
+import { useSelector, useDispatch } from "react-redux";
 
 import Container from "react-bootstrap/Container";
 import Row from "react-bootstrap/Row";
@@ -17,31 +17,33 @@ import {
 import { PROFILE, SIGNUP } from "../../constants/routes";
 
 import { loginUser as authLogin } from "../../redux/auth/authActions";
-
-const initialValues = {
-  username: "",
-  password: "",
-};
+import { fetchAccountData } from "../../redux/account/accountActions";
+import { selectAuthError } from "../../redux/auth/authSelectors";
 
 const validationSchema = Yup.object().shape({
   username: Yup.string().required().email().label("Username"),
   password: Yup.string().required().label("Password"),
 });
 
-const LoginPage = ({ isAuthenticated, error, login }) => {
+const LoginPage = () => {
+  let navigate = useNavigate();
+  let error = useSelector(selectAuthError);
+
+  let dispatch = useDispatch();
+
   const handleClick = (values, setSubmitting, resetForm) => {
-    login(values)
-      .then(() => {
+    dispatch(authLogin(values))
+      .then((loginAction) => {
         setSubmitting(false);
+        if (loginAction.meta.requestStatus === "fulfilled") {
+          dispatch(fetchAccountData());
+          navigate(PROFILE);
+        }
       })
       .finally(() => {
         resetForm();
       });
   };
-
-  if (isAuthenticated) {
-    return <Navigate to={PROFILE} />;
-  }
 
   return (
     <Container>
@@ -53,7 +55,10 @@ const LoginPage = ({ isAuthenticated, error, login }) => {
           <h1 className="text-center mb-4">Login</h1>
 
           <FormikForm
-            initialValues={initialValues}
+            initialValues={{
+              username: "",
+              password: "",
+            }}
             validationSchema={validationSchema}
             onSubmit={(values, { setSubmitting, resetForm }) =>
               handleClick(values, setSubmitting, resetForm)
@@ -90,18 +95,4 @@ const LoginPage = ({ isAuthenticated, error, login }) => {
   );
 };
 
-// export default Login
-const mapStateToProps = (state) => {
-  return {
-    error: state.auth.error,
-    isAuthenticated: state.auth.token !== null,
-  };
-};
-
-const mapDispatchToProps = (dispatch) => {
-  return {
-    login: (username, password) => dispatch(authLogin(username, password)),
-  };
-};
-
-export default connect(mapStateToProps, mapDispatchToProps)(LoginPage);
+export default LoginPage;

@@ -1,6 +1,6 @@
 import React from "react";
-import { Navigate, useNavigate } from "react-router-dom";
-import { connect } from "react-redux";
+import { useNavigate } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
 
 import {
   Container,
@@ -14,6 +14,7 @@ import {
 
 import { LOGIN } from "../../constants/routes";
 import { logoutUser } from "../../redux/auth/authActions";
+import { selectAuthLoading } from "../../redux/auth/authSelectors";
 
 import PersonalInfoSection from "../../containers/account/AccountDetailsSection";
 import OrderSection from "../../containers/account/OrderSection";
@@ -21,12 +22,16 @@ import FavoriteSection from "../../containers/account/FavouritesSection";
 import AddressSection from "../../containers/account/AddressSection";
 import PaymentsSection from "../../containers/account/PaymentsSection";
 
-const ProfilePage = ({ loading, isAuthenticated, logout }) => {
+const ProfilePage = () => {
   let navigate = useNavigate();
+  let dispatch = useDispatch();
+  let loading = useSelector(selectAuthLoading);
 
-  if (!isAuthenticated) {
-    return <Navigate to={LOGIN} />;
-  }
+  const handleLogout = async () => {
+    dispatch(logoutUser()).then(() => {
+      navigate(LOGIN);
+    });
+  };
 
   return (
     <Container className="my-5 py-5" style={{ minHeight: "70vh" }}>
@@ -34,14 +39,7 @@ const ProfilePage = ({ loading, isAuthenticated, logout }) => {
         <Col md={9}>
           <div className="d-flex justify-content-between align-items-center">
             <h2>User Profile</h2>
-            <Button
-              variant="danger"
-              title="logout"
-              onClick={() => {
-                logout();
-                navigate(LOGIN);
-              }}
-            >
+            <Button variant="danger" title="logout" onClick={handleLogout}>
               {loading ? (
                 <Spinner as="span" size="sm" animation="border" />
               ) : (
@@ -98,17 +96,4 @@ const ProfilePage = ({ loading, isAuthenticated, logout }) => {
   );
 };
 
-const mapStateToProps = (state) => {
-  return {
-    loading: state.auth.loading,
-    isAuthenticated: state.auth.token !== null,
-  };
-};
-
-const mapDispatchToProps = (dispatch) => {
-  return {
-    logout: () => dispatch(logoutUser()),
-  };
-};
-
-export default connect(mapStateToProps, mapDispatchToProps)(ProfilePage);
+export default ProfilePage;
