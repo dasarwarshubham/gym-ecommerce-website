@@ -6,7 +6,7 @@ import FooterContainer from "./containers/footer/FooterContainer";
 import Navbar from "./containers/navbar/NavbarContainer";
 
 import * as ROUTES from "./constants/routes";
-import PrivateRoute from "./helpers/PrivateRoute";
+import {PrivateRoute, PublicRoute} from "./helpers/RouteComponent";
 
 const Home                  = lazy(() => import(/* webpackChunkName: "homePage" */ "./pages/Home"));
 const About                 = lazy(() => import(/* webpackChunkName: "aboutPage" */ "./pages/About"));
@@ -32,6 +32,7 @@ const Review                = lazy(() => import(/* webpackChunkName: "reviewPage
 const Payment               = lazy(() => import(/* webpackChunkName: "paymentPage" */ "./pages/checkout/Payment"));
 const Confirmation          = lazy(() => import(/* webpackChunkName: "confirmationPage" */ "./pages/checkout/Confirmation"));
 
+const LinksPage             = lazy(() => import(/* webpackChunkName: "confirmationPage" */ "./pages/LinksPage"));
 
 function App() {
   return (
@@ -45,8 +46,12 @@ function App() {
           <Route path={ROUTES.CONTACT}        Component={Contact} />
           <Route path={ROUTES.FAQS}           Component={Faqs} />
 
-          <Route path={ROUTES.LOGIN}          Component={Login} />
-          <Route path={ROUTES.SIGNUP}         Component={Signup} />
+
+          {/* Public Routes */}
+          <Route path={ROUTES.HOME} Component={PublicRoute}>
+            <Route path={ROUTES.LOGIN}          Component={Login} />
+            <Route path={ROUTES.SIGNUP}         Component={Signup} />
+          </Route>
 
           {/* Private Routes */}
           <Route path={ROUTES.HOME} Component={PrivateRoute}>
@@ -71,6 +76,8 @@ function App() {
           </Route>
 
           <Route path="*" Component={PageNotFound} />
+
+          <Route path="/links" Component={LinksPage} />
         </Routes>
       </Suspense>
       <FooterContainer />
