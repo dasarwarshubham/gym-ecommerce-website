@@ -29,11 +29,11 @@ const OrderSection = () => {
   return (
     <>
       <h4>Current Order</h4>
-      {currentOrders.map((order) => (
+      {currentOrders?.map((order) => (
         <OrderCard key={order.orderNumber} order={order} />
       ))}
       <h4>Past Orders</h4>
-      {pastOrders.map((order) => (
+      {pastOrders?.map((order) => (
         <OrderCard key={order.orderNumber} order={order} />
       ))}
     </>

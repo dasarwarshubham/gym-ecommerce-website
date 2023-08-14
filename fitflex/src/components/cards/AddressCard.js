@@ -70,7 +70,7 @@ const AddressCard = ({ address }) => {
             variant="danger"
             onClick={() => dispatch(deleteAccountAddress(address.id))}
           >
-            <FaTrash size={14}/>
+            <FaTrash size={14} />
           </Button>
         </Card.Body>
       </Card>
