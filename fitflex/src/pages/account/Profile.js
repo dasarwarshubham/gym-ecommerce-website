@@ -23,9 +23,9 @@ import AddressSection from "../../containers/account/AddressSection";
 import PaymentsSection from "../../containers/account/PaymentsSection";
 
 const ProfilePage = () => {
-  let navigate = useNavigate();
-  let dispatch = useDispatch();
-  let loading = useSelector(selectAuthLoading);
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+  const loading = useSelector(selectAuthLoading);
 
   const handleLogout = async () => {
     dispatch(logoutUser()).then(() => {

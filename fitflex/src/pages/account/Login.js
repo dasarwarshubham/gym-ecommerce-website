@@ -26,10 +26,10 @@ const validationSchema = Yup.object().shape({
 });
 
 const LoginPage = () => {
-  let navigate = useNavigate();
-  let error = useSelector(selectAuthError);
+  const navigate = useNavigate();
+  const error = useSelector(selectAuthError);
 
-  let dispatch = useDispatch();
+  const dispatch = useDispatch();
 
   const handleClick = (values, setSubmitting, resetForm) => {
     dispatch(authLogin(values))
@@ -56,8 +56,8 @@ const LoginPage = () => {
 
           <FormikForm
             initialValues={{
-              username: "",
-              password: "",
+              username: "shubham.wrk01@gmail.com",
+              password: "nimda@123",
             }}
             validationSchema={validationSchema}
             onSubmit={(values, { setSubmitting, resetForm }) =>
