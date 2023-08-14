@@ -234,20 +234,6 @@ let data = {
       total: 30,
     },
   ],
-  favoriteItems: [
-    {
-      id: 101,
-      name: "Treadmill",
-      price: 799.99,
-      image: "treadmill.jpg",
-    },
-    {
-      id: 102,
-      name: "Dumbbell Set",
-      price: 49.99,
-      image: "dumbbell.jpg",
-    },
-  ],
   addresses: [
     {
       id: 201,
@@ -270,24 +256,64 @@ let data = {
       phone: "9123456780",
     },
   ],
-  paymentDetails: [
-    {
-      id: 301,
-      cardType: "Visa",
-      cardNumber: "**** **** **** 1234",
-      expirationDate: "05/25",
-    },
-  ],
+  // favoriteItems: [
+  //   {
+  //     id: 101,
+  //     name: "Treadmill",
+  //     price: 799.99,
+  //     image: "treadmill.jpg",
+  //   },
+  //   {
+  //     id: 102,
+  //     name: "Dumbbell Set",
+  //     price: 49.99,
+  //     image: "dumbbell.jpg",
+  //   },
+  // ],
+  // paymentDetails: [
+  //   {
+  //     id: 301,
+  //     cardType: "Visa",
+  //     cardNumber: "**** **** **** 1234",
+  //     expirationDate: "05/25",
+  //   },
+  // ],
 };
 function simulateNetworkRequest(delay) {
   return new Promise((resolve) => setTimeout(resolve, delay));
 }
+
+export const login = async (userData) => {
+  try {
+    const { username, password } = userData;
+    await simulateNetworkRequest(2000);
+    if (username === "shubham.wrk01@gmail.com" && password === "nimda@123") {
+      return "bf65e431-322b-401d-bc79-3b747f9ad16b";
+    } else {
+      throw new Error("Invalid credentials");
+    }
+  } catch (error) {
+    console.log(error);
+    const errorMsg = error.message;
+    throw new Error(errorMsg);
+  }
+};
+
+export const logout = async () => {
+  try {
+    await simulateNetworkRequest(1000);
+  } catch (error) {
+    const errorMsg = error.message;
+    throw new Error(errorMsg);
+  }
+};
 
 export const getUserDetails = async () => {
   try {
     const response = await simulateNetworkRequest(1000).then(() => {
       return data;
     });
+    // throw new Error("Invalid AutoLogin");
     return response;
   } catch (error) {
     const errorMsg = error.message;

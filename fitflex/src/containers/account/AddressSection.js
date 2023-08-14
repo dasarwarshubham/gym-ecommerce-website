@@ -4,6 +4,7 @@ import AddressCard from "../../components/cards/AddressCard";
 import { useSelector } from "react-redux";
 import {
   selectAccountAddress,
+  selectAccountError,
   selectAccountLoading,
 } from "../../redux/account/accountSelectors";
 
@@ -14,6 +15,7 @@ import AddAddressCard from "../../components/cards/AddAddressCard";
 const AddressSection = () => {
   const addresses = useSelector(selectAccountAddress);
   const loading = useSelector(selectAccountLoading);
+  const error = useSelector(selectAccountError);
   // const { initialLoad } = useInitialLoad(addresses);
 
   // const addresses = [
@@ -53,6 +55,7 @@ const AddressSection = () => {
 
   return (
     <>
+      {error && <p className="text-danger">{error}</p>}
       <Row className="g-4">
         {addresses?.map((address) => (
           <Col key={`address-${address.id}`} md={6}>

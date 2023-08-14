@@ -13,22 +13,24 @@ import {
 } from "react-bootstrap";
 
 import { LOGIN } from "../../constants/routes";
-import { logoutUser } from "../../redux/auth/authActions";
-import { selectAuthLoading } from "../../redux/auth/authSelectors";
+import { logoutUser } from "../../redux/account/accountActions";
+import { selectAccountLoading } from "../../redux/account/accountSelectors";
 
 import PersonalInfoSection from "../../containers/account/AccountDetailsSection";
 import OrderSection from "../../containers/account/OrderSection";
 // import FavoriteSection from "../../containers/account/FavouritesSection";
 import AddressSection from "../../containers/account/AddressSection";
-import PaymentsSection from "../../containers/account/PaymentsSection";
+// import PaymentsSection from "../../containers/account/PaymentsSection";
+import { clearCart } from "../../redux/checkout/cartActions";
 
 const ProfilePage = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const loading = useSelector(selectAuthLoading);
+  const loading = useSelector(selectAccountLoading);
 
   const handleLogout = async () => {
     dispatch(logoutUser()).then(() => {
+      dispatch(clearCart());
       navigate(LOGIN);
     });
   };
@@ -64,9 +66,9 @@ const ProfilePage = () => {
                   <Nav.Item>
                     <Nav.Link eventKey="address">Manage Address</Nav.Link>
                   </Nav.Item>
-                  <Nav.Item>
+                  {/* <Nav.Item>
                     <Nav.Link eventKey="payments">Payment Methods</Nav.Link>
-                  </Nav.Item>
+                  </Nav.Item> */}
                 </Nav>
               </Col>
               <Col sm={9}>
@@ -83,9 +85,9 @@ const ProfilePage = () => {
                   <Tab.Pane eventKey="address">
                     <AddressSection />
                   </Tab.Pane>
-                  <Tab.Pane eventKey="payments">
+                  {/* <Tab.Pane eventKey="payments">
                     <PaymentsSection />
-                  </Tab.Pane>
+                  </Tab.Pane> */}
                 </Tab.Content>
               </Col>
             </Row>

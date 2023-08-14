@@ -2,9 +2,14 @@ import { createSelector } from "reselect";
 
 const selectAccountState = (state) => state.account;
 
+export const selectIsAuthenticated = createSelector(
+  [selectAccountState],
+  (account) => account.token !== null
+);
+
 export const selectAccountData = createSelector(
   [selectAccountState],
-  (account) => account.account
+  (account) => account.user
 );
 
 export const selectAccountLoading = createSelector(
@@ -18,7 +23,7 @@ export const selectAccountError = createSelector(
 );
 
 export const selectOrders = createSelector([selectAccountState], (account) => {
-  const orders = account.account?.orders;
+  const orders = account.user?.orders;
   return {
     currentOrders: orders?.filter((order) => order.status === "Pending"),
     pastOrders: orders?.filter((order) => order.status === "Delivered"),
@@ -27,5 +32,5 @@ export const selectOrders = createSelector([selectAccountState], (account) => {
 
 export const selectAccountAddress = createSelector(
   [selectAccountState],
-  (account) => account.account?.addresses
+  (account) => account.user?.addresses
 );

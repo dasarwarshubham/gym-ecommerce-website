@@ -1,4 +1,4 @@
-import React, { lazy, Suspense } from "react";
+import React, { lazy, Suspense, useEffect } from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Loader from "./components/loader/Loader";
 
@@ -7,6 +7,8 @@ import Navbar from "./containers/navbar/NavbarContainer";
 
 import * as ROUTES from "./constants/routes";
 import {PrivateRoute, PublicRoute} from "./helpers/RouteComponent";
+import { autoLogin, logoutUser } from "./redux/account/accountActions";
+import { useDispatch } from "react-redux";
 
 const Home                  = lazy(() => import(/* webpackChunkName: "homePage" */ "./pages/Home"));
 const About                 = lazy(() => import(/* webpackChunkName: "aboutPage" */ "./pages/About"));
@@ -32,9 +34,24 @@ const Review                = lazy(() => import(/* webpackChunkName: "reviewPage
 const Payment               = lazy(() => import(/* webpackChunkName: "paymentPage" */ "./pages/checkout/Payment"));
 const Confirmation          = lazy(() => import(/* webpackChunkName: "confirmationPage" */ "./pages/checkout/Confirmation"));
 
-const LinksPage             = lazy(() => import(/* webpackChunkName: "confirmationPage" */ "./pages/LinksPage"));
+const LinksPage             = lazy(() => import(/* webpackChunkName: "linksPage" */ "./pages/LinksPage"));
 
 function App() {
+
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    const token = localStorage.getItem("token");
+
+    if (token) {
+      dispatch(autoLogin(token)).catch((error) => {
+        console.log(error)
+        dispatch(logoutUser())
+      });
+      // Dispatch autoSignIn action with the token
+    }
+  }, [dispatch]);
+  
   return (
     <Router>
       <Navbar />

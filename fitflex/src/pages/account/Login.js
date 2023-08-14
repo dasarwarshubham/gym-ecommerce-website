@@ -16,9 +16,9 @@ import {
 
 import { PROFILE, SIGNUP } from "../../constants/routes";
 
-import { loginUser as authLogin } from "../../redux/auth/authActions";
+import { loginUser } from "../../redux/account/accountActions";
 import { fetchAccountData } from "../../redux/account/accountActions";
-import { selectAuthError } from "../../redux/auth/authSelectors";
+import { selectAccountError } from "../../redux/account/accountSelectors";
 
 const validationSchema = Yup.object().shape({
   username: Yup.string().required().email().label("Username"),
@@ -27,12 +27,12 @@ const validationSchema = Yup.object().shape({
 
 const LoginPage = () => {
   const navigate = useNavigate();
-  const error = useSelector(selectAuthError);
+  const error = useSelector(selectAccountError);
 
   const dispatch = useDispatch();
 
   const handleClick = (values, setSubmitting, resetForm) => {
-    dispatch(authLogin(values))
+    dispatch(loginUser(values))
       .then((loginAction) => {
         setSubmitting(false);
         if (loginAction.meta.requestStatus === "fulfilled") {

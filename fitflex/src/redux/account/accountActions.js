@@ -3,12 +3,36 @@ import { createAsyncThunk } from "@reduxjs/toolkit";
 
 import * as actionTypes from "./accountTypes";
 import {
+  login,
+  logout,
   getUserDetails,
   updateUserDetails,
   addUserAddress,
   updateUserAddress,
   deleteUserAddress,
 } from "../../services/accountAPI";
+
+export const loginUser = createAsyncThunk(
+  actionTypes.LOGIN,
+  async (userData) => {
+    const response = await login(userData);
+    localStorage.setItem("token", response);
+    return response;
+  }
+);
+
+export const logoutUser = createAsyncThunk(actionTypes.LOGOUT, async () => {
+  await logout();
+  localStorage.removeItem("token");
+});
+
+export const autoLogin = createAsyncThunk(
+  actionTypes.AUTO_LOGIN,
+  async (token) => {
+    const userDetails = await getUserDetails();
+    return { token, userDetails };
+  }
+);
 
 export const fetchAccountData = createAsyncThunk(
   actionTypes.FETCH_ACCOUNT_DETAILS,

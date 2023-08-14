@@ -1,6 +1,9 @@
 // accountSlice.js
 import { createSlice } from "@reduxjs/toolkit";
 import {
+  autoLogin,
+  loginUser,
+  logoutUser,
   fetchAccountData,
   updateAccountDetails,
   updateAccountAddress,
@@ -23,7 +26,12 @@ const isRejectedAction = (action) => {
   );
 };
 
-const initialState = { account: null, loading: false, error: null };
+const initialState = {
+  token: null,
+  user: null,
+  loading: false,
+  error: null,
+};
 
 const accountSlice = createSlice({
   name: "account",
@@ -31,25 +39,39 @@ const accountSlice = createSlice({
   reducers: {},
   extraReducers: (builder) => {
     builder
+      .addCase(autoLogin.fulfilled, (state, action) => {
+        state.loading = false;
+        state.token = action.payload.token;
+        state.user = action.payload.userDetails;
+      })
+      .addCase(autoLogin.rejected, (state, action) => {
+        state.loading = false;
+      })
+      .addCase(loginUser.fulfilled, (state, action) => {
+        state.loading = false;
+        state.token = action.payload;
+      })
+      .addCase(logoutUser.fulfilled, (state) => {
+        return initialState;
+      })
       .addCase(fetchAccountData.fulfilled, (state, action) => {
         state.loading = false;
-        state.account = action.payload;
+        state.user = action.payload;
       })
       .addCase(updateAccountDetails.fulfilled, (state, action) => {
         state.loading = false;
-        // Update the account details in the state with the updated data
-        state.account = action.payload;
+        state.user = action.payload;
       })
       .addCase(addAccountAddress.fulfilled, (state, action) => {
         state.loading = false;
 
         //need to be updated
-        // if address alkready exist proper error handling to be done
+        // if address already exist proper error handling to be done
 
         const newAddress = action.payload;
 
         // Check if the address already exists
-        const existingAddress = state.account.addresses.find(
+        const existingAddress = state.user.addresses.find(
           (address) =>
             address.fullName === newAddress.fullName &&
             address.addressLine1 === newAddress.addressLine1 &&
@@ -60,20 +82,18 @@ const accountSlice = createSlice({
         );
 
         if (!existingAddress) {
-          state.account.addresses.push({
-            id: state.account.addresses.length + 1,
+          state.user.addresses.push({
+            id: state.user.addresses.length + 1,
             ...newAddress,
           });
           state.error = null;
-        } else {
-          state.error = "address already exists";
         }
       })
       .addCase(updateAccountAddress.fulfilled, (state, action) => {
         state.loading = false;
-        state.account = {
-          ...state.account,
-          addresses: state.account.addresses.map((address) => {
+        state.user = {
+          ...state.user,
+          addresses: state.user.addresses.map((address) => {
             if (address.id === action.payload.id) {
               return action.payload;
             } else {
@@ -84,9 +104,9 @@ const accountSlice = createSlice({
       })
       .addCase(deleteAccountAddress.fulfilled, (state, action) => {
         state.loading = false;
-        state.account = {
-          ...state.account,
-          addresses: state.account.addresses.filter(
+        state.user = {
+          ...state.user,
+          addresses: state.user.addresses.filter(
             (address) => address.id !== action.payload
           ),
         };
