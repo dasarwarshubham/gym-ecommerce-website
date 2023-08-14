@@ -18,7 +18,7 @@ import { selectAuthLoading } from "../../redux/auth/authSelectors";
 
 import PersonalInfoSection from "../../containers/account/AccountDetailsSection";
 import OrderSection from "../../containers/account/OrderSection";
-import FavoriteSection from "../../containers/account/FavouritesSection";
+// import FavoriteSection from "../../containers/account/FavouritesSection";
 import AddressSection from "../../containers/account/AddressSection";
 import PaymentsSection from "../../containers/account/PaymentsSection";
 
@@ -36,7 +36,7 @@ const ProfilePage = () => {
   return (
     <Container className="my-5 py-5" style={{ minHeight: "70vh" }}>
       <Row className="justify-content-center mt-5">
-        <Col md={9}>
+        <Col md={12}>
           <div className="d-flex justify-content-between align-items-center">
             <h2>User Profile</h2>
             <Button variant="danger" title="logout" onClick={handleLogout}>
@@ -58,9 +58,9 @@ const ProfilePage = () => {
                   <Nav.Item>
                     <Nav.Link eventKey="orders">Your Orders</Nav.Link>
                   </Nav.Item>
-                  <Nav.Item>
+                  {/* <Nav.Item>
                     <Nav.Link eventKey="favorites">Favorites</Nav.Link>
-                  </Nav.Item>
+                  </Nav.Item> */}
                   <Nav.Item>
                     <Nav.Link eventKey="address">Manage Address</Nav.Link>
                   </Nav.Item>
@@ -77,9 +77,9 @@ const ProfilePage = () => {
                   <Tab.Pane eventKey="orders">
                     <OrderSection />
                   </Tab.Pane>
-                  <Tab.Pane eventKey="favorites">
+                  {/* <Tab.Pane eventKey="favorites">
                     <FavoriteSection />
-                  </Tab.Pane>
+                  </Tab.Pane> */}
                   <Tab.Pane eventKey="address">
                     <AddressSection />
                   </Tab.Pane>

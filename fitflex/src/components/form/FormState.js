@@ -5,7 +5,7 @@ import { Button } from "react-bootstrap";
 const FormikState = ({ display = "block" }) => {
   const { values, errors, touched, isSubmitting } = useFormikContext();
 
-  const [show, setShow] = useState(true);
+  const [show, setShow] = useState(false);
 
   const toggle = () => setShow(!show);
 

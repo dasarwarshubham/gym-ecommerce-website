@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import { Card, Button, Spinner } from "react-bootstrap";
-import { MdEdit } from "react-icons/md";
-import { FaTrash } from "react-icons/fa";
+import { MdOutlineAddCircle } from "react-icons/md";
 
 import {
   FormikForm,
@@ -12,10 +11,7 @@ import {
 
 import * as Yup from "yup";
 import { useDispatch, useSelector } from "react-redux";
-import {
-  deleteAccountAddress,
-  updateAccountAddress,
-} from "../../redux/account/accountActions";
+import { addAccountAddress } from "../../redux/account/accountActions";
 import {
   selectAccountError,
   selectAccountLoading,
@@ -37,7 +33,17 @@ const validationSchema = Yup.object().shape({
     .matches(phoneRegExp, "Phone number is not valid"),
 });
 
-const AddressCard = ({ address }) => {
+const initialValues = {
+  fullName: "",
+  addressLine1: "",
+  addressLine2: "",
+  city: "",
+  state: "",
+  zipCode: "",
+  phone: "",
+};
+
+const AddAddressCard = () => {
   const [isEditing, setIsEditing] = useState(false);
 
   const loading = useSelector(selectAccountLoading);
@@ -46,71 +52,36 @@ const AddressCard = ({ address }) => {
 
   if (!isEditing) {
     return (
-      <Card>
-        <Card.Body>
-          <Card.Title>{address.fullName}</Card.Title>
-          <Card.Text>{address.addressLine1}</Card.Text>
-          <Card.Text>{address.addressLine2}</Card.Text>
-          <Card.Text>
-            {address.city}, {address.state} {address.zipCode}
-          </Card.Text>
-          <Card.Text>Phone: {address.phone}</Card.Text>
-          <Button
-            variant="primary"
-            onClick={() => setIsEditing(true)}
-            className="me-3"
-          >
-            {loading ? (
-              <Spinner as="span" size="sm" animation="border" />
-            ) : (
-              <MdEdit />
-            )}
-          </Button>
-          <Button
-            variant="danger"
-            onClick={() => dispatch(deleteAccountAddress(address.id))}
-          >
-            <FaTrash size={14}/>
-          </Button>
+      <Card
+        onClick={() => setIsEditing(true)}
+        className="d-flex justify-content-center align-items-center"
+        style={{ height: "218px" }}
+      >
+        <Card.Body className="d-flex justify-content-center align-items-center">
+          <MdOutlineAddCircle size={28} />
         </Card.Body>
       </Card>
     );
   }
 
   const handleClick = (values, setSubmitting, resetForm) => {
-    dispatch(
-      updateAccountAddress({ addressId: address.id, updatedAddress: values })
-    )
+    dispatch(addAccountAddress(values))
       .unwrap()
-      .then((response) => {
-        //update initialvalues with updated values from response after successful form submission
-        resetForm({ values: response.accountDetails });
-      })
       .catch((error) => {
         console.log(error);
-        resetForm();
       })
       .finally(() => {
+        resetForm();
         setSubmitting(false);
         setIsEditing(!isEditing);
         // navigate(PROFILE, { state: { prevPage: PROFILE_EDIT } });
       });
   };
-
   return (
     <Card>
       <Card.Body>
         <FormikForm
-          initialValues={{
-            id: address?.id,
-            fullName: address?.fullName,
-            addressLine1: address?.addressLine1,
-            addressLine2: address?.addressLine2,
-            city: address?.city,
-            state: address?.state,
-            zipCode: address?.zipCode,
-            phone: address?.phone,
-          }}
+          initialValues={initialValues}
           validationSchema={validationSchema}
           onSubmit={(values, { setSubmitting, resetForm }) =>
             handleClick(values, setSubmitting, resetForm)
@@ -181,4 +152,4 @@ const AddressCard = ({ address }) => {
   );
 };
 
-export default AddressCard;
+export default AddAddressCard;
