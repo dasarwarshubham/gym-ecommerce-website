@@ -12,6 +12,7 @@ const FormRadio = ({
   label,
   araiLabel,
   modal = false,
+  type = "radio",
   name,
   fieldClass,
   children,
@@ -36,7 +37,7 @@ const FormRadio = ({
                 inline
                 label={option.label}
                 name={name}
-                type="radio"
+                type={type}
                 aria-label={option.label}
                 onChange={() => setFieldValue(name, option.value)}
                 id={`inline-radio-${option.value}`}
@@ -55,23 +56,21 @@ const FormRadio = ({
   return (
     <FormGroup controlId={name} className={fieldClass ? fieldClass : "mb-5"}>
       <FormLabel>{label}</FormLabel>
-      <div key={`inline-radio`} className="h-100 d-flex align-items-center">
-        {options.map((option) => (
-          <FormCheck
-            inline
-            label={option.label}
-            name={name}
-            type="radio"
-            aria-label={option.label}
-            onChange={() => setFieldValue(name, option.value)}
-            id={`inline-radio-${option.value}`}
-            key={`inline-radio-${option.value}`}
-            isInvalid={touched[name] && !!errors[name]}
-            checked={option.value === values[name]}
-            {...otherProps}
-          />
-        ))}
-      </div>
+      {options.map((option) => (
+        <FormCheck
+          inline
+          label={option.label}
+          name={name}
+          type={type}
+          aria-label={option.label}
+          onChange={() => setFieldValue(name, option.value)}
+          id={`inline-radio-${option.value}`}
+          key={`inline-radio-${option.value}`}
+          isInvalid={touched[name] && !!errors[name]}
+          checked={option.value === values[name]}
+          {...otherProps}
+        />
+      ))}
       <Feedback type="invalid">{errors[name]}</Feedback>
     </FormGroup>
   );

@@ -13,6 +13,7 @@ import {
 import * as Yup from "yup";
 import { useDispatch, useSelector } from "react-redux";
 import {
+  defaultAccountAddress,
   deleteAccountAddress,
   updateAccountAddress,
 } from "../../redux/account/accountActions";
@@ -72,6 +73,15 @@ const AddressCard = ({ address }) => {
           >
             <FaTrash size={14} />
           </Button>
+          {!address.default && (
+            <Button
+              variant="primary"
+              onClick={() => dispatch(defaultAccountAddress(address.id))}
+              className="ms-3"
+            >
+              Make Default
+            </Button>
+          )}
         </Card.Body>
       </Card>
     );

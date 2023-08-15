@@ -1,22 +1,32 @@
 import { createSlice } from "@reduxjs/toolkit";
+import {
+  addToCart,
+  updateQuantity,
+  removeFromCart,
+  clearCart,
+  setShippingInfo,
+} from "./cartActions";
 
 const isPendingAction = (action) => {
   return action.type.startsWith("cart/") && action.type.endsWith("/pending");
 };
-const isFulfilledAction = (action) => {
-  return action.type.startsWith("cart/") && action.type.endsWith("/fulfilled");
-};
+// const isFulfilledAction = (action) => {
+//   return action.type.startsWith("cart/") && action.type.endsWith("/fulfilled");
+// };
 const isRejectedAction = (action) => {
   return action.type.startsWith("cart/") && action.type.endsWith("/rejected");
 };
 
+const initialState = {
+  items: [],
+  address: null,
+  loading: false,
+  error: null,
+};
+
 const cartSlice = createSlice({
   name: "cart",
-  initialState: {
-    items: [],
-    loading: false,
-    error: null,
-  },
+  initialState,
   // reducers: {
   //   addToCart: (state, action) => {
   //     const { item, quantity } = action.payload;
@@ -46,12 +56,31 @@ const cartSlice = createSlice({
   // },
   extraReducers: (builder) => {
     builder
-      .addMatcher(isPendingAction, (state) => {
-        state.loading = true;
-      })
-      .addMatcher(isFulfilledAction, (state, action) => {
+      .addCase(addToCart.fulfilled, (state, action) => {
         state.loading = false;
         state.items = action.payload;
+      })
+      .addCase(updateQuantity.fulfilled, (state, action) => {
+        state.loading = false;
+        state.items = action.payload;
+      })
+      .addCase(removeFromCart.fulfilled, (state, action) => {
+        state.loading = false;
+        state.items = action.payload;
+      })
+      .addCase(clearCart.fulfilled, () => {
+        return initialState;
+      })
+      .addCase(setShippingInfo.fulfilled, (state, action) => {
+        state.loading = false;
+        state.address = action.payload;
+      })
+      // .addMatcher(isFulfilledAction, (state, action) => {
+      //   state.loading = false;
+      //   state.items = action.payload;
+      // })
+      .addMatcher(isPendingAction, (state) => {
+        state.loading = true;
       })
       .addMatcher(isRejectedAction, (state, action) => {
         state.loading = false;

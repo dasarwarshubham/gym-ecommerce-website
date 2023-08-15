@@ -9,6 +9,7 @@ import {
   updateAccountAddress,
   deleteAccountAddress,
   addAccountAddress,
+  defaultAccountAddress,
 } from "./accountActions";
 
 const isPendingAction = (action) => {
@@ -98,6 +99,19 @@ const accountSlice = createSlice({
               return action.payload;
             } else {
               return address;
+            }
+          }),
+        };
+      })
+      .addCase(defaultAccountAddress.fulfilled, (state, action) => {
+        state.loading = false;
+        state.user = {
+          ...state.user,
+          addresses: state.user.addresses.map((address) => {
+            if (address.id === action.payload) {
+              return { ...address, default: true };
+            } else {
+              return { ...address, default: false };
             }
           }),
         };

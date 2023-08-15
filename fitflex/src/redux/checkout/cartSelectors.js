@@ -7,6 +7,11 @@ export const selectCartItems = createSelector(
   (cartSlice) => cartSlice.items
 );
 
+export const selectCartAddress = createSelector(
+  [selectCartSlice],
+  (cartSlice) => cartSlice.address
+);
+
 export const selectLoadingStatus = createSelector(
   [selectCartSlice],
   (cartSlice) => cartSlice.loading

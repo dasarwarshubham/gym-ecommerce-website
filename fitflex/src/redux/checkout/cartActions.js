@@ -61,6 +61,14 @@ export const updateQuantity = createAsyncThunk(
   }
 );
 
+export const setShippingInfo = createAsyncThunk(
+  "cart/address",
+  async (shippingInfo) => {
+    // Simulate server interaction and return updated shippingInfo
+    return shippingInfo;
+  }
+);
+
 export const clearCart = createAsyncThunk(
   "cart/clearCart",
   async (_, { getState }) => {

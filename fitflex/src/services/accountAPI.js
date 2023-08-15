@@ -244,6 +244,7 @@ let data = {
       state: "State1",
       zipCode: "12345",
       phone: "9876543210",
+      default: false,
     },
     {
       id: 202,
@@ -254,6 +255,7 @@ let data = {
       state: "State2",
       zipCode: "54321",
       phone: "9123456780",
+      default: true,
     },
   ],
   // favoriteItems: [
@@ -350,6 +352,17 @@ export const updateUserAddress = async ({ addressId, updatedAddress }) => {
       () => updatedAddress
     );
     // throw new Error("Failed to update address");
+    return response;
+  } catch (error) {
+    throw new Error(error.message);
+  }
+};
+
+export const makeUserAddressDefault = async (addressId) => {
+  try {
+    const response = await simulateNetworkRequest(1000).then(() => addressId);
+    // throw new Error("Failed to update address");
+    console.log(response);
     return response;
   } catch (error) {
     throw new Error(error.message);

@@ -10,6 +10,7 @@ import {
   addUserAddress,
   updateUserAddress,
   deleteUserAddress,
+  makeUserAddressDefault,
 } from "../../services/accountAPI";
 
 export const loginUser = createAsyncThunk(
@@ -62,6 +63,15 @@ export const updateAccountAddress = createAsyncThunk(
   actionTypes.UPDATE_ADDRESS,
   async ({ addressId, updatedAddress }) => {
     const response = await updateUserAddress({ addressId, updatedAddress });
+    return response;
+  }
+);
+
+export const defaultAccountAddress = createAsyncThunk(
+  actionTypes.DEFAULT_ADDRESS,
+  async (addressId) => {
+    const response = await makeUserAddressDefault(addressId);
+    console.log(response);
     return response;
   }
 );

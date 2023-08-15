@@ -43,13 +43,20 @@ const initialValues = {
   phone: "",
 };
 
-const AddAddressCard = () => {
+const AddAddressCard = ({ isButton }) => {
   const [isEditing, setIsEditing] = useState(false);
 
   const loading = useSelector(selectAccountLoading);
   const error = useSelector(selectAccountError);
   const dispatch = useDispatch();
 
+  if (isButton && !isEditing) {
+    return (
+      <Button variant="primary" onClick={() => setIsEditing(true)}>
+        Add New Address
+      </Button>
+    );
+  }
   if (!isEditing) {
     return (
       <Card
