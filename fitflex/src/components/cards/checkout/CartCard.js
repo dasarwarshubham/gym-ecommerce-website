@@ -3,7 +3,6 @@ import QuantityHandler from "./QuantityHandler";
 
 const CartCard = ({ item, showQtyHandler }) => {
   const subtotal = item.product.price * item.quantity;
-  console.log(item);
   return (
     <Card className="mb-3">
       <Card.Body>

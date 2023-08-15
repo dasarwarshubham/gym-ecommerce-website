@@ -43,7 +43,6 @@ const ShippingPage = () => {
   );
 
   const handleClick = (values, setSubmitting, resetForm) => {
-    console.log(values);
     dispatch(setShippingInfo(values.address))
       .then((loginAction) => {
         setSubmitting(false);
