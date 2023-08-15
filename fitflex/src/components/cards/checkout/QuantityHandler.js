@@ -29,41 +29,36 @@ const QuantityHandler = ({
   };
 
   return (
-    <>
-      <div className="d-flex align-items-center">
-        <span>Quantity</span>
-        &nbsp;&nbsp;
-        <QuantityBtn
-          title="decrease quantity"
-          onClick={() => handleQuantityChange(-1)}
-          disabled={loading}
-        >
-          -
-        </QuantityBtn>
-        <QuantityCount type="number" min="1" value={item.quantity} readOnly />
-        <QuantityBtn
-          title="increase quantity"
-          onClick={() => handleQuantityChange(1)}
-          disabled={loading}
-        >
-          {" "}
-          +
-        </QuantityBtn>
-      </div>
+    <div className="d-flex align-items-center my-4">
+      <span>Quantity</span>
+      &nbsp;&nbsp;
+      <QuantityBtn
+        title="decrease quantity"
+        onClick={() => handleQuantityChange(-1)}
+        disabled={loading}
+      >
+        -
+      </QuantityBtn>
+      <QuantityCount type="number" min="1" value={item.quantity} readOnly />
+      <QuantityBtn
+        title="increase quantity"
+        onClick={() => handleQuantityChange(1)}
+        disabled={loading}
+      >
+        +
+      </QuantityBtn>
       {!removeTrash && (
-        <>
-          <br />
-          <QuantityBtn
-            title="remove item from cart"
-            trash="true"
-            onClick={handleRemove}
-            disabled={loading}
-          >
-            <FaTrash />
-          </QuantityBtn>
-        </>
+        <QuantityBtn
+          title="remove item from cart"
+          trash="true"
+          onClick={handleRemove}
+          disabled={loading}
+          className="ms-3"
+        >
+          <FaTrash />
+        </QuantityBtn>
       )}
-    </>
+    </div>
   );
 };
 

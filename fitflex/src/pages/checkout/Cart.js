@@ -51,7 +51,11 @@ const CartPage = () => {
         <Row className="g-4">
           <Col md={8}>
             {cartItems.map((item) => (
-              <CartCard key={item.productId} item={item} />
+              <CartCard
+                key={item.productId}
+                item={item}
+                showQtyHandler={true}
+              />
             ))}
             <Button
               onClick={handleCartClear}

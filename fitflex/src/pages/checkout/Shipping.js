@@ -4,13 +4,7 @@ import { useDispatch, useSelector } from "react-redux";
 import * as Yup from "yup";
 
 // import required Components
-import {
-  Card,
-  Col,
-  Container,
-  Row,
-  Spinner,
-} from "react-bootstrap";
+import { Card, Col, Container, Row, Spinner } from "react-bootstrap";
 
 // import required redux selectors
 import {
@@ -25,7 +19,7 @@ import { selectAccountAddress } from "../../redux/account/accountSelectors";
 import { setShippingInfo } from "../../redux/checkout/cartActions";
 
 // import required routes
-import { PAYMENT } from "../../constants/routes";
+import { REVIEW } from "../../constants/routes";
 import AddAddressCard from "../../components/cards/AddAddressCard";
 import { FormButton, FormState, FormikForm } from "../../components/form";
 import FormRadio from "../../components/cards/checkout/AddressFormRadio";
@@ -54,7 +48,7 @@ const ShippingPage = () => {
       .then((loginAction) => {
         setSubmitting(false);
         if (loginAction.meta.requestStatus === "fulfilled") {
-          navigate(PAYMENT);
+          navigate(REVIEW);
         }
       })
       .catch((error) => {
