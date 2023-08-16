@@ -5,9 +5,15 @@ import { Card, Button } from "react-bootstrap";
 import { MdCheckCircle, MdOutlineShoppingCart } from "react-icons/md";
 
 import { addToCart } from "../../redux/checkout/cartActions";
-import { CART, EQUIPMENTS } from "../../constants/routes";
+import { CART, EQUIPMENTS, LOGIN } from "../../constants/routes";
 
-const EquipmentCard = ({ data, loading, cartItems, addItem }) => {
+const EquipmentCard = ({
+  isAuthenticated,
+  data,
+  loading,
+  cartItems,
+  addItem,
+}) => {
   const navigate = useNavigate();
 
   const alreadyInCart = cartItems.find(
@@ -18,12 +24,15 @@ const EquipmentCard = ({ data, loading, cartItems, addItem }) => {
     if (alreadyInCart) {
       navigate(CART);
     } else {
-      addItem({
-        productId: data.id,
-        quantity: 1,
-        product: data,
-      });
-      // addItem({ item: data, quantity: 1 });
+      if (!isAuthenticated) {
+        navigate(LOGIN);
+      } else {
+        addItem({
+          productId: data.id,
+          quantity: 1,
+          product: data,
+        });
+      }
     }
   };
 
@@ -63,6 +72,7 @@ const mapStateToProps = (state) => {
   return {
     loading: state.cart.loading,
     cartItems: state.cart.items,
+    isAuthenticated: state.account.token != null,
   };
 };
 
