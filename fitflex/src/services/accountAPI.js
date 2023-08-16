@@ -310,6 +310,16 @@ export const logout = async () => {
   }
 };
 
+export const signup = async (userData) => {
+  try {
+    console.log(userData);
+    await simulateNetworkRequest(1000);
+  } catch (error) {
+    const errorMsg = error.message;
+    throw new Error(errorMsg);
+  }
+};
+
 export const getUserDetails = async () => {
   try {
     const response = await simulateNetworkRequest(1000).then(() => {

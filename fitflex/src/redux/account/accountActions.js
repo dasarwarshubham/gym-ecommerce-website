@@ -11,6 +11,7 @@ import {
   updateUserAddress,
   deleteUserAddress,
   makeUserAddressDefault,
+  signup,
 } from "../../services/accountAPI";
 
 export const loginUser = createAsyncThunk(
@@ -32,6 +33,14 @@ export const autoLogin = createAsyncThunk(
   async (token) => {
     const userDetails = await getUserDetails();
     return { token, userDetails };
+  }
+);
+
+export const signupUser = createAsyncThunk(
+  actionTypes.SIGNUP,
+  async (userData) => {
+    const response = await signup(userData);
+    return response;
   }
 );
 

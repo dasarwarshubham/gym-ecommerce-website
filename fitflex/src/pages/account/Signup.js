@@ -1,5 +1,6 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
 
 import { Container } from "react-bootstrap";
 import Row from "react-bootstrap/Row";
@@ -7,27 +8,17 @@ import Col from "react-bootstrap/Col";
 
 import * as Yup from "yup";
 
-import {
-  FormikForm,
-  FormField,
-  FormButton,
-  FormState,
-} from "../../components/form";
+import { FormikForm, FormField, FormButton } from "../../components/form";
+import { selectAccountError } from "../../redux/account/accountSelectors";
 import { LOGIN } from "../../constants/routes";
+import { signupUser } from "../../redux/account/accountActions";
 
 const initialValues = {
-  firstname: "Shubham",
-  lastname: "Dasarwar",
-  password: "nimda@1234",
-  confirm_password: "nimda@1234",
+  firstname: "",
+  lastname: "",
+  password: "",
+  confirm_password: "",
 };
-
-// const initialValues = {
-//   firstname: "",
-//   lastname: "",
-//   password: "",
-//   confirm_password: "",
-// };
 
 const validationSchema = Yup.object().shape({
   firstname: Yup.string().required().label("First Name"),
@@ -38,25 +29,24 @@ const validationSchema = Yup.object().shape({
     .required("Re-Enter Your Password"),
 });
 
-function simulateNetworkRequest(delay) {
-  return new Promise((resolve) => setTimeout(resolve, delay));
-}
-
 const SignupPage = () => {
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+  const error = useSelector(selectAccountError);
+
   const handleClick = (values, setSubmitting, resetForm) => {
-    simulateNetworkRequest(1000)
-      .then(() => {
-        alert(JSON.stringify(values));
-      })
-      .then(() => {
-        simulateNetworkRequest(1000).then(() => {
-          setSubmitting(false);
-        });
+    dispatch(signupUser(values))
+      .then((signupAction) => {
+        setSubmitting(false);
+        if (signupAction.meta.requestStatus === "fulfilled") {
+          navigate(LOGIN);
+        }
       })
       .finally(() => {
         resetForm();
       });
   };
+
   return (
     <Container className="my-5">
       <Row
@@ -73,6 +63,7 @@ const SignupPage = () => {
             }
             encType="multipart/form-data"
           >
+            {error && <p className="text-danger">{error}</p>}
             <FormField label="First Name" name="firstname" />
             <FormField label="Last Name" name="lastname" />
             <FormField label="Password" type="password" name="password" />
@@ -94,7 +85,6 @@ const SignupPage = () => {
                 </Link>
               </p>
             </div>
-            <FormState />
           </FormikForm>
         </Col>
       </Row>

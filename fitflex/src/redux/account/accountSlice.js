@@ -4,6 +4,7 @@ import {
   autoLogin,
   loginUser,
   logoutUser,
+  signupUser,
   fetchAccountData,
   updateAccountDetails,
   updateAccountAddress,
@@ -54,6 +55,11 @@ const accountSlice = createSlice({
       })
       .addCase(logoutUser.fulfilled, (state) => {
         return initialState;
+      })
+      .addCase(signupUser.fulfilled, (state, action) => {
+        //need to be updated
+        state.loading = false;
+        // state.user = action.payload;
       })
       .addCase(fetchAccountData.fulfilled, (state, action) => {
         state.loading = false;
