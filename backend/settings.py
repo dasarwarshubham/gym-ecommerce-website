@@ -57,6 +57,7 @@ INSTALLED_APPS = [
 
     # installed apps
     'apps.accounts',
+    'apps.core'
 ]
 
 # Overiding User Model
