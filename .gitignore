@@ -2,7 +2,7 @@
 
 ### Django ###
 migrations/
-management/commands/
+commands/
 media/
 
 # Dependency directories
