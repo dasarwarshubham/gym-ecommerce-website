@@ -35,7 +35,13 @@ SECRET_KEY = os.environ.get("SECRET_KEY")
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = os.environ.get("DEBUG")
 
+HOST_URL = "http://127.0.0.1:8000/"
 ALLOWED_HOSTS = []
+
+CORS_ALLOWED_ORIGINS = [
+    "http://localhost:3001",  # Replace with the URL of your React app
+    # Add more allowed origins if needed
+]
 
 
 # Application definition
@@ -49,9 +55,12 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'rest_framework',
     'rest_framework.authtoken',
+
+    # debugging apps
     'debug_toolbar',
 
     # other apps
+    'corsheaders',
     'knox',
     'django_rest_passwordreset',
 
@@ -101,6 +110,7 @@ MIDDLEWARE = [
     "debug_toolbar.middleware.DebugToolbarMiddleware",
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
+    'corsheaders.middleware.CorsMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',

@@ -24,3 +24,9 @@ export const TWITTER = "https://www.twitter.com";
 export const LINKEDIN = "https://www.linkedin.com";
 export const INSTAGRAM = "https://www.instagram.com";
 export const FACEBOOK = "https://www.facebook.com";
+
+const API_BASE_URL = "http://127.0.0.1:8000/api";
+
+export const API_ROUTES = {
+  equipments: `${API_BASE_URL}/equipments`,
+};

@@ -125,7 +125,7 @@ const EquipmentDetailsPage = () => {
               <tr>
                 <td>Rating</td>
                 <td>
-                  <Ratings ratings={equipment?.rating} />
+                  <Ratings ratings={equipment?.ratings} />
                 </td>
               </tr>
               <tr>

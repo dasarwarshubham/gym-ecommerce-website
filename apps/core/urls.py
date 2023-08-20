@@ -7,5 +7,4 @@ router.register('equipments', EquipmentViewSet, basename='equipment')
 
 urlpatterns = [
     path('api/', include(router.urls)),
-    # ... other urlpatterns if any
 ]

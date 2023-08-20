@@ -5,7 +5,7 @@ from django.db import models
 
 
 def equipments_directory_path(instance, filename):
-    return 'equipments/images/{0}/{1}'.format(instance.name.replace(" ", '').lower(), filename)
+    return 'equipments/{0}/{1}'.format(instance.name.replace(" ", '').lower(), filename)
 
 
 class Equipment(models.Model):
@@ -40,3 +40,26 @@ class Equipment(models.Model):
 
     class Meta:
         ordering = ['pk']
+        verbose_name = 'Equipment'
+        verbose_name_plural = 'Equipments'
+
+
+def equipment_images_directory_path(instance, filename):
+    print(instance, filename)
+    return 'equipments/{0}/{1}'.format(instance.product.name.replace(" ", '').lower(), filename)
+
+
+class EquipmentImages(models.Model):
+    product = models.ForeignKey(
+        Equipment, on_delete=models.CASCADE, related_name='images')
+    image = models.ImageField(
+        upload_to=equipment_images_directory_path)
+
+    class Meta:
+        ordering = ['product']
+        db_table = "product_image"
+        verbose_name = 'Equipment Image'
+        verbose_name_plural = 'Equipment Images'
+
+    def __str__(self):
+        return self.image.url

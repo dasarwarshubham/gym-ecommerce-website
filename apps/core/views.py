@@ -14,7 +14,7 @@ class EquipmentViewSet(ReadOnlyModelViewSet):
     permission_classes = [AllowAny]
     http_method_names = ['get', 'head']
 
-    queryset = Equipment.objects.all()
+    queryset = Equipment.objects.prefetch_related('images').all()
 
     def get_serializer_class(self):
         if self.action == 'retrieve':
