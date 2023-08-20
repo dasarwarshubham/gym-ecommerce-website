@@ -4,10 +4,6 @@ import Container from "react-bootstrap/Container";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Autoplay, Pagination } from "swiper";
 
-// Import Swiper styles
-import "swiper/css";
-import "swiper/css/pagination";
-
 import TestimonialCard from "../../components/cards/TestimonialCard";
 
 const Testimonials = (props) => {

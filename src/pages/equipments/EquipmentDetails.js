@@ -17,6 +17,9 @@ import Ratings from "../../components/ratings/Ratings";
 import Loader from "../../components/loader/Loader";
 import QuantityHandler from "../../components/cards/checkout/QuantityHandler";
 
+import { Swiper, SwiperSlide } from "swiper/react";
+import { Autoplay, Navigation, Pagination } from "swiper";
+
 // import required redux selectors
 import {
   selectSelectedProduct,
@@ -92,15 +95,34 @@ const EquipmentDetailsPage = () => {
     return <div>Equipment not found</div>;
   }
 
+  let equipment_images = [
+    { id: 0, image: equipment.image },
+    ...equipment?.images,
+  ];
+
   return (
     <Container className="my-5">
       <Row>
         <Col md={6}>
-          <Image
-            src={equipment?.image}
-            alt={equipment?.name}
-            className="equipment-image img-fluid w-100"
-          />
+          <Swiper
+            modules={[Autoplay, Pagination, Navigation]}
+            spaceBetween={50}
+            slidesPerView={1}
+            grabCursor
+            autoplay={{ delay: 5000 }}
+            pagination={{ clickable: true }}
+            navigation
+          >
+            {equipment_images.map((image, idx) => (
+              <SwiperSlide key={`equipment-${idx}`}>
+                <Image
+                  src={image?.image}
+                  alt={equipment?.name}
+                  className="equipment-image img-fluid w-100"
+                />
+              </SwiperSlide>
+            ))}
+          </Swiper>
         </Col>
         <Col md={6}>
           <h1 className="d-flex align-items-center">
