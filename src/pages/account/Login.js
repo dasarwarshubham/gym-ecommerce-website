@@ -56,8 +56,8 @@ const LoginPage = () => {
 
           <FormikForm
             initialValues={{
-              username: "shubham.wrk01@gmail.com",
-              password: "nimda@123",
+              username: "",
+              password: "",
             }}
             validationSchema={validationSchema}
             onSubmit={(values, { setSubmitting, resetForm }) =>

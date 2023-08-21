@@ -1,6 +1,9 @@
 :root {
   --swiper-theme-color: #00000050;
+  --swiper-navigation-color: #00000070;
+  --swiper-pagination-color: #00000070;
   --swiper-pagination-right: 2rem;
+  --swiper-navigation-size: 2.5rem;
 }
 
 body {
@@ -9,6 +12,6 @@ body {
   font-style: normal;
 }
 
-h2{
+h2 {
   text-transform: uppercase;
 }
