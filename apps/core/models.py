@@ -5,7 +5,7 @@ from django.db import models
 
 
 def equipments_directory_path(instance, filename):
-    return 'equipments/{0}/{1}'.format(instance.name.replace(" ", '').lower(), filename)
+    return 'equipments/{0}/{1}'.format(instance.name.replace(" ", '-').lower(), filename)
 
 
 class Equipment(models.Model):
@@ -46,7 +46,7 @@ class Equipment(models.Model):
 
 def equipment_images_directory_path(instance, filename):
     print(instance, filename)
-    return 'equipments/{0}/{1}'.format(instance.product.name.replace(" ", '').lower(), filename)
+    return 'equipments/{0}/{1}'.format(instance.product.name.replace(" ", '-').lower(), filename)
 
 
 class EquipmentImages(models.Model):

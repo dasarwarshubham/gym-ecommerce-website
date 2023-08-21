@@ -5,16 +5,22 @@ from .models import Account
 
 @admin.register(Account)
 class AccountAdmin(BaseUserAdmin):
-    list_display = ['email', 'first_name', 'last_name', 'phone']
-    list_filter = []
+    list_display = ['email', 'full_name', 'phone', 'gender']
+    list_filter = ['gender']
     search_fields = ['id', 'email', 'first_name', 'last_name', 'phone']
     ordering = ('email',)
-    add_fieldsets = (
-        (
-            None,
-            {
-                "classes": ("wide",),
-                "fields": ('first_name', 'last_name', 'email', 'phone', "password1", "password2"),
-            },
-        ),
+
+    fieldsets = (
+        (None, {"fields": ('email', 'first_name', 'last_name', 'phone', 'gender')}),
     )
+
+    add_fieldsets = (
+        (None, {
+            'classes': ('wide',),
+            'fields': ('first_name', 'last_name', 'email', 'phone', 'password1', 'password2'),
+        }),
+    )
+
+    def full_name(self, obj):
+        return f"{obj.first_name} {obj.last_name}"
+    full_name.short_description = "Name"
