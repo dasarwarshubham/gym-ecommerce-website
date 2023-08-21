@@ -45,6 +45,7 @@ const accountSlice = createSlice({
         state.loading = false;
         state.token = action.payload.token;
         state.user = action.payload.userDetails;
+        state.error = null;
       })
       .addCase(autoLogin.rejected, (state, action) => {
         state.loading = false;
@@ -52,6 +53,7 @@ const accountSlice = createSlice({
       .addCase(loginUser.fulfilled, (state, action) => {
         state.loading = false;
         state.token = action.payload;
+        state.error = null;
       })
       .addCase(logoutUser.fulfilled, (state) => {
         return initialState;
@@ -60,17 +62,21 @@ const accountSlice = createSlice({
         //need to be updated
         state.loading = false;
         // state.user = action.payload;
+        state.error = null;
       })
       .addCase(fetchAccountData.fulfilled, (state, action) => {
         state.loading = false;
         state.user = action.payload;
+        state.error = null;
       })
       .addCase(updateAccountDetails.fulfilled, (state, action) => {
         state.loading = false;
         state.user = action.payload;
+        state.error = null;
       })
       .addCase(addAccountAddress.fulfilled, (state, action) => {
         state.loading = false;
+        state.error = null;
 
         //need to be updated
         // if address already exist proper error handling to be done
@@ -98,6 +104,7 @@ const accountSlice = createSlice({
       })
       .addCase(updateAccountAddress.fulfilled, (state, action) => {
         state.loading = false;
+        state.error = null;
         state.user = {
           ...state.user,
           addresses: state.user.addresses.map((address) => {
@@ -111,6 +118,7 @@ const accountSlice = createSlice({
       })
       .addCase(defaultAccountAddress.fulfilled, (state, action) => {
         state.loading = false;
+        state.error = null;
         state.user = {
           ...state.user,
           addresses: state.user.addresses.map((address) => {
@@ -124,6 +132,7 @@ const accountSlice = createSlice({
       })
       .addCase(deleteAccountAddress.fulfilled, (state, action) => {
         state.loading = false;
+        state.error = null;
         state.user = {
           ...state.user,
           addresses: state.user.addresses.filter(

@@ -13,7 +13,7 @@ import {
 } from "react-bootstrap";
 
 import { LOGIN } from "../../constants/routes";
-import { logoutUser } from "../../redux/account/accountActions";
+import { logoutUser, logoutAllUser } from "../../redux/account/accountActions";
 import { selectAccountLoading } from "../../redux/account/accountSelectors";
 
 import PersonalInfoSection from "../../containers/account/AccountDetailsSection";
@@ -35,19 +35,40 @@ const ProfilePage = () => {
     });
   };
 
+  const handleLogoutAll = async () => {
+    dispatch(logoutAllUser()).then(() => {
+      dispatch(clearCart());
+      navigate(LOGIN);
+    });
+  };
+
   return (
     <Container className="my-5 py-5" style={{ minHeight: "70vh" }}>
       <Row className="justify-content-center mt-5">
         <Col md={12}>
           <div className="d-flex justify-content-between align-items-center">
             <h2>User Profile</h2>
-            <Button variant="danger" title="logout" onClick={handleLogout}>
-              {loading ? (
-                <Spinner as="span" size="sm" animation="border" />
-              ) : (
-                <>Logout</>
-              )}
-            </Button>
+            <div>
+              <Button
+                variant="danger"
+                title="logout"
+                onClick={handleLogout}
+                className="me-3"
+              >
+                {loading ? (
+                  <Spinner as="span" size="sm" animation="border" />
+                ) : (
+                  <>Logout</>
+                )}
+              </Button>
+              <Button variant="danger" title="logout" onClick={handleLogoutAll}>
+                {loading ? (
+                  <Spinner as="span" size="sm" animation="border" />
+                ) : (
+                  <>Logout from all devices</>
+                )}
+              </Button>
+            </div>
           </div>
           <hr />
           <Tab.Container id="profile-tabs" defaultActiveKey="account">

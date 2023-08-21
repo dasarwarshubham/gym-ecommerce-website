@@ -56,6 +56,7 @@ const FormRadio = ({
   return (
     <FormGroup controlId={name} className={fieldClass ? fieldClass : "mb-5"}>
       <FormLabel>{label}</FormLabel>
+      <br />
       {options.map((option) => (
         <FormCheck
           inline

@@ -23,21 +23,18 @@ const phoneRegExp =
   /^((\\+[1-9]{1,4}[ \\-]*)|(\\([0-9]{2,3}\\)[ \\-]*)|([0-9]{2,4})[ \\-]*)*?[0-9]{3,4}?[ \\-]*[0-9]{3,4}?$/;
 
 const validationSchema = Yup.object().shape({
-  firstName: Yup.string().required().label("First Name"),
-  lastName: Yup.string().required().label("Last Name"),
+  first_name: Yup.string().required().label("First Name"),
+  last_name: Yup.string().required().label("Last Name"),
   email: Yup.string().required().email().label("Email"),
   phone: Yup.string()
     .required()
     .label("Phone Number")
     .matches(phoneRegExp, "Phone number is not valid"),
-  alternatePhone: Yup.string()
-    .required()
-    .label("Alternate Phone Number")
-    .matches(phoneRegExp, "Alternate Phone number is not valid"),
-  gender: Yup.string()
-    .required()
-    .label("Gender")
-    .oneOf(["male", "female", "prefer_not_to_say"]),
+  // alternate_phone: Yup.string()
+  //   .required()
+  //   .label("Alternate Phone Number")
+  //   .matches(phoneRegExp, "Alternate Phone number is not valid"),
+  gender: Yup.string().required().label("Gender").oneOf(["M", "F", "NA"]),
 });
 
 const AccountDetailsSection = () => {
@@ -82,11 +79,11 @@ const AccountDetailsSection = () => {
     <>
       <FormikForm
         initialValues={{
-          firstName: profile?.firstName,
-          lastName: profile?.lastName,
+          first_name: profile?.first_name,
+          last_name: profile?.last_name,
           email: profile?.email,
           phone: profile?.phone,
-          alternatePhone: profile?.alternatePhone,
+          // alternate_phone: profile?.alternate_phone,
           gender: profile?.gender,
         }}
         validationSchema={validationSchema}
@@ -98,13 +95,13 @@ const AccountDetailsSection = () => {
 
         <FormField
           label="First Name"
-          name="firstName"
+          name="first_name"
           disabled={!isEditing || loading}
           modal
         />
         <FormField
           label="Last Name"
-          name="lastName"
+          name="last_name"
           disabled={!isEditing || loading}
           modal
         />
@@ -122,46 +119,44 @@ const AccountDetailsSection = () => {
           disabled={!isEditing || loading}
           modal
         />
-        <FormField
+        {/* <FormField
           label="Alternate Phone Number"
-          name="alternatePhone"
+          name="alternate_phone"
           inputMode="numeric"
           disabled={!isEditing || loading}
           modal
-        />
+        /> */}
 
         <FormRadio
           label="Gender"
           name="gender"
           options={[
-            { label: "Male", value: "male" },
-            { label: "Female", value: "female" },
-            { label: "Prefer Not to Say", value: "prefer_not_to_say" },
+            { label: "Male", value: "M" },
+            { label: "Female", value: "F" },
+            { label: "Prefer Not to Say", value: "NA" },
           ]}
           disabled={!isEditing || loading}
           modal
         />
 
         {isEditing ? (
-          <>
-            <div className="mb-4">
-              <Button
-                className="me-3"
-                variant="danger"
-                onClick={() => setIsEditing(false)}
-              >
-                Cancel
-              </Button>
-              <FormButton>Submit</FormButton>
-            </div>
-          </>
+          <div className="mb-4">
+            <Button
+              className="me-3"
+              variant="danger"
+              onClick={() => !loading && setIsEditing(false)}
+            >
+              Cancel
+            </Button>
+            <FormButton>Submit</FormButton>
+          </div>
         ) : (
-          <Button variant="primary" onClick={() => setIsEditing(true)}>
-            {loading ? (
-              <Spinner as="span" size="sm" animation="border" />
-            ) : (
-              <>Edit</>
-            )}
+          <Button
+            variant="primary"
+            onClick={() => !loading && setIsEditing(true)}
+            disabled={loading}
+          >
+            <>Edit</>
           </Button>
         )}
 

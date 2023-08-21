@@ -1,3 +1,6 @@
+import { publicAxios, userAxios } from "./axiosInstance";
+import { API_ROUTES } from "../constants/routes";
+
 let data = {
   accountDetails: {
     firstName: "John",
@@ -288,23 +291,65 @@ function simulateNetworkRequest(delay) {
 export const login = async (userData) => {
   try {
     const { username, password } = userData;
-    await simulateNetworkRequest(2000);
-    if (username === "shubham.wrk01@gmail.com" && password === "nimda@123") {
-      return "bf65e431-322b-401d-bc79-3b747f9ad16b";
+    const response = await userAxios({
+      method: "POST",
+      url: `${API_ROUTES.accounts}/login/`,
+      data: {
+        email: username,
+        password: password,
+      },
+    });
+    console.log(response);
+    if (response.status === 200) {
+      return response.data.token;
     } else {
       throw new Error("Invalid credentials");
     }
   } catch (error) {
-    console.log(error);
-    const errorMsg = error.message;
+    console.log(error.response);
+    let errorMsg = error.response.data;
+    if (error?.response?.data?.non_field_errors) {
+      errorMsg = error?.response?.data?.non_field_errors[0];
+    }
     throw new Error(errorMsg);
   }
 };
 
 export const logout = async () => {
   try {
-    await simulateNetworkRequest(1000);
+    const response = await userAxios({
+      method: "POST",
+      url: `${API_ROUTES.accounts}/logout/`,
+    });
+    console.log(response);
+    if (response.status === 204) {
+      localStorage.removeItem("token");
+      return response;
+    } else {
+      throw new Error("Something went wrong...");
+    }
   } catch (error) {
+    console.log(error.response);
+    const errorMsg = error.message;
+    throw new Error(errorMsg);
+  }
+};
+
+export const logoutAll = async () => {
+  try {
+    const response = await userAxios({
+      method: "POST",
+      url: `${API_ROUTES.accounts}/logoutall/`,
+    });
+    console.log(response);
+    if (response.status === 204) {
+      localStorage.removeItem("token");
+      return response;
+    } else {
+      throw new Error("Something went wrong...");
+    }
+  } catch (error) {
+    console.log(error.response);
     const errorMsg = error.message;
     throw new Error(errorMsg);
   }
@@ -312,37 +357,55 @@ export const logout = async () => {
 
 export const signup = async (userData) => {
   try {
-    console.log(userData);
-    await simulateNetworkRequest(1000);
+    const response = await publicAxios({
+      method: "POST",
+      url: `${API_ROUTES.accounts}/create/`,
+      data: userData,
+    });
+    console.log(response);
+    return response;
   } catch (error) {
-    const errorMsg = error.message;
+    let errorMsg = error.response;
+    if (error.response.status === 400) {
+      const data = error.response.data;
+      if (data?.email) {
+        errorMsg = data.email[0];
+      } else {
+        errorMsg = JSON.stringify(data);
+      }
+    }
+    // console.log(JSON.stringify(errorMsg));
     throw new Error(errorMsg);
   }
 };
 
 export const getUserDetails = async () => {
   try {
-    const response = await simulateNetworkRequest(1000).then(() => {
-      return data;
+    const response = await userAxios({
+      method: "GET",
+      url: `${API_ROUTES.accounts}/details/`,
     });
+    return { accountDetails: response.data };
     // throw new Error("Invalid AutoLogin");
-    return response;
   } catch (error) {
     const errorMsg = error.message;
     throw new Error(errorMsg);
   }
 };
 
+// needs to be updated to handle all user details
 export const updateUserDetails = async (updatedData) => {
   try {
-    const response = await simulateNetworkRequest(1000).then(() => {
-      return { ...data, accountDetails: updatedData };
+    const response = await userAxios({
+      method: "PUT",
+      url: `${API_ROUTES.accounts}/update/`,
+      data: updatedData,
     });
+    return { accountDetails: response.data };
     // throw new Error("Failed to update account details");
-
-    return response;
   } catch (error) {
-    throw new Error(error.message);
+    const errorMsg = error.message;
+    throw new Error(errorMsg);
   }
 };
 

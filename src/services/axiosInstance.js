@@ -9,18 +9,29 @@ const publicAxios = axios.create({
   baseURL: API_ROUTES,
 });
 
-const setAuthorizationHeaders = () => {
-  const token = `Token ${localStorage.token}`;
-  userAxios.defaults.headers.common["Authorization"] = token;
-};
+userAxios.interceptors.request.use(
+  (config) => {
+    const authToken = localStorage.getItem("token");
+    if (authToken) {
+      config.headers.Authorization = `Token ${authToken}`;
+    }
+    return config;
+  },
+  (error) => {
+    return Promise.reject(error);
+  }
+);
 
-const resetAuthorizationHeaders = () => {
-  delete userAxios.defaults.headers.common["Authorization"];
-};
+userAxios.interceptors.response.use(
+  function (response) {
+    return response;
+  },
+  function (error) {
+    if (error?.response?.data?.detail === "Invalid token.") {
+      localStorage.removeItem("token");
+    }
+    return Promise.reject(error);
+  }
+);
 
-export {
-  userAxios,
-  publicAxios,
-  setAuthorizationHeaders,
-  resetAuthorizationHeaders,
-};
+export { userAxios, publicAxios };

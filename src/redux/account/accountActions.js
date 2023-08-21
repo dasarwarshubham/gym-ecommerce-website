@@ -5,6 +5,7 @@ import * as actionTypes from "./accountTypes";
 import {
   login,
   logout,
+  logoutAll,
   getUserDetails,
   updateUserDetails,
   addUserAddress,
@@ -25,7 +26,10 @@ export const loginUser = createAsyncThunk(
 
 export const logoutUser = createAsyncThunk(actionTypes.LOGOUT, async () => {
   await logout();
-  localStorage.removeItem("token");
+});
+
+export const logoutAllUser = createAsyncThunk(actionTypes.LOGOUT, async () => {
+  await logoutAll();
 });
 
 export const autoLogin = createAsyncThunk(
