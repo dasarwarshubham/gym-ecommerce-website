@@ -29,7 +29,8 @@ class Account(AbstractUser):
     REQUIRED_FIELDS = ['first_name', 'last_name', 'phone', 'gender']
 
     def __str__(self) -> str:
-        return self.first_name + ' ' + self.last_name
+        return self.email
+        # return self.first_name + ' ' + self.last_name
 
     class Meta:
         verbose_name = 'Account'

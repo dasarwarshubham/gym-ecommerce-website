@@ -30,4 +30,5 @@ const API_BASE_URL = "http://127.0.0.1:8000";
 export const API_ROUTES = {
   equipments: `${API_BASE_URL}/api/equipments`,
   accounts: `${API_BASE_URL}/accounts`,
+  profile: `${API_BASE_URL}/profile`,
 };

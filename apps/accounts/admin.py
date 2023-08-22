@@ -11,13 +11,15 @@ class AccountAdmin(BaseUserAdmin):
     ordering = ('email',)
 
     fieldsets = (
-        (None, {"fields": ('email', 'first_name', 'last_name', 'phone', 'gender')}),
+        # (None, {"fields": ('email', 'first_name', 'last_name', 'phone', 'gender')}),
+        (None, {"fields": ('first_name', 'last_name', 'email',
+         'phone', 'gender', 'password')}),
     )
 
     add_fieldsets = (
         (None, {
             'classes': ('wide',),
-            'fields': ('first_name', 'last_name', 'email', 'phone', 'password1', 'password2'),
+            'fields': ('first_name', 'last_name', 'email', 'phone', 'gender', 'password1', 'password2'),
         }),
     )
 

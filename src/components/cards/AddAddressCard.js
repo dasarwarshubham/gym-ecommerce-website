@@ -21,12 +21,12 @@ const phoneRegExp =
   /^((\\+[1-9]{1,4}[ \\-]*)|(\\([0-9]{2,3}\\)[ \\-]*)|([0-9]{2,4})[ \\-]*)*?[0-9]{3,4}?[ \\-]*[0-9]{3,4}?$/;
 
 const validationSchema = Yup.object().shape({
-  fullName: Yup.string().required().label("Full Name"),
-  addressLine1: Yup.string().required().label("Address Line 1"),
-  addressLine2: Yup.string().required().label("Address Line 2"),
+  full_name: Yup.string().required().label("Full Name"),
+  address_line_1: Yup.string().required().label("Address Line 1"),
+  address_line_2: Yup.string().required().label("Address Line 2"),
   city: Yup.string().required().label("City"),
   state: Yup.string().required().label("State"),
-  zipCode: Yup.string().required().label("Zip Code"),
+  zip: Yup.string().required().label("Zip Code"),
   phone: Yup.string()
     .required()
     .label("Phone Number")
@@ -34,12 +34,12 @@ const validationSchema = Yup.object().shape({
 });
 
 const initialValues = {
-  fullName: "",
-  addressLine1: "",
-  addressLine2: "",
+  full_name: "",
+  address_line_1: "",
+  address_line_2: "",
   city: "",
   state: "",
-  zipCode: "",
+  zip: "",
   phone: "",
 };
 
@@ -98,19 +98,19 @@ const AddAddressCard = ({ isButton }) => {
 
           <FormField
             label="Full Name"
-            name="fullName"
+            name="full_name"
             disabled={!isEditing || loading}
             modal
           />
           <FormField
             label="Address Line 1"
-            name="addressLine1"
+            name="address_line_1"
             disabled={!isEditing || loading}
             modal
           />
           <FormField
             label="Address Line 2"
-            name="addressLine2"
+            name="address_line_2"
             disabled={!isEditing || loading}
             modal
           />
@@ -128,7 +128,7 @@ const AddAddressCard = ({ isButton }) => {
           />
           <FormField
             label="Zip Code"
-            name="zipCode"
+            name="zip"
             inputMode="numeric"
             disabled={!isEditing || loading}
             modal

@@ -1,5 +1,54 @@
-from django.core.validators import MinValueValidator, MaxValueValidator
 from django.db import models
+from django.conf import settings
+from django.core.validators import MinValueValidator, MaxValueValidator
+
+
+class User(models.Model):
+    # GENDER_MALE = 'M'
+    # GENDER_FEMALE = 'F'
+    # GENDER_NA = 'NA'
+
+    # GENDER_CHOICES = (
+    #     (GENDER_MALE,   'Male'),
+    #     (GENDER_FEMALE, 'Female'),
+    #     (GENDER_NA,     'Prefer Not to Say'),
+    # )
+
+    account = models.OneToOneField(
+        settings.AUTH_USER_MODEL, on_delete=models.CASCADE, primary_key=True)
+    # profile_image = models.ImageField()
+    # gender = models.CharField(
+    #     max_length=2, choices=GENDER_CHOICES, default=GENDER_NA, null=True)
+    last_updated = models.DateTimeField(auto_now=True)
+
+    def __str__(self) -> str:
+        return self.account.email
+
+    class Meta:
+        verbose_name = 'User'
+        verbose_name_plural = 'Users'
+
+
+class UserAddress(models.Model):
+    full_name = models.CharField(max_length=255)
+    address_line_1 = models.CharField(max_length=255)
+    address_line_2 = models.CharField(max_length=255)
+    city = models.CharField(max_length=255)
+    state = models.CharField(max_length=255)
+    country = models.CharField(max_length=255)
+    zip = models.CharField(max_length=255)
+    phone = models.CharField(max_length=255)
+    default = models.BooleanField(verbose_name="Default Address")
+    user = models.ForeignKey(
+        User, on_delete=models.CASCADE, related_name="useraddress", null=True)
+
+    def __str__(self) -> str:
+        return str(self.city) + ", " + str(self.state)
+
+    class Meta:
+        verbose_name = 'User address'
+        verbose_name_plural = 'User addresses'
+
 
 # Equipments
 

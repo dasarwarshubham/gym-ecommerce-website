@@ -39,7 +39,7 @@ const validationSchema = Yup.object().shape({
 
 const AccountDetailsSection = () => {
   const loading = useSelector(selectAccountLoading);
-  const profile = useSelector(selectAccountData)?.accountDetails;
+  const profile = useSelector(selectAccountData);
   const error = useSelector(selectAccountError);
   const dispatch = useDispatch();
 
@@ -51,7 +51,7 @@ const AccountDetailsSection = () => {
       .unwrap()
       .then((response) => {
         //update initialvalues with updated values from response after successful form submission
-        resetForm({ values: response.accountDetails });
+        resetForm({ values: response });
       })
       .catch((error) => {
         console.log(error);

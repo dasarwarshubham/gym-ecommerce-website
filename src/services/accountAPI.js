@@ -2,13 +2,11 @@ import { publicAxios, userAxios } from "./axiosInstance";
 import { API_ROUTES } from "../constants/routes";
 
 let data = {
-  accountDetails: {
+  account: {
     firstName: "John",
     lastName: "Doe",
     email: "johndoe@example.com",
     phone: "9876543210",
-    alternatePhone: "9123465780",
-    dob: "01/01/20000",
     gender: "male",
   },
   orders: [
@@ -299,7 +297,7 @@ export const login = async (userData) => {
         password: password,
       },
     });
-    console.log(response);
+
     if (response.status === 200) {
       return response.data.token;
     } else {
@@ -321,7 +319,7 @@ export const logout = async () => {
       method: "POST",
       url: `${API_ROUTES.accounts}/logout/`,
     });
-    console.log(response);
+
     if (response.status === 204) {
       localStorage.removeItem("token");
       return response;
@@ -341,7 +339,7 @@ export const logoutAll = async () => {
       method: "POST",
       url: `${API_ROUTES.accounts}/logoutall/`,
     });
-    console.log(response);
+
     if (response.status === 204) {
       localStorage.removeItem("token");
       return response;
@@ -362,7 +360,7 @@ export const signup = async (userData) => {
       url: `${API_ROUTES.accounts}/create/`,
       data: userData,
     });
-    console.log(response);
+
     return response;
   } catch (error) {
     let errorMsg = error.response;
@@ -383,9 +381,9 @@ export const getUserDetails = async () => {
   try {
     const response = await userAxios({
       method: "GET",
-      url: `${API_ROUTES.accounts}/details/`,
+      url: `${API_ROUTES.profile}/`,
     });
-    return { accountDetails: response.data };
+    return response.data;
     // throw new Error("Invalid AutoLogin");
   } catch (error) {
     const errorMsg = error.message;
@@ -408,6 +406,23 @@ export const updateUserDetails = async (updatedData) => {
     throw new Error(errorMsg);
   }
 };
+
+// export const updateUserDetails = async (updatedData) => {
+//   console.log(updatedData);
+//   try {
+//     const response = await userAxios({
+//       method: "PATCH",
+//       url: `${API_ROUTES.profile}/`,
+//       data: updatedData,
+//     });
+//     console.log(response);
+//     return response.data;
+//     // throw new Error("Failed to update account details");
+//   } catch (error) {
+//     const errorMsg = error.message;
+//     throw new Error(errorMsg);
+//   }
+// };
 
 export const addUserAddress = async (newAddress) => {
   try {

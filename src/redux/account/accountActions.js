@@ -32,6 +32,7 @@ export const logoutAllUser = createAsyncThunk(actionTypes.LOGOUT, async () => {
   await logoutAll();
 });
 
+//needs to be updated
 export const autoLogin = createAsyncThunk(
   actionTypes.AUTO_LOGIN,
   async (token) => {

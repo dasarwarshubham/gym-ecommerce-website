@@ -26,12 +26,12 @@ const phoneRegExp =
   /^((\\+[1-9]{1,4}[ \\-]*)|(\\([0-9]{2,3}\\)[ \\-]*)|([0-9]{2,4})[ \\-]*)*?[0-9]{3,4}?[ \\-]*[0-9]{3,4}?$/;
 
 const validationSchema = Yup.object().shape({
-  fullName: Yup.string().required().label("Full Name"),
-  addressLine1: Yup.string().required().label("Address Line 1"),
-  addressLine2: Yup.string().required().label("Address Line 2"),
+  full_name: Yup.string().required().label("Full Name"),
+  address_line_1: Yup.string().required().label("Address Line 1"),
+  address_line_2: Yup.string().required().label("Address Line 2"),
   city: Yup.string().required().label("City"),
   state: Yup.string().required().label("State"),
-  zipCode: Yup.string().required().label("Zip Code"),
+  zip: Yup.string().required().label("Zip Code"),
   phone: Yup.string()
     .required()
     .label("Phone Number")
@@ -49,11 +49,11 @@ const AddressCard = ({ address }) => {
     return (
       <Card>
         <Card.Body>
-          <Card.Title>{address.fullName}</Card.Title>
-          <Card.Text>{address.addressLine1}</Card.Text>
-          <Card.Text>{address.addressLine2}</Card.Text>
+          <Card.Title>{address.full_name}</Card.Title>
+          <Card.Text>{address.address_line_1}</Card.Text>
+          <Card.Text>{address.address_line_2}</Card.Text>
           <Card.Text>
-            {address.city}, {address.state} {address.zipCode}
+            {address.city}, {address.state} {address.zip}
           </Card.Text>
           <Card.Text>Phone: {address.phone}</Card.Text>
           <Button
@@ -94,7 +94,7 @@ const AddressCard = ({ address }) => {
       .unwrap()
       .then((response) => {
         //update initialvalues with updated values from response after successful form submission
-        resetForm({ values: response.accountDetails });
+        resetForm({ values: response });
       })
       .catch((error) => {
         console.log(error);
@@ -113,12 +113,12 @@ const AddressCard = ({ address }) => {
         <FormikForm
           initialValues={{
             id: address?.id,
-            fullName: address?.fullName,
-            addressLine1: address?.addressLine1,
-            addressLine2: address?.addressLine2,
+            full_name: address?.full_name,
+            address_line_1: address?.address_line_1,
+            address_line_2: address?.address_line_2,
             city: address?.city,
             state: address?.state,
-            zipCode: address?.zipCode,
+            zip: address?.zip,
             phone: address?.phone,
           }}
           validationSchema={validationSchema}
@@ -130,19 +130,19 @@ const AddressCard = ({ address }) => {
 
           <FormField
             label="Full Name"
-            name="fullName"
+            name="full_name"
             disabled={!isEditing || loading}
             modal
           />
           <FormField
             label="Address Line 1"
-            name="addressLine1"
+            name="address_line_1"
             disabled={!isEditing || loading}
             modal
           />
           <FormField
             label="Address Line 2"
-            name="addressLine2"
+            name="address_line_2"
             disabled={!isEditing || loading}
             modal
           />
@@ -160,7 +160,7 @@ const AddressCard = ({ address }) => {
           />
           <FormField
             label="Zip Code"
-            name="zipCode"
+            name="zip"
             inputMode="numeric"
             disabled={!isEditing || loading}
             modal
