@@ -1,10 +1,11 @@
-import json
-from django.conf import settings
-from django.contrib.auth import get_user_model
-from django.db import transaction
-from drf_writable_nested.serializers import WritableNestedModelSerializer
+from decimal import Decimal
 from rest_framework import serializers
-from .models import User, UserAddress, Equipment, EquipmentImages
+from django.db import transaction
+from django.contrib.auth import get_user_model
+from .models import Product, Category, Review, ProductImages, Customer, CustomerAddress
+
+
+# Customer Profile Serializers
 
 
 class AccountSerializer(serializers.ModelSerializer):
@@ -14,158 +15,156 @@ class AccountSerializer(serializers.ModelSerializer):
             'first_name',
             'last_name',
             'email',
-            'phone',
-            'gender',
-            'password'
         ]
-        extra_kwargs = {
-            'password': {'write_only': True},
-        }
 
 
-# class UserAddressSerializer(serializers.ModelSerializer):
-#     class Meta:
-#         model = UserAddress
-#         fields = (
-#             "id",
-#             "full_name",
-#             "address_line_1",
-#             "address_line_2",
-#             "city",
-#             "state",
-#             "country",
-#             "zip",
-#             "phone",
-#             "default"
-#         )
-
-
-# class UserSerializer(serializers.ModelSerializer):
-#     account = AccountSerializer()
-#     # first_name = serializers.SerializerMethodField()
-#     # last_name = serializers.SerializerMethodField()
-#     # email = serializers.SerializerMethodField()
-#     # phone = serializers.SerializerMethodField()
-#     # gender = serializers.SerializerMethodField()
-#     address = UserAddressSerializer(source='useraddress', many=True)
-
-#     # def get_first_name(self, obj):
-#     #     return obj.account.first_name
-
-#     # def get_last_name(self, obj):
-#     #     return obj.account.last_name
-
-#     # def get_email(self, obj):
-#     #     return obj.account.email
-
-#     # def get_phone(self, obj):
-#     #     return obj.account.phone
-
-#     # def get_gender(self, obj):
-#     #     return obj.account.gender
-
-#     class Meta:
-#         model = get_user_model()
-#         fields = [
-#             'account',
-#             # 'first_name',
-#             # 'last_name',
-#             # 'email',
-#             # 'phone',
-#             # 'gender',
-#             'address',
-#         ]
-
-
-# class UserCreateSerializer(WritableNestedModelSerializer, serializers.ModelSerializer):
-#     account = AccountSerializer()
-#     address = UserAddressSerializer(source='useraddress', many=True)
-
-#     class Meta:
-#         model = get_user_model()
-#         fields = [
-#             "account",
-#             'address',
-#         ]
-
-#     def create(self, validated_data):
-#         account = self.context["account"]
-#         address = None
-#         if validated_data.get('useraddress'):
-#             address = validated_data.pop('useraddress')
-
-#         with transaction.atomic():
-#             newuser = get_user_model().objects.create(
-#                 account=account, **validated_data)
-#             if address != None:
-#                 UserAddress.objects.create(user=newuser, **address)
-#             return newuser
-
-#     def update(self, instance, validated_data):
-#         if validated_data.get('useraddress'):
-#             address = validated_data.get('useraddress')
-#             address_serializer = UserAddressSerializer(data=address)
-
-#             if address_serializer.is_valid(raise_exception=True):
-#                 address = address_serializer.update(
-#                     instance=instance.useraddress, validated_data=address_serializer.validated_data)
-#                 validated_data["address"] = address
-
-#         return super().update(instance, validated_data)
-
-
-class UserAddressSerializer(serializers.ModelSerializer):
+class CustomerAddressSerializer(serializers.ModelSerializer):
     class Meta:
-        model = UserAddress
-        fields = '__all__'
+        model = CustomerAddress
+        fields = (
+            "id",
+            "full_name",
+            "address_line_1",
+            "address_line_2",
+            "city",
+            "state",
+            "country",
+            "zip",
+            "phone",
+            "default"
+        )
 
+    def validate(self, data):
+        account = self.context['account']
 
-class UserSerializer(serializers.ModelSerializer):
-    account = AccountSerializer()
-    address = UserAddressSerializer(source='useraddress', many=True)
+        # combined for create, update and partial_update
+        # existing_addresses = CustomerAddress.objects.filter(
+        #     customer=account,
+        #     full_name=data.get('full_name', self.instance.full_name if self.instance else None),
+        #     address_line_1=data.get('address_line_1',self.instance.address_line_1 if self.instance else None),
+        #     address_line_2=data.get('address_line_2',self.instance.address_line_2 if self.instance else None),
+        #     city=data.get('city',self.instance.city if self.instance else None),
+        #     state=data.get('state',self.instance.state if self.instance else None),
+        #     country=data.get('country',self.instance.country if self.instance else None),
+        #     zip=data.get('zip',self.instance.zip if self.instance else None),
+        #     phone=data.get('phone',self.instance.phone if self.instance else None)
+        # ).exclude(id=self.instance.id if self.instance else None)
 
-    class Meta:
-        model = User
-        fields = ['account', 'address']
+        existing_addresses = CustomerAddress.objects.filter(
+            customer=account,
+            full_name=data.get('full_name'),
+            address_line_1=data.get('address_line_1'),
+            address_line_2=data.get('address_line_2'),
+            city=data.get('city'),
+            state=data.get('state'),
+            country=data.get('country'),
+            zip=data.get('zip'),
+            phone=data.get('phone')
+        )
+
+        # validate for partial update, check if same updated address already exists
+        if self.instance:
+            existing_addresses = CustomerAddress.objects.filter(
+                customer=account,
+                full_name=data.get('full_name', self.instance.full_name),
+                address_line_1=data.get(
+                    'address_line_1', self.instance.address_line_1),
+                address_line_2=data.get(
+                    'address_line_2', self.instance.address_line_2),
+                city=data.get('city', self.instance.city),
+                state=data.get('state', self.instance.state),
+                country=data.get('country', self.instance.country),
+                zip=data.get('zip', self.instance.zip),
+                phone=data.get('phone', self.instance.phone)
+            ).exclude(id=self.instance.id)
+
+            if existing_addresses.exists():
+                raise serializers.ValidationError({
+                    "error": "Similar Address already exists for this customer."})
+
+            if all(data.get(field) == getattr(self.instance, field) for field in data):
+                raise serializers.ValidationError({
+                    "error": "No changes to update."})
+
+        if existing_addresses.exists():
+            raise serializers.ValidationError({
+                "error": "Address already exists for this customer."})
+
+        return data
 
     def create(self, validated_data):
-        model = get_user_model()
-        account = self.context["account"]
-        user_data = validated_data.pop('account')
-        address = None
-        if validated_data.get('useraddress'):
-            address = validated_data.pop('useraddress')
+        customer = Customer.objects.get(account=self.context['account'])
 
-        password = None
-        if user_data.get('password'):
-            password = user_data.pop('password')
+        address = CustomerAddress.objects.create(
+            customer=customer, **validated_data)
+        return address
 
-        with transaction.atomic():
-            account = model.objects.create(
-                email=user_data['email'],
-                first_name=user_data["first_name"],
-                last_name=user_data["last_name"],
-                gender=user_data["gender"],
-                phone=user_data["phone"]
-            )
+    def partial_update(self, instance, validated_data):
+        return super().partial_update(instance, validated_data)
 
-            if password is not None:
-                account.set_password(password)
-            account.save()
+    # def partial_update(self, instance, validated_data):
+    #     address_exists = CustomerAddress.objects.filter(
+    #         customer=instance.customer,
+    #         full_name=validated_data.get('full_name', instance.full_name),
+    #         address_line_1=validated_data.get(
+    #             'address_line_1', instance.address_line_1),
+    #         address_line_2=validated_data.get(
+    #             'address_line_2', instance.address_line_2),
+    #         city=validated_data.get('city', instance.city),
+    #         state=validated_data.get('state', instance.state),
+    #         country=validated_data.get('country', instance.country),
+    #         zip=validated_data.get('zip', instance.zip),
+    #         phone=validated_data.get('phone', instance.phone)
+    #     ).exclude(id=instance.id)
+    #     if all(validated_data.get(field) == getattr(instance, field) for field in validated_data):
+    #         raise serializers.ValidationError("No changes to update.")
+    #     if address_exists.exists():
+    #         raise serializers.ValidationError({
+    #             "error": "Updated address already exists for this customer."})
+    #     return super().partial_update(instance, validated_data)
 
-            newuser = User.objects.create(
-                account=account)
-            if address != None:
-                for data in address:
-                    UserAddress.objects.create(user=newuser, **data)
-            return newuser
-
-    #### Update function here ####
+    # def update(self, instance, validated_data):
+    #     return super().update(instance, validated_data)
 
 
-class EquipmentImagesSerializer(serializers.ModelSerializer):
+class CustomerSerializer(serializers.ModelSerializer):
+    account_id = serializers.IntegerField(read_only=True)
+
     class Meta:
-        model = EquipmentImages
+        model = Customer
+        fields = ['account_id', 'gender', 'phone']
+
+
+# Product Category Serailzer
+
+
+class CategorySerializer(serializers.ModelSerializer):
+    products_count = serializers.IntegerField(read_only=True)
+
+    class Meta:
+        model = Category
+        fields = ['id', 'title', 'description', 'products_count']
+
+
+# Product Review Serializer
+
+
+class ReviewSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Review
+        fields = ['id', 'title', 'description', 'ratings', 'date']
+
+    def create(self, validated_data):
+        product_id = self.context['product_id']
+        return Review.objects.create(product_id=product_id, **validated_data)
+
+
+# Products Serializers
+
+
+class ProductImageSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = ProductImages
         fields = ('id', 'image')
         ordering = ['id']
         extra_kwargs = {
@@ -175,24 +174,44 @@ class EquipmentImagesSerializer(serializers.ModelSerializer):
         }
 
     def get_image(self, obj):
-        return f"{settings.HOST_URL}{obj.image.url}"
+        return obj.image.url
 
 
-class EquipmentListSerializer(serializers.ModelSerializer):
-    images = EquipmentImagesSerializer(many=True, read_only=True)
-
-    class Meta:
-        model = Equipment
-        fields = ('id', 'name', 'type', 'image', 'price', 'images')
-
-    def __str__(self) -> str:
-        return self.name
-
-
-class EquipmentDetailSerializer(serializers.ModelSerializer):
-    images = EquipmentImagesSerializer(many=True, read_only=True)
+class ProductSerializer(serializers.ModelSerializer):
+    category = serializers.SerializerMethodField()
 
     class Meta:
-        model = Equipment
-        fields = ('id', 'name', 'description', 'type',
-                  'ratings', 'reviews', 'image', 'images', 'price')
+        model = Product
+        fields = ['id', 'title', 'slug', 'image', 'price', 'category']
+
+    def get_category(self, product: Product):
+        return product.category.title
+
+
+class ProductDetailsSerializer(serializers.ModelSerializer):
+    # category = CategorySerializer()
+    category = serializers.SerializerMethodField()
+    images = ProductImageSerializer(many=True, read_only=True)
+    reviews = ReviewSerializer(many=True)
+
+    class Meta:
+        model = Product
+        fields = ['id', 'title', 'description', 'slug',
+                  'image', 'price', 'price_with_tax', 'category', 'images', 'reviews']
+
+    price_with_tax = serializers.SerializerMethodField(
+        method_name='calculate_tax')
+
+    def calculate_tax(self, product: Product):
+        return product.price * Decimal(1.1)
+
+    def get_category(self, product: Product):
+        return product.category.title
+
+
+class ProductCreateSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Product
+        fields = ['title', 'description', 'slug',
+                  'image', 'inventory', 'price', 'category']
+

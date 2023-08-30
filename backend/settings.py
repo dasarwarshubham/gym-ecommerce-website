@@ -61,6 +61,7 @@ INSTALLED_APPS = [
     # other apps
     'corsheaders',
     'knox',
+    'django_filters',
     'django_rest_passwordreset',
 
     # installed apps
