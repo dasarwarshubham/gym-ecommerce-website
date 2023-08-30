@@ -69,20 +69,17 @@ INSTALLED_APPS = [
 ]
 
 # Overiding User Model
-AUTH_USER_MODEL = "accounts.Account"
+AUTH_USER_MODEL = "accounts.User"
 
 
 REST_FRAMEWORK = {
     # Use Django's standard `django.contrib.auth` permissions,
     # or allow read-only access for unauthenticated users.
     'DEFAULT_PERMISSION_CLASSES': [
-        'rest_framework.permissions.DjangoModelPermissionsOrAnonReadOnly'
+        'rest_framework.permissions.AllowAny',
     ],
     'COERCE_DECIMAL_TO_STRING': False,
     'DEFAULT_AUTHENTICATION_CLASSES': ('knox.auth.TokenAuthentication', ),
-    'DEFAULT_PERMISSION_CLASSES': [
-        'rest_framework.permissions.IsAuthenticated'
-    ],
     'USER_SERIALIZER': 'apps.accounts.serializers.UserSerializer',
 }
 
@@ -96,7 +93,8 @@ REST_KNOX = {
     # By default, it is set to 64 characters (this shouldn't need changing).
     'AUTH_TOKEN_CHARACTER_LENGTH': 64,
     # The default is 10 hours i.e., timedelta(hours=10)).
-    'TOKEN_TTL': timedelta(minutes=45),
+    'TOKEN_TTL': timedelta(hours=24),
+    # 'TOKEN_TTL': timedelta(minutes=45),
     'USER_SERIALIZER': 'apps.accounts.serializers.UserSerializer',
     # By default, this option is disabled and set to None -- thus no limit.
     'TOKEN_LIMIT_PER_USER': None,
