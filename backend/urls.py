@@ -23,7 +23,6 @@ from django.conf.urls.static import static
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('__debug__/', include('debug_toolbar.urls')),
     path('auth/', include('apps.accounts.urls')),
     path('api/', include('apps.core.urls')),
 ]
@@ -31,6 +30,9 @@ urlpatterns = [
 
 # Media URL
 if settings.DEBUG:
+    print(settings.DEBUG, " : Adding Debugging Urls")
+    urlpatterns += [path('__debug__/', include('debug_toolbar.urls'))]
+    urlpatterns += [path('silk/', include('silk.urls', namespace='silk'))]
     urlpatterns += static(settings.STATIC_URL,
                           document_root=settings.STATIC_ROOT)
     urlpatterns += static(settings.MEDIA_URL,
