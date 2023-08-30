@@ -5,7 +5,9 @@ from django.db.models.query import QuerySet
 from django.utils.html import format_html, urlencode
 from django.urls import reverse
 
-from .models import Customer, CustomerAddress, Category, Promotion, Product, ProductImages, Review
+from .models import Customer, CustomerAddress, Category, \
+    Promotion, Product, ProductImages, Review, \
+    Order, OrderItem, Cart, CartItem
 
 
 @admin.register(Customer)
@@ -17,6 +19,24 @@ class CustomerAdmin(admin.ModelAdmin):
     search_fields = ['account__first_name__istartswith',
                      'account__last_name__istartswith']
 
+    @admin.display(ordering='orders_count')
+    def orders(self, customer):
+        url = (
+            reverse('admin:{}_{}_changelist'.format(
+                customer._meta.app_label,
+                'order'
+            ))
+            + '?'
+            + urlencode({
+                'customer__id': str(customer.pk)
+            }))
+
+        return format_html('<a href="{}">{} Orders</a>', url, customer.orders_count)
+
+    def get_queryset(self, request):
+        return super().get_queryset(request).annotate(
+            orders_count=Count('order')
+        )
 
 
 @admin.register(CustomerAddress)
@@ -128,3 +148,35 @@ class ReviewAdmin(admin.ModelAdmin):
     # autocomplete_fields = ['customer']
     list_display = ['product', 'title',
                     'description', 'ratings', 'date']
+
+
+class OrderItemInline(admin.TabularInline):
+    autocomplete_fields = ['product']
+    min_num = 1
+    max_num = 10
+    model = OrderItem
+    extra = 0
+
+
+@admin.register(Order)
+class OrderAdmin(admin.ModelAdmin):
+    autocomplete_fields = ['customer']
+    inlines = [OrderItemInline]
+    list_display = ['order_id',
+                    'placed_at', 'customer', 'payment_status']
+
+    def order_id(self, obj):
+        return obj.id
+
+    order_id.short_description = "Order ID"
+
+
+class CartItemInline(admin.TabularInline):
+    model = CartItem
+    extra = 0
+
+
+@admin.register(Cart)
+class CartAdmin(admin.ModelAdmin):
+    inlines = [CartItemInline]
+    list_display = ['id', 'created_at']
