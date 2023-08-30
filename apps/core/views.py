@@ -12,7 +12,7 @@ from .filters import ProductFilter
 from .permissions import IsAdminOrReadOnly, FullDjangoModelPermissions, ViewCustomerHistoryPermission
 
 from .models import Category, Product, Review, Customer, CustomerAddress, \
-                    Cart, CartItem, Order, OrderItem
+    Cart, CartItem, Order, OrderItem
 from .serializers import CategorySerializer, ProductSerializer, ProductCreateSerializer, \
     ProductDetailsSerializer, ProductCreateSerializer, ReviewSerializer, \
     CustomerSerializer, CustomerAddressSerializer, \
@@ -60,8 +60,8 @@ class ProductViewSet(ModelViewSet):
     http_method_names = ['get', 'head', 'post', 'put']
     permission_classes = [IsAdminOrReadOnly]
 
-    queryset = Product.objects.prefetch_related('category').all()
-    serializer_class = ProductDetailsSerializer
+    queryset = Product.objects.only('id', 'title', 'slug',  'description',
+                                    'image', 'price', 'category__id', 'category__title').select_related('category')
 
     filter_backends = [DjangoFilterBackend, SearchFilter, OrderingFilter]
     filterset_class = ProductFilter
@@ -70,19 +70,23 @@ class ProductViewSet(ModelViewSet):
     search_fields = ['title', 'description']
     ordering_fields = ['price', 'last_update']
 
-    def get_serializer_class(self):
-        if self.action == 'retrieve':
-            return ProductDetailsSerializer
-        elif self.action == 'create':
-            return ProductCreateSerializer
-        return ProductSerializer
+    serializer_classes = {
+        'list': ProductSerializer,
+        'retrieve': ProductDetailsSerializer,
+        'create': ProductCreateSerializer
+    }
+    default_serializer_class = ProductSerializer
 
-    def get_queryset(self):
-        queryset = self.queryset
-        if self.action == 'retrieve':
-            queryset = queryset.prefetch_related(
-                'images').prefetch_related('reviews')
-        return queryset
+    def get_serializer_class(self):
+        return self.serializer_classes.get(self.action, self.default_serializer_class)
+
+    # optimizations ->  removed to increase speed
+    # def get_queryset(self):
+    #     queryset = self.queryset
+    #     if self.action == 'retrieve':
+    #         queryset = queryset.prefetch_related('images', 'reviews')
+
+    #     return queryset
 
     def get_serializer_context(self):
         return {'request': self.request}
@@ -94,7 +98,7 @@ class ProductViewSet(ModelViewSet):
 
 
 class CategoryViewSet(ModelViewSet):
-    http_method_names = ['get', 'head', 'post', 'put']
+    http_method_names = ['get', 'head', 'delete', 'post', 'put']
     permission_classes = [IsAdminOrReadOnly]
 
     queryset = Category.objects.annotate(
@@ -123,19 +127,21 @@ class CartViewSet(CreateModelMixin,
                   RetrieveModelMixin,
                   DestroyModelMixin,
                   GenericViewSet):
-    queryset = Cart.objects.prefetch_related('items__product').all()
+    queryset = Cart.objects.prefetch_related('items__product')
     serializer_class = CartSerializer
 
 
 class CartItemViewSet(ModelViewSet):
     http_method_names = ['get', 'post', 'patch', 'delete']
 
+    serializer_classes = {
+        'create': AddCartItemSerializer,
+        'partial_update': UpdateCartItemSerializer
+    }
+    default_serializer_class = CartItemSerializer
+
     def get_serializer_class(self):
-        if self.action == 'create':
-            return AddCartItemSerializer
-        elif self.action == 'partial_update':
-            return UpdateCartItemSerializer
-        return CartItemSerializer
+        return self.serializer_classes.get(self.action, self.default_serializer_class)
 
     def get_serializer_context(self):
         return {'cart_id': self.kwargs['cart_pk']}
@@ -143,7 +149,8 @@ class CartItemViewSet(ModelViewSet):
     def get_queryset(self):
         return CartItem.objects \
             .filter(cart_id=self.kwargs['cart_pk']) \
-            .select_related('product')
+            .select_related('product') \
+            .only('id', 'quantity', 'product__id', 'product__title', 'product__price')
 
 
 class OrderViewSet(ModelViewSet):
@@ -173,8 +180,9 @@ class OrderViewSet(ModelViewSet):
     def get_queryset(self):
         user = self.request.user
         if user.is_staff:
-            return Order.objects.all()
+            return Order.objects.prefetch_related('items__product')
 
         customer_id = Customer.objects.only(
             'account').get(account_id=user.id)
+        # customer_id = Customer.objects.get(account_id=user.id).customer_id
         return Order.objects.filter(customer_id=customer_id)
