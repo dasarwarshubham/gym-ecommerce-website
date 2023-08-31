@@ -13,6 +13,7 @@ django-rest-passwordreset = "*"
 drf-nested-routers = "*"
 pillow = "*"
 psycopg2 = "*"
+redis = "*"
 
 [dev-packages]
 django-debug-toolbar = "*"
