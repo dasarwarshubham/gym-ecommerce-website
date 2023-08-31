@@ -2,8 +2,8 @@ from decimal import Decimal
 from rest_framework import serializers
 from django.db import transaction
 from django.contrib.auth import get_user_model
-from .models import Product, Category, Review, ProductImages, Customer, CustomerAddress, \
-                    Order, OrderItem, Cart, CartItem
+from .models import Product, Category, Review, ProductImages, \
+    Customer, CustomerAddress, Order, OrderItem, Cart, CartItem
 from .signals import order_created
 
 # Customer Profile Serializers
@@ -136,17 +136,6 @@ class CustomerSerializer(serializers.ModelSerializer):
         fields = ['account_id', 'gender', 'phone']
 
 
-# Product Category Serailzer
-
-
-class CategorySerializer(serializers.ModelSerializer):
-    products_count = serializers.IntegerField(read_only=True)
-
-    class Meta:
-        model = Category
-        fields = ['id', 'title', 'description', 'products_count']
-
-
 # Product Review Serializer
 
 
@@ -217,13 +206,26 @@ class ProductCreateSerializer(serializers.ModelSerializer):
                   'image', 'inventory', 'price', 'category']
 
 
-# Cart Serializers
-
-
 class SimpleProductSerializer(serializers.ModelSerializer):
     class Meta:
         model = Product
-        fields = ['id', 'title', 'price']
+        fields = ['id', 'title', 'price', 'slug']
+
+
+# Product Category Serailzer
+
+
+class CategorySerializer(serializers.ModelSerializer):
+    products_count = serializers.IntegerField(read_only=True)
+    featured_product = SimpleProductSerializer()
+
+    class Meta:
+        model = Category
+        fields = ['id', 'title', 'description',
+                  'products_count', 'featured_product']
+
+
+# Cart Serializers
 
 
 class CartItemSerializer(serializers.ModelSerializer):

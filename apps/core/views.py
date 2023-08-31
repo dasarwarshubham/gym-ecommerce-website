@@ -102,7 +102,7 @@ class CategoryViewSet(ModelViewSet):
     permission_classes = [IsAdminOrReadOnly]
 
     queryset = Category.objects.annotate(
-        products_count=Count('products')).all()
+        products_count=Count('products')).select_related('featured_product').all()
     serializer_class = CategorySerializer
 
     def destroy(self, request, *args, **kwargs):

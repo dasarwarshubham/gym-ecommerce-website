@@ -87,9 +87,12 @@ class ProductAdmin(admin.ModelAdmin):
                     'inventory_status', 'category_title']
     # list_editable = ['price']
     list_filter = ['category', 'last_update', InventoryFilter]
-    list_per_page = 10
+    list_per_page = 40
     list_select_related = ['category']
     search_fields = ['title']
+
+    def get_queryset(self, request):
+        return super().get_queryset(request).defer('category__featured_product', 'category__description')
 
     def category_title(self, product):
         return product.category.title
@@ -132,7 +135,7 @@ class CategoryAdmin(admin.ModelAdmin):
 
     def get_queryset(self, request):
         return super().get_queryset(request).annotate(
-            products_count=Count('product')
+            products_count=Count('products')
         )
 
 
