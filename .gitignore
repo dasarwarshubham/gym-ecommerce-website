@@ -22,6 +22,9 @@ media/
 # Database
 db.sqlite3
 
+#celery
+celerybeat-schedule.db
+
 # Compiled Python files
 *.pyc
 *.pyo
@@ -62,3 +65,6 @@ yarn-error.log*
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
+
+
+

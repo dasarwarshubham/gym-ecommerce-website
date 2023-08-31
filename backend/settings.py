@@ -13,6 +13,7 @@ https://docs.djangoproject.com/en/4.2/ref/settings/
 import os
 from pathlib import Path
 from datetime import timedelta
+from celery.schedules import crontab
 from rest_framework.settings import api_settings
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -208,3 +209,17 @@ EMAIL_USE_SSL = False
 EMAIL_PORT = 587
 EMAIL_HOST_USER = os.environ.get("HOST_EMAIL")
 EMAIL_HOST_PASSWORD = os.environ.get("HOST_PASSWORD")
+
+
+# worker settings
+CELERY_BROKER_URL = 'redis://localhost:6379/1'
+CELERY_BEAT_SCHEDULE = {
+    'periodic_task': {
+        'task': 'apps.accounts.tasks.periodic_task',
+        # 'schedule': 5  # every 5 seconds
+        'schedule': 15 * 60  # every 15 minutes
+        # 'schedule': crontab(day_of_week=1, hour=7, minute=30)  # every monday at 7:30
+        # 'schedule': crontab(minute="*/15")  # every 15 minutes
+        # 'schedule': crontab(minute="*/1")  # every 1 minutes
+    }
+}
