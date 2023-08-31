@@ -6,8 +6,12 @@ import FooterContainer from "./containers/footer/FooterContainer";
 import Navbar from "./containers/navbar/NavbarContainer";
 
 import * as ROUTES from "./constants/routes";
-import {PrivateRoute, PublicRoute} from "./helpers/RouteComponent";
-import { autoLogin, logoutUser } from "./redux/account/accountActions";
+import { PrivateRoute, PublicRoute } from "./helpers/RouteComponent";
+import {
+  autoLogin,
+  logoutUser,
+  fetchAccountAddress,
+} from "./redux/account/accountActions";
 import { useDispatch } from "react-redux";
 
 const Home                  = lazy(() => import(/* webpackChunkName: "homePage" */ "./pages/Home"));
@@ -44,14 +48,18 @@ function App() {
     const token = localStorage.getItem("token");
 
     if (token) {
-      dispatch(autoLogin(token)).catch((error) => {
-        console.log(error)
-        dispatch(logoutUser())
-      });
+      dispatch(autoLogin(token))
+        .then(() => {
+          dispatch(fetchAccountAddress());
+        })
+        .catch((error) => {
+          console.log(error);
+          dispatch(logoutUser());
+        });
       // Dispatch autoSignIn action with the token
     }
   }, [dispatch]);
-  
+
   return (
     <Router>
       <Navbar />
@@ -103,4 +111,3 @@ function App() {
 }
 
 export default App;
-  

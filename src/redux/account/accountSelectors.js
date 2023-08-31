@@ -9,7 +9,7 @@ export const selectIsAuthenticated = createSelector(
 
 export const selectAccountData = createSelector(
   [selectAccountState],
-  (account) => account.user?.account
+  (account) => account.user
 );
 
 export const selectAccountLoading = createSelector(
@@ -32,5 +32,5 @@ export const selectOrders = createSelector([selectAccountState], (account) => {
 
 export const selectAccountAddress = createSelector(
   [selectAccountState],
-  (account) => account.user?.address
+  (account) => account.address
 );

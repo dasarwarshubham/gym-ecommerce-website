@@ -13,6 +13,7 @@ import {
   deleteUserAddress,
   makeUserAddressDefault,
   signup,
+  getUserAddresses,
 } from "../../services/accountAPI";
 
 export const loginUser = createAsyncThunk(
@@ -65,10 +66,18 @@ export const updateAccountDetails = createAsyncThunk(
   }
 );
 
+export const fetchAccountAddress = createAsyncThunk(
+  actionTypes.FETCH_ACCOUNT_ADDRESS,
+  async () => {
+    const response = await getUserAddresses();
+    return response;
+  }
+);
+
 export const addAccountAddress = createAsyncThunk(
   actionTypes.ADD_ADDRESS,
   async (newAddress) => {
-    const response = await addUserAddress(newAddress);
+    const response = await addUserAddress({ ...newAddress, default: false });
     return response;
   }
 );

@@ -13,8 +13,9 @@ import {
 import * as Yup from "yup";
 import { useDispatch, useSelector } from "react-redux";
 import {
-  defaultAccountAddress,
+  // defaultAccountAddress,
   deleteAccountAddress,
+  fetchAccountAddress,
   updateAccountAddress,
 } from "../../redux/account/accountActions";
 import {
@@ -31,6 +32,7 @@ const validationSchema = Yup.object().shape({
   address_line_2: Yup.string().required().label("Address Line 2"),
   city: Yup.string().required().label("City"),
   state: Yup.string().required().label("State"),
+  country: Yup.string().required().label("Country"),
   zip: Yup.string().required().label("Zip Code"),
   phone: Yup.string()
     .required()
@@ -45,6 +47,20 @@ const AddressCard = ({ address }) => {
   const error = useSelector(selectAccountError);
   const dispatch = useDispatch();
 
+  const handleDelete = () => {
+    dispatch(deleteAccountAddress(address.id))
+      .unwrap()
+      .then(() => {
+        dispatch(fetchAccountAddress());
+      })
+      .catch((error) => {
+        console.log(error);
+      })
+      .finally(() => {
+        setIsEditing(!isEditing);
+      });
+  };
+
   if (!isEditing) {
     return (
       <Card>
@@ -53,7 +69,10 @@ const AddressCard = ({ address }) => {
           <Card.Text>{address.address_line_1}</Card.Text>
           <Card.Text>{address.address_line_2}</Card.Text>
           <Card.Text>
-            {address.city}, {address.state} {address.zip}
+            {address.city}, {address.zip}
+          </Card.Text>
+          <Card.Text>
+            {address.state}, {address.country}
           </Card.Text>
           <Card.Text>Phone: {address.phone}</Card.Text>
           <Button
@@ -67,13 +86,10 @@ const AddressCard = ({ address }) => {
               <MdEdit />
             )}
           </Button>
-          <Button
-            variant="danger"
-            onClick={() => dispatch(deleteAccountAddress(address.id))}
-          >
+          <Button variant="danger" onClick={handleDelete}>
             <FaTrash size={14} />
           </Button>
-          {!address.default && (
+          {/* {!address.default && (
             <Button
               variant="primary"
               onClick={() => dispatch(defaultAccountAddress(address.id))}
@@ -81,7 +97,7 @@ const AddressCard = ({ address }) => {
             >
               Make Default
             </Button>
-          )}
+          )} */}
         </Card.Body>
       </Card>
     );
@@ -95,6 +111,7 @@ const AddressCard = ({ address }) => {
       .then((response) => {
         //update initialvalues with updated values from response after successful form submission
         resetForm({ values: response });
+        dispatch(fetchAccountAddress());
       })
       .catch((error) => {
         console.log(error);
@@ -118,6 +135,7 @@ const AddressCard = ({ address }) => {
             address_line_2: address?.address_line_2,
             city: address?.city,
             state: address?.state,
+            country: address?.country,
             zip: address?.zip,
             phone: address?.phone,
           }}
@@ -155,6 +173,12 @@ const AddressCard = ({ address }) => {
           <FormField
             label="State"
             name="state"
+            disabled={!isEditing || loading}
+            modal
+          />
+          <FormField
+            label="Country"
+            name="country"
             disabled={!isEditing || loading}
             modal
           />

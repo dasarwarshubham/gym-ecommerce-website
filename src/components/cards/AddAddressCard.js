@@ -11,7 +11,10 @@ import {
 
 import * as Yup from "yup";
 import { useDispatch, useSelector } from "react-redux";
-import { addAccountAddress } from "../../redux/account/accountActions";
+import {
+  fetchAccountAddress,
+  addAccountAddress,
+} from "../../redux/account/accountActions";
 import {
   selectAccountError,
   selectAccountLoading,
@@ -26,6 +29,7 @@ const validationSchema = Yup.object().shape({
   address_line_2: Yup.string().required().label("Address Line 2"),
   city: Yup.string().required().label("City"),
   state: Yup.string().required().label("State"),
+  country: Yup.string().required().label("Country"),
   zip: Yup.string().required().label("Zip Code"),
   phone: Yup.string()
     .required()
@@ -39,6 +43,7 @@ const initialValues = {
   address_line_2: "",
   city: "",
   state: "",
+  country: "",
   zip: "",
   phone: "",
 };
@@ -74,6 +79,9 @@ const AddAddressCard = ({ isButton }) => {
   const handleClick = (values, setSubmitting, resetForm) => {
     dispatch(addAccountAddress(values))
       .unwrap()
+      .then(() => {
+        dispatch(fetchAccountAddress());
+      })
       .catch((error) => {
         console.log(error);
       })
@@ -123,6 +131,12 @@ const AddAddressCard = ({ isButton }) => {
           <FormField
             label="State"
             name="state"
+            disabled={!isEditing || loading}
+            modal
+          />
+          <FormField
+            label="Country"
+            name="country"
             disabled={!isEditing || loading}
             modal
           />

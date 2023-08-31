@@ -130,11 +130,26 @@ class CustomerAddressSerializer(serializers.ModelSerializer):
 
 class CustomerSerializer(serializers.ModelSerializer):
     account_id = serializers.IntegerField(read_only=True)
+    account = AccountSerializer()
+    # first_name = serializers.SerializerMethodField()
+    # last_name = serializers.SerializerMethodField()
+    # email = serializers.SerializerMethodField()
 
     class Meta:
         model = Customer
-        fields = ['account_id', 'gender', 'phone']
+        fields = ['account_id', 'account', 'gender', 'phone']
 
+    def get_first_name(self, account):
+        print(account.first_name)
+        return account.first_name
+
+    def get_last_name(self, account):
+        print(account.last_name)
+        return account.last_name
+
+    # def get_email(self, account):
+    #     print(account.email)
+    #     return account.email
 
 # Product Review Serializer
 

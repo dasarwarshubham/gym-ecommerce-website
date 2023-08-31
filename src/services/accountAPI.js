@@ -1,6 +1,7 @@
 import { publicAxios, userAxios } from "./axiosInstance";
 import { API_ROUTES } from "../constants/routes";
 
+// eslint-disable-next-line
 let data = {
   account: {
     firstName: "John",
@@ -383,6 +384,7 @@ export const getUserDetails = async () => {
       method: "GET",
       url: `${API_ROUTES.profile}/`,
     });
+    console.log(response.data);
     return response.data;
     // throw new Error("Invalid AutoLogin");
   } catch (error) {
@@ -396,7 +398,7 @@ export const updateUserDetails = async (updatedData) => {
   try {
     const response = await userAxios({
       method: "PUT",
-      url: `${API_ROUTES.accounts}/update/`,
+      url: `${API_ROUTES.profile}/`,
       data: updatedData,
     });
     return { accountDetails: response.data };
@@ -424,11 +426,31 @@ export const updateUserDetails = async (updatedData) => {
 //   }
 // };
 
+export const getUserAddresses = async () => {
+  try {
+    const response = await userAxios({
+      method: "GET",
+      url: `${API_ROUTES.profile}/addresses/`,
+    });
+    console.log(response.data);
+    return response.data;
+    // throw new Error("Invalid AutoLogin");
+  } catch (error) {
+    const errorMsg = error.message;
+    throw new Error(errorMsg);
+  }
+};
+
 export const addUserAddress = async (newAddress) => {
   try {
-    const response = await simulateNetworkRequest(1000).then(() => newAddress);
+    // const response = await simulateNetworkRequest(1000).then(() => newAddress);
+    const response = await userAxios({
+      method: "POST",
+      url: `${API_ROUTES.profile}/addresses/`,
+      data: newAddress,
+    });
     // throw new Error("Failed to delete address");
-    return response;
+    return response.data;
   } catch (error) {
     throw new Error(error.message);
   }
@@ -436,11 +458,16 @@ export const addUserAddress = async (newAddress) => {
 
 export const updateUserAddress = async ({ addressId, updatedAddress }) => {
   try {
-    const response = await simulateNetworkRequest(1000).then(
-      () => updatedAddress
-    );
+    // const response = await simulateNetworkRequest(1000).then(
+    //   () => updatedAddress
+    // );
+    const response = await userAxios({
+      method: "PATCH",
+      url: `${API_ROUTES.profile}/addresses/${addressId}/`,
+      data: updatedAddress,
+    });
     // throw new Error("Failed to update address");
-    return response;
+    return response.data;
   } catch (error) {
     throw new Error(error.message);
   }
@@ -459,7 +486,11 @@ export const makeUserAddressDefault = async (addressId) => {
 
 export const deleteUserAddress = async (addressId) => {
   try {
-    const response = await simulateNetworkRequest(1000).then(() => addressId);
+    // const response = await simulateNetworkRequest(1000).then(() => addressId);
+    const response = await userAxios({
+      method: "DELETE",
+      url: `${API_ROUTES.profile}/addresses/${addressId}`,
+    });
     // throw new Error("Failed to delete address");
     return response;
   } catch (error) {

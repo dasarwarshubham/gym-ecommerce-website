@@ -56,7 +56,8 @@ class CustomerAddress(models.Model):
     country = models.CharField(max_length=255)
     zip = models.CharField(max_length=255)
     phone = models.CharField(max_length=255)
-    default = models.BooleanField(verbose_name="Default Address")
+    default = models.BooleanField(
+        verbose_name="Default Address", default=False)
     customer = models.ForeignKey(
         Customer, on_delete=models.CASCADE, related_name="customeraddress", null=True)
 

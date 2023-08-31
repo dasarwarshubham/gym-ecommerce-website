@@ -11,6 +11,7 @@ import {
   deleteAccountAddress,
   addAccountAddress,
   defaultAccountAddress,
+  fetchAccountAddress,
 } from "./accountActions";
 
 const isPendingAction = (action) => {
@@ -31,6 +32,7 @@ const isRejectedAction = (action) => {
 const initialState = {
   token: null,
   user: null,
+  address: null,
   loading: false,
   error: null,
 };
@@ -74,6 +76,11 @@ const accountSlice = createSlice({
         state.user = action.payload;
         state.error = null;
       })
+      .addCase(fetchAccountAddress.fulfilled, (state, action) => {
+        state.loading = false;
+        state.address = action.payload;
+        state.error = null;
+      })
       .addCase(addAccountAddress.fulfilled, (state, action) => {
         state.loading = false;
         state.error = null;
@@ -84,7 +91,7 @@ const accountSlice = createSlice({
         const newAddress = action.payload;
 
         // Check if the address already exists
-        const existingAddress = state.user.addresses.find(
+        const existingAddress = state.address.find(
           (address) =>
             address.fullName === newAddress.fullName &&
             address.addressLine1 === newAddress.addressLine1 &&
@@ -95,8 +102,8 @@ const accountSlice = createSlice({
         );
 
         if (!existingAddress) {
-          state.user.addresses.push({
-            id: state.user.addresses.length + 1,
+          state.address.push({
+            id: state.address.length + 1,
             ...newAddress,
           });
           state.error = null;
@@ -105,40 +112,31 @@ const accountSlice = createSlice({
       .addCase(updateAccountAddress.fulfilled, (state, action) => {
         state.loading = false;
         state.error = null;
-        state.user = {
-          ...state.user,
-          addresses: state.user.addresses.map((address) => {
-            if (address.id === action.payload.id) {
-              return action.payload;
-            } else {
-              return address;
-            }
-          }),
-        };
+        state.address = state.address.map((address) => {
+          if (address.id === action.payload.id) {
+            return action.payload;
+          } else {
+            return address;
+          }
+        });
       })
       .addCase(defaultAccountAddress.fulfilled, (state, action) => {
         state.loading = false;
         state.error = null;
-        state.user = {
-          ...state.user,
-          addresses: state.user.addresses.map((address) => {
-            if (address.id === action.payload) {
-              return { ...address, default: true };
-            } else {
-              return { ...address, default: false };
-            }
-          }),
-        };
+        state.user = state.address.map((address) => {
+          if (address.id === action.payload) {
+            return { ...address, default: true };
+          } else {
+            return { ...address, default: false };
+          }
+        });
       })
       .addCase(deleteAccountAddress.fulfilled, (state, action) => {
         state.loading = false;
         state.error = null;
-        state.user = {
-          ...state.user,
-          addresses: state.user.addresses.filter(
-            (address) => address.id !== action.payload
-          ),
-        };
+        state.address = state.address.filter(
+          (address) => address.id !== action.payload
+        );
       })
       .addMatcher(isPendingAction, (state) => {
         state.loading = true;
