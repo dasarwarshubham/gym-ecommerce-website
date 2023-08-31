@@ -16,6 +16,7 @@ psycopg2 = "*"
 redis = "*"
 celery = "*"
 flower = "*"
+django-redis = "*"
 
 [dev-packages]
 django-debug-toolbar = "*"

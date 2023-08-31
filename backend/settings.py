@@ -212,7 +212,7 @@ EMAIL_HOST_PASSWORD = os.environ.get("HOST_PASSWORD")
 
 
 # worker settings
-CELERY_BROKER_URL = 'redis://localhost:6379/1'
+CELERY_BROKER_URL = 'redis://127.0.0.1:6379/1'
 CELERY_BEAT_SCHEDULE = {
     'periodic_task': {
         'task': 'apps.accounts.tasks.periodic_task',
@@ -221,5 +221,16 @@ CELERY_BEAT_SCHEDULE = {
         # 'schedule': crontab(day_of_week=1, hour=7, minute=30)  # every monday at 7:30
         # 'schedule': crontab(minute="*/15")  # every 15 minutes
         # 'schedule': crontab(minute="*/1")  # every 1 minutes
+    }
+}
+
+
+CACHES = {
+    "default": {
+        "BACKEND": "django_redis.cache.RedisCache",
+        "LOCATION": "redis://127.0.0.1:6379/2",
+        "OPTIONS": {
+            "CLIENT_CLASS": "django_redis.client.DefaultClient",
+        }
     }
 }

@@ -1,4 +1,6 @@
 from django.db.models.aggregates import Count
+from django.views.decorators.cache import cache_page
+from django.utils.decorators import method_decorator
 from rest_framework.decorators import action
 from rest_framework.permissions import AllowAny, IsAuthenticated, IsAdminUser
 from rest_framework.response import Response
@@ -80,6 +82,14 @@ class ProductViewSet(ModelViewSet):
     def get_serializer_class(self):
         return self.serializer_classes.get(self.action, self.default_serializer_class)
 
+    @method_decorator(cache_page(60 * 15))
+    def list(self, request, *args, **kwargs):
+        return super().list(request, *args, **kwargs)
+
+    @method_decorator(cache_page(60 * 15))
+    def retrieve(self, request, *args, **kwargs):
+        return super().retrieve(request, *args, **kwargs)
+
     # optimizations ->  removed to increase speed
     # def get_queryset(self):
     #     queryset = self.queryset
@@ -105,6 +115,14 @@ class CategoryViewSet(ModelViewSet):
         products_count=Count('products')).select_related('featured_product').all()
     serializer_class = CategorySerializer
 
+    @method_decorator(cache_page(60 * 15))
+    def list(self, request, *args, **kwargs):
+        return super().list(request, *args, **kwargs)
+
+    @method_decorator(cache_page(60 * 15))
+    def retrieve(self, request, *args, **kwargs):
+        return super().retrieve(request, *args, **kwargs)
+
     def destroy(self, request, *args, **kwargs):
         if Category.objects.filter(product_id=kwargs['pk']).count() > 0:
             return Response({'error': 'Category cannot be deleted because it includes one or more products.'}, status=status.HTTP_405_METHOD_NOT_ALLOWED)
@@ -121,6 +139,14 @@ class ReviewViewSet(ModelViewSet):
 
     def get_serializer_context(self):
         return {'product_id': self.kwargs['product_pk']}
+
+    @method_decorator(cache_page(60 * 15))
+    def list(self, request, *args, **kwargs):
+        return super().list(request, *args, **kwargs)
+
+    @method_decorator(cache_page(60 * 15))
+    def retrieve(self, request, *args, **kwargs):
+        return super().retrieve(request, *args, **kwargs)
 
 
 class CartViewSet(CreateModelMixin,
