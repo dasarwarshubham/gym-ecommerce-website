@@ -95,10 +95,16 @@ const EquipmentDetailsPage = () => {
     return <div>Equipment not found</div>;
   }
 
-  let equipment_images = [
+  const equipment_images = [
     { id: 0, image: equipment.image },
     ...equipment?.images,
   ];
+
+  const equipments_ratings =
+    equipment.reviews.reduce(
+      (accumulator, obj) => accumulator + obj.ratings,
+      0
+    ) / equipment.reviews.length;
 
   return (
     <Container className="my-5">
@@ -117,7 +123,7 @@ const EquipmentDetailsPage = () => {
               <SwiperSlide key={`equipment-${idx}`}>
                 <Image
                   src={image?.image}
-                  alt={equipment?.name}
+                  alt={equipment?.title}
                   className="equipment-image img-fluid w-100"
                 />
               </SwiperSlide>
@@ -126,7 +132,7 @@ const EquipmentDetailsPage = () => {
         </Col>
         <Col md={6}>
           <h1 className="d-flex align-items-center">
-            {equipment?.name}&nbsp;
+            {equipment?.title}&nbsp;
             {cartLoading && (
               <Spinner animation="grow">
                 <span className="visually-hidden">Loading...</span>
@@ -142,18 +148,26 @@ const EquipmentDetailsPage = () => {
               </tr>
               <tr>
                 <td>Type</td>
-                <td>{equipment?.type}</td>
+                <td>{equipment?.category}</td>
               </tr>
               <tr>
                 <td>Rating</td>
                 <td>
-                  <Ratings ratings={equipment?.ratings} />
+                  <Ratings ratings={equipments_ratings} />
                 </td>
               </tr>
-              <tr>
+              {/* <tr>
+                <td>Rating</td>
+                <td>
+                  <Ratings ratings={equipment?.ratings} />
+                </td>
+              </tr> */}
+              {/* <tr>
                 <td>Review</td>
-                <td>{equipment?.reviews}</td>
-              </tr>
+                <td>
+                  {equipment?.reviews.length} - {equipments_ratings}
+                </td>
+              </tr> */}
               <tr>
                 <td>Description</td>
                 <td>{equipment?.description}</td>
