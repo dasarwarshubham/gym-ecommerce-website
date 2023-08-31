@@ -55,6 +55,10 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'rest_framework',
 
+    # debugging apps
+    'debug_toolbar',
+    # 'silk',
+
     # other apps
     'corsheaders',
     'knox',
@@ -65,13 +69,6 @@ INSTALLED_APPS = [
     'apps.accounts',
     'apps.core'
 ]
-
-print(DEBUG)
-if DEBUG:
-    print(DEBUG, " : Adding Debugging Apps")
-    # debugging apps
-    INSTALLED_APPS.append('debug_toolbar')
-    INSTALLED_APPS.append('silk')
 
 
 # Overiding User Model
@@ -119,12 +116,9 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'debug_toolbar.middleware.DebugToolbarMiddleware',
+    # 'silk.middleware.SilkyMiddleware',
 ]
-
-if DEBUG:
-    print(DEBUG, " : Adding Debugging Middleware")
-    MIDDLEWARE += ['debug_toolbar.middleware.DebugToolbarMiddleware']
-    MIDDLEWARE += ['silk.middleware.SilkyMiddleware']
 
 
 ROOT_URLCONF = 'backend.urls'
