@@ -17,7 +17,7 @@ from .models import Category, Product, Review, Customer, CustomerAddress, \
     Cart, CartItem, Order, OrderItem
 from .serializers import CategorySerializer, ProductSerializer, ProductCreateSerializer, \
     ProductDetailsSerializer, ProductCreateSerializer, ReviewSerializer, \
-    CustomerSerializer, CustomerAddressSerializer, \
+    CustomerSerializer, CustomerAddressSerializer, CustomerCreateSerializer, CustomerUpdateSerializer, \
     CartSerializer, CartItemSerializer, AddCartItemSerializer, UpdateCartItemSerializer, \
     OrderSerializer, CreateOrderSerializer, UpdateOrderSerializer
 
@@ -31,17 +31,28 @@ class CustomerViewSet(ModelViewSet):
     def history(self, request, pk):
         return Response('ok')
 
-    @action(detail=False, methods=['GET', 'PUT'], permission_classes=[IsAuthenticated])
+    @action(detail=False, methods=['GET', 'PATCH'], permission_classes=[IsAuthenticated])
     def me(self, request):
         user = request.user.id
         customer = Customer.objects.get(account=user)
         if request.method == 'GET':
             serializer = CustomerSerializer(customer)
             return Response(serializer.data)
-        elif request.method == 'PUT':
-            serializer = CustomerSerializer(customer, data=request.data)
+        elif request.method == 'PATCH':
+            serializer = CustomerUpdateSerializer(
+                customer, data=request.data, partial=True)
             serializer.is_valid(raise_exception=True)
-            serializer.save()
+            updated_customer = serializer.save()
+            serializer = CustomerSerializer(updated_customer)
+            return Response(serializer.data)
+
+    @action(detail=False, methods=['POST'], permission_classes=[AllowAny])
+    def signup(self, request):
+        if request.method == 'POST':
+            serializer = CustomerCreateSerializer(data=request.data)
+            serializer.is_valid(raise_exception=True)
+            customer = serializer.save()
+            serializer = CustomerSerializer(customer)
             return Response(serializer.data)
 
 
@@ -59,7 +70,7 @@ class CustomerAddressViewSet(ModelViewSet):
 
 
 class ProductViewSet(ModelViewSet):
-    http_method_names = ['get', 'head', 'post', 'put']
+    http_method_names = ['get', 'head', 'post', 'put', 'delete']
     permission_classes = [IsAdminOrReadOnly]
 
     queryset = Product.objects.only('id', 'title', 'slug',  'description',

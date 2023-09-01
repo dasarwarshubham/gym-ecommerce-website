@@ -1,5 +1,6 @@
 from decimal import Decimal
 from rest_framework import serializers
+from rest_framework.exceptions import ValidationError
 from django.db import transaction
 from django.contrib.auth import get_user_model
 from .models import Product, Category, Review, ProductImages, \
@@ -129,27 +130,124 @@ class CustomerAddressSerializer(serializers.ModelSerializer):
 
 
 class CustomerSerializer(serializers.ModelSerializer):
-    account_id = serializers.IntegerField(read_only=True)
-    account = AccountSerializer()
-    # first_name = serializers.SerializerMethodField()
-    # last_name = serializers.SerializerMethodField()
-    # email = serializers.SerializerMethodField()
+    # account_id = serializers.IntegerField(read_only=True)
+    first_name = serializers.SerializerMethodField()
+    last_name = serializers.SerializerMethodField()
+    email = serializers.SerializerMethodField()
+    address = CustomerAddressSerializer(source='customeraddress', many=True)
+
+    def get_first_name(self, obj):
+        return obj.account.first_name
+
+    def get_last_name(self, obj):
+        return obj.account.last_name
+
+    def get_email(self, obj):
+        return obj.account.email
 
     class Meta:
         model = Customer
-        fields = ['account_id', 'account', 'gender', 'phone']
+        fields = [
+            # 'account_id',
+            'first_name',
+            'last_name',
+            'email',
+            'gender',
+            'phone',
+            'address'
+        ]
 
-    def get_first_name(self, account):
-        print(account.first_name)
-        return account.first_name
 
-    def get_last_name(self, account):
-        print(account.last_name)
-        return account.last_name
+class CustomerCreateSerializer(serializers.ModelSerializer):
+    first_name = serializers.CharField()
+    last_name = serializers.CharField()
+    email = serializers.EmailField()
+    password = serializers.CharField(write_only=True, min_length=6)
 
-    # def get_email(self, account):
-    #     print(account.email)
-    #     return account.email
+    class Meta:
+        model = Customer
+        fields = (
+            'first_name',
+            'last_name',
+            'email',
+            'gender',
+            'phone',
+            'password',
+        )
+
+    def validate_email(self, email):
+        if get_user_model().objects.filter(email=email).exists():
+            # raise serializers.ValidationError({"error": 'A user with this email already exists.'})
+            raise ValidationError('A user with this email already exists.')
+        return email
+
+    def create(self, validated_data):
+        password = validated_data.pop('password', None)
+
+        user_data = {
+            'first_name': validated_data['first_name'],
+            'last_name': validated_data['last_name'],
+            'email': validated_data['email']
+        }
+
+        with transaction.atomic():
+            # Create the user with a hashed password
+            # user = get_user_model().objects.create_user(**user_data, password=password)
+            user = get_user_model().objects.create(**user_data)
+
+            if password is not None:
+                user.set_password(password)
+            user.save()
+
+            customer = Customer.objects.create(
+                account=user,
+                gender=validated_data['gender'],
+                phone=validated_data['phone'],
+            )
+        return customer
+
+
+class CustomerUpdateSerializer(serializers.ModelSerializer):
+    first_name = serializers.CharField()
+    last_name = serializers.CharField()
+    email = serializers.EmailField()
+
+    class Meta:
+        model = Customer
+        fields = (
+            'first_name',
+            'last_name',
+            'email',
+            'gender',
+            'phone',
+        )
+
+    def validate_email(self, email):
+        if get_user_model().objects.filter(email=email).exclude(pk=self.instance.account_id).exists():
+            raise ValidationError('A user with this email already exists.')
+        return email
+
+    def update(self, instance, validated_data):
+        with transaction.atomic():
+            instance.gender = validated_data.get('gender', instance.gender)
+            instance.phone = validated_data.get('phone', instance.phone)
+            instance.save()
+
+            user = instance.account
+            user.first_name = validated_data.get('first_name', user.first_name)
+            user.last_name = validated_data.get('last_name', user.last_name)
+            new_email = validated_data.get('email', user.email)
+
+            if new_email != user.email:
+                if get_user_model().objects.filter(email=new_email).exclude(pk=user.pk).exists():
+                    raise ValidationError(
+                        'A user with this email already exists.')
+
+            user.email = new_email
+            user.save()
+
+        return instance
+
 
 # Product Review Serializer
 
