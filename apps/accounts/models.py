@@ -26,17 +26,17 @@ class User(AbstractUser):
         verbose_name_plural = 'Users'
 
 
-# overriding names of knox AuthToken model
-class AuthToken(KnoxAuthTokenModel):
-    class Meta:
-        proxy = True
-        verbose_name = 'Active User'
-        verbose_name_plural = 'Active Users'
+# # overriding names of knox AuthToken model
+# class AuthToken(KnoxAuthTokenModel):
+#     class Meta:
+#         proxy = True
+#         verbose_name = 'Active User'
+#         verbose_name_plural = 'Active Users'
 
 
-# overriding names of django groups model
-class Group(DjangoGroupModel):
-    class Meta:
-        proxy = True
-        verbose_name = 'Group'
-        verbose_name_plural = 'Groups'
+# # overriding names of django groups model
+# class Group(DjangoGroupModel):
+#     class Meta:
+#         proxy = True
+#         verbose_name = 'Group'
+#         verbose_name_plural = 'Groups'

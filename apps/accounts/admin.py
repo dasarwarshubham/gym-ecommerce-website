@@ -3,7 +3,8 @@ from django.apps import apps
 from django.contrib.auth.models import Group
 from django.contrib.auth.admin import UserAdmin as BaseUserAdmin
 from django.contrib import admin
-from .models import User, AuthToken as ModifiedAuthToken, Group as ModifiedGroup
+# from .models import User, AuthToken as ModifiedAuthToken, Group as ModifiedGroup
+from .models import User
 
 
 @admin.register(User)
@@ -42,21 +43,21 @@ class AccountAdmin(BaseUserAdmin):
     full_name.short_description = "Name"
 
 
-@admin.register(ModifiedAuthToken)
-class AuthTokenAdmin(admin.ModelAdmin):
+# @admin.register(ModifiedAuthToken)
+# class AuthTokenAdmin(admin.ModelAdmin):
 
-    list_display = ('digest', 'user', 'created', 'expiry',)
-    fields = ()
-    raw_id_fields = ('user',)
+#     list_display = ('digest', 'user', 'created', 'expiry',)
+#     fields = ()
+#     raw_id_fields = ('user',)
 
 
-# registering third party apps in same admin section
-# knox
-admin.site.unregister(AuthToken)
-# admin.site.register(ModifiedAuthToken)
-# groups
-admin.site.unregister(Group)
-admin.site.register(ModifiedGroup)
+# # registering third party apps in same admin section
+# # knox
+# admin.site.unregister(AuthToken)
+# # admin.site.register(ModifiedAuthToken)
+# # groups
+# admin.site.unregister(Group)
+# admin.site.register(ModifiedGroup)
 
 
 # change knox app name in admin

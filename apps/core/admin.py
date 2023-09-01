@@ -44,9 +44,9 @@ class CustomerAddressAdmin(admin.ModelAdmin):
     list_display = ['customer', 'full_name', 'address_line_1', 'address_line_2',
                     'city', 'state', 'country', 'zip', 'phone', 'default']
     list_filter = ['country', 'state', 'city', 'zip']
-    search_fields = ['customer', 'full_name',
-                     'country', 'state', 'city', 'zip']
     list_display_link = ['full_name']
+    list_select_related = ['customer', 'customer__account']
+    search_fields = ['full_name', 'country', 'state', 'city', 'zip']
 
 
 class InventoryFilter(admin.SimpleListFilter):
