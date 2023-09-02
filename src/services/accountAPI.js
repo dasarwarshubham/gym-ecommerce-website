@@ -358,7 +358,7 @@ export const signup = async (userData) => {
   try {
     const response = await publicAxios({
       method: "POST",
-      url: `${API_ROUTES.accounts}/create/`,
+      url: `${API_ROUTES.signup}/`,
       data: userData,
     });
 
@@ -384,7 +384,7 @@ export const getUserDetails = async () => {
       method: "GET",
       url: `${API_ROUTES.profile}/`,
     });
-    console.log(response.data);
+    // console.log(response.data);
     return response.data;
     // throw new Error("Invalid AutoLogin");
   } catch (error) {
@@ -397,11 +397,11 @@ export const getUserDetails = async () => {
 export const updateUserDetails = async (updatedData) => {
   try {
     const response = await userAxios({
-      method: "PUT",
+      method: "PATCH",
       url: `${API_ROUTES.profile}/`,
       data: updatedData,
     });
-    return { accountDetails: response.data };
+    return response.data;
     // throw new Error("Failed to update account details");
   } catch (error) {
     const errorMsg = error.message;
@@ -469,7 +469,7 @@ export const updateUserAddress = async ({ addressId, updatedAddress }) => {
     // throw new Error("Failed to update address");
     return response.data;
   } catch (error) {
-    throw new Error(error.message);
+    throw new Error(error.response.data?.error[0]);
   }
 };
 

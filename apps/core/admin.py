@@ -166,7 +166,7 @@ class OrderAdmin(admin.ModelAdmin):
     autocomplete_fields = ['customer']
     inlines = [OrderItemInline]
     list_display = ['order_id',
-                    'placed_at', 'customer', 'payment_status']
+                    'placed_at', 'customer', 'order_status']
 
     def order_id(self, obj):
         return obj.id

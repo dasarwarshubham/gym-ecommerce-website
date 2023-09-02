@@ -15,6 +15,7 @@ import {
   signup,
   getUserAddresses,
 } from "../../services/accountAPI";
+import { getUserOrders } from "../../services/orderAPI";
 
 export const loginUser = createAsyncThunk(
   actionTypes.LOGIN,
@@ -103,6 +104,15 @@ export const deleteAccountAddress = createAsyncThunk(
   actionTypes.DELETE_ADDRESS,
   async (addressId) => {
     const response = await deleteUserAddress(addressId);
+    return response;
+  }
+);
+
+// order
+export const fetchAccountOrder = createAsyncThunk(
+  actionTypes.FETCH_ORDER,
+  async () => {
+    const response = await getUserOrders();
     return response;
   }
 );

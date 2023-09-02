@@ -12,11 +12,13 @@ import {
   addAccountAddress,
   defaultAccountAddress,
   fetchAccountAddress,
+  fetchAccountOrder,
 } from "./accountActions";
 
 const isPendingAction = (action) => {
   return (
     (action.type.startsWith(`account/`) ||
+      action.type.startsWith(`orders/`) ||
       action.type.startsWith(`address/`)) &&
     action.type.endsWith("/pending")
   );
@@ -24,6 +26,7 @@ const isPendingAction = (action) => {
 const isRejectedAction = (action) => {
   return (
     (action.type.startsWith(`account/`) ||
+      action.type.startsWith(`orders/`) ||
       action.type.startsWith(`address/`)) &&
     action.type.endsWith("/rejected")
   );
@@ -33,6 +36,7 @@ const initialState = {
   token: null,
   user: null,
   address: null,
+  orders: null,
   loading: false,
   error: null,
 };
@@ -84,41 +88,10 @@ const accountSlice = createSlice({
       .addCase(addAccountAddress.fulfilled, (state, action) => {
         state.loading = false;
         state.error = null;
-
-        //need to be updated
-        // if address already exist proper error handling to be done
-
-        const newAddress = action.payload;
-
-        // Check if the address already exists
-        const existingAddress = state.address.find(
-          (address) =>
-            address.fullName === newAddress.fullName &&
-            address.addressLine1 === newAddress.addressLine1 &&
-            address.addressLine2 === newAddress.addressLine2 &&
-            address.city === newAddress.city &&
-            address.state === newAddress.state &&
-            address.zipCode === newAddress.zipCode
-        );
-
-        if (!existingAddress) {
-          state.address.push({
-            id: state.address.length + 1,
-            ...newAddress,
-          });
-          state.error = null;
-        }
       })
       .addCase(updateAccountAddress.fulfilled, (state, action) => {
         state.loading = false;
         state.error = null;
-        state.address = state.address.map((address) => {
-          if (address.id === action.payload.id) {
-            return action.payload;
-          } else {
-            return address;
-          }
-        });
       })
       .addCase(defaultAccountAddress.fulfilled, (state, action) => {
         state.loading = false;
@@ -134,16 +107,21 @@ const accountSlice = createSlice({
       .addCase(deleteAccountAddress.fulfilled, (state, action) => {
         state.loading = false;
         state.error = null;
-        state.address = state.address.filter(
-          (address) => address.id !== action.payload
-        );
+        // state.address = state.address.filter(
+        //   (address) => address.id !== action.payload
+        // );
+      })
+      .addCase(fetchAccountOrder.fulfilled, (state, action) => {
+        state.loading = false;
+        state.orders = action.payload;
+        state.error = null;
       })
       .addMatcher(isPendingAction, (state) => {
         state.loading = true;
       })
       .addMatcher(isRejectedAction, (state, action) => {
         state.loading = false;
-        state.error = action.error.message;
+        state.error = JSON.stringify(action.error.message);
       })
       .addDefaultCase((state) => {
         return state;

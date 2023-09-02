@@ -31,4 +31,7 @@ export const API_ROUTES = {
   equipments: `${API_BASE_URL}/api/products`,
   accounts: `${API_BASE_URL}/auth`,
   profile: `${API_BASE_URL}/api/customers/me`,
+  signup: `${API_BASE_URL}/api/customers/signup`,
+  cart: `${API_BASE_URL}/api/carts`,
+  order: `${API_BASE_URL}/api/orders`,
 };

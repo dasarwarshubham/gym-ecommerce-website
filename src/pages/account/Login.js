@@ -16,7 +16,10 @@ import {
 
 import { PROFILE, SIGNUP } from "../../constants/routes";
 
-import { loginUser } from "../../redux/account/accountActions";
+import {
+  fetchAccountOrder,
+  loginUser,
+} from "../../redux/account/accountActions";
 import { fetchAccountData } from "../../redux/account/accountActions";
 import { selectAccountError } from "../../redux/account/accountSelectors";
 
@@ -37,6 +40,7 @@ const LoginPage = () => {
         setSubmitting(false);
         if (loginAction.meta.requestStatus === "fulfilled") {
           dispatch(fetchAccountData());
+          dispatch(fetchAccountOrder());
           navigate(PROFILE);
         }
       })

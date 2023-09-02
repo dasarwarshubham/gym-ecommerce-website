@@ -30,11 +30,11 @@ const OrderSection = () => {
     <>
       <h4>Current Order</h4>
       {currentOrders?.map((order) => (
-        <OrderCard key={order.orderNumber} order={order} />
+        <OrderCard key={order.id} order={order} />
       ))}
       <h4>Past Orders</h4>
       {pastOrders?.map((order) => (
-        <OrderCard key={order.orderNumber} order={order} />
+        <OrderCard key={order.id} order={order} />
       ))}
     </>
   );

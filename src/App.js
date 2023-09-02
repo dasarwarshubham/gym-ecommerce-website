@@ -11,6 +11,7 @@ import {
   autoLogin,
   logoutUser,
   fetchAccountAddress,
+  fetchAccountOrder,
 } from "./redux/account/accountActions";
 import { useDispatch } from "react-redux";
 
@@ -51,6 +52,7 @@ function App() {
       dispatch(autoLogin(token))
         .then(() => {
           dispatch(fetchAccountAddress());
+          dispatch(fetchAccountOrder());
         })
         .catch((error) => {
           console.log(error);

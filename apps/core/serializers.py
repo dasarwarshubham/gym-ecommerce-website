@@ -134,7 +134,7 @@ class CustomerSerializer(serializers.ModelSerializer):
     first_name = serializers.SerializerMethodField()
     last_name = serializers.SerializerMethodField()
     email = serializers.SerializerMethodField()
-    address = CustomerAddressSerializer(source='customeraddress', many=True)
+    # address = CustomerAddressSerializer(source='customeraddress', many=True)
 
     def get_first_name(self, obj):
         return obj.account.first_name
@@ -154,7 +154,7 @@ class CustomerSerializer(serializers.ModelSerializer):
             'email',
             'gender',
             'phone',
-            'address'
+            # 'address'
         ]
 
 
@@ -422,10 +422,27 @@ class OrderItemSerializer(serializers.ModelSerializer):
 
 class OrderSerializer(serializers.ModelSerializer):
     items = OrderItemSerializer(many=True)
+    total = serializers.SerializerMethodField()
+
+    def get_total(self, obj):
+        total = sum(item.unit_price *
+                    item.quantity for item in obj.items.all())
+        return total
 
     class Meta:
         model = Order
-        fields = ['id', 'customer', 'placed_at', 'payment_status', 'items']
+        fields = ['id', 'customer', 'placed_at',
+                  'order_status', 'items', 'total']
+
+    def to_representation(self, instance: Order):
+        representation = super().to_representation(instance)
+        if instance.order_status == "P":
+            representation['order_status'] = "Pending"
+        if instance.order_status == "C":
+            representation['order_status'] = "Delivered"
+        if instance.order_status == "F":
+            representation['order_status'] = "Failed"
+        return representation
 
 
 class UpdateOrderSerializer(serializers.ModelSerializer):

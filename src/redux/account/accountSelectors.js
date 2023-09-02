@@ -23,10 +23,13 @@ export const selectAccountError = createSelector(
 );
 
 export const selectOrders = createSelector([selectAccountState], (account) => {
-  const orders = account.user?.orders;
+  const orders = account.orders;
   return {
-    currentOrders: orders?.filter((order) => order.status === "Pending"),
-    pastOrders: orders?.filter((order) => order.status === "Delivered"),
+    currentOrders: orders?.filter((order) => order.order_status === "Pending"),
+    pastOrders: orders?.filter(
+      (order) =>
+        order.order_status === "Delivered" || order.order_status === "Failed"
+    ),
   };
 });
 

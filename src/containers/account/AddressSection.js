@@ -8,7 +8,7 @@ import {
   selectAccountLoading,
 } from "../../redux/account/accountSelectors";
 
-import useInitialLoad from "../../hooks/useInitialLoad";
+// import useInitialLoad from "../../hooks/useInitialLoad";
 import { Spinner } from "react-bootstrap";
 import AddAddressCard from "../../components/cards/AddAddressCard";
 
@@ -16,10 +16,10 @@ const AddressSection = () => {
   const addresses = useSelector(selectAccountAddress);
   const loading = useSelector(selectAccountLoading);
   const error = useSelector(selectAccountError);
-  const { initialLoad } = useInitialLoad(addresses);
+  // const { initialLoad } = useInitialLoad(addresses);
 
 
-  if (loading || initialLoad) {
+  if (loading) {
     return (
       <div
         className="d-flex justify-content-center align-items-center w-100"
@@ -34,11 +34,12 @@ const AddressSection = () => {
     <>
       {error && <p className="text-danger">{error}</p>}
       <Row className="g-4">
-        {addresses?.map((address) => (
-          <Col key={`address-${address.id}`} md={6}>
-            <AddressCard address={address} />
-          </Col>
-        ))}
+        {addresses?.length > 0 &&
+          addresses?.map((address) => (
+            <Col key={`address-${address.id}`} md={6}>
+              <AddressCard address={address} />
+            </Col>
+          ))}
         <Col key={`add-address`} md={6}>
           <AddAddressCard />
         </Col>
