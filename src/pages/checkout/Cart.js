@@ -15,7 +15,7 @@ import {
 } from "../../redux/checkout/cartSelectors";
 
 // import required redux actions
-import { deleteAllItem } from "../../redux/checkout/cartActions";
+import { deleteAllItem, fetchCart } from "../../redux/checkout/cartActions";
 
 // import required routes
 import { SHIPPING } from "../../constants/routes";
@@ -28,7 +28,9 @@ const CartPage = () => {
   const error = useSelector(selectCartError);
 
   const handleCartClear = () => {
-    dispatch(deleteAllItem());
+    dispatch(deleteAllItem()).then(() => {
+      dispatch(fetchCart());
+    });
   };
 
   return (
