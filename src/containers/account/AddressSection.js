@@ -18,7 +18,6 @@ const AddressSection = () => {
   const error = useSelector(selectAccountError);
   // const { initialLoad } = useInitialLoad(addresses);
 
-
   if (loading) {
     return (
       <div
@@ -29,6 +28,7 @@ const AddressSection = () => {
       </div>
     );
   }
+  console.log("Address: ", addresses);
 
   return (
     <>

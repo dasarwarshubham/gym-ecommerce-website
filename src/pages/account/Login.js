@@ -17,6 +17,7 @@ import {
 import { PROFILE, SIGNUP } from "../../constants/routes";
 
 import {
+  fetchAccountAddress,
   fetchAccountOrder,
   loginUser,
 } from "../../redux/account/accountActions";
@@ -40,6 +41,7 @@ const LoginPage = () => {
         setSubmitting(false);
         if (loginAction.meta.requestStatus === "fulfilled") {
           dispatch(fetchAccountData());
+          dispatch(fetchAccountAddress());
           dispatch(fetchAccountOrder());
           navigate(PROFILE);
         }
