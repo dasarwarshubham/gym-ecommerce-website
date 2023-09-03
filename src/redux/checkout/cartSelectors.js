@@ -4,7 +4,18 @@ const selectCartSlice = (state) => state.cart;
 
 export const selectCartItems = createSelector(
   [selectCartSlice],
-  (cartSlice) => cartSlice.items
+  (cartSlice) => cartSlice.cart?.items
+);
+
+export const selectCart = createSelector(
+  [selectCartSlice],
+  (cartSlice) => cartSlice.cart
+);
+
+export const selectCartItemsCount = createSelector(
+  [selectCartSlice],
+  (cartSlice) =>
+    cartSlice.cart?.items?.length ? cartSlice.cart?.items?.length : 0
 );
 
 export const selectCartAddress = createSelector(

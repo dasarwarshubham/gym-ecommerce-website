@@ -8,13 +8,14 @@ import CartCard from "../../components/cards/checkout/CartCard";
 
 // import required redux selectors
 import {
-  selectCartItems,
+  selectCart,
   selectLoadingStatus,
   selectError as selectCartError,
+  selectCartItemsCount,
 } from "../../redux/checkout/cartSelectors";
 
 // import required redux actions
-import { clearCart } from "../../redux/checkout/cartActions";
+import { deleteAllItem } from "../../redux/checkout/cartActions";
 
 // import required routes
 import { SHIPPING } from "../../constants/routes";
@@ -22,16 +23,12 @@ import { SHIPPING } from "../../constants/routes";
 const CartPage = () => {
   const dispatch = useDispatch();
   const loading = useSelector(selectLoadingStatus);
-  const cartItems = useSelector(selectCartItems);
+  const count = useSelector(selectCartItemsCount);
+  const cart = useSelector(selectCart);
   const error = useSelector(selectCartError);
 
-  const cartTotal = cartItems.reduce(
-    (total, item) => total + item.product.price * item.quantity,
-    0
-  );
-
   const handleCartClear = () => {
-    dispatch(clearCart());
+    dispatch(deleteAllItem());
   };
 
   return (
@@ -45,17 +42,13 @@ const CartPage = () => {
         )}
         {error && <span className="text-danger">{error}</span>}
       </h2>
-      {cartItems.length === 0 ? (
+      {count === 0 ? (
         <p>Your cart is empty.</p>
       ) : (
         <Row className="g-4">
           <Col md={8}>
-            {cartItems.map((item) => (
-              <CartCard
-                key={item.productId}
-                item={item}
-                showQtyHandler={true}
-              />
+            {cart.items.map((item) => (
+              <CartCard key={item.id} item={item} showQtyHandler={true} />
             ))}
             <Button
               onClick={handleCartClear}
@@ -71,8 +64,10 @@ const CartPage = () => {
                 <Card.Title>Order Summary</Card.Title>
               </Card.Header>
               <Card.Body>
-                <Card.Text>Total Items: {cartItems.length}</Card.Text>
-                <Card.Text>Total Amount: ${cartTotal.toFixed(2)}</Card.Text>
+                <Card.Text>Total Items: {cart.items.length}</Card.Text>
+                <Card.Text>
+                  Total Amount: ${cart.cart_total_price.toFixed(2)}
+                </Card.Text>
               </Card.Body>
               <Card.Footer className="d-grid">
                 <Button as={Link} to={SHIPPING} variant="primary">

@@ -8,7 +8,9 @@ import Nav from "react-bootstrap/Nav";
 import Navbar from "react-bootstrap/Navbar";
 import NavDropdown from "react-bootstrap/NavDropdown";
 import Offcanvas from "react-bootstrap/Offcanvas";
-import { MdAccountCircle, MdOutlineShoppingCart } from "react-icons/md";
+import { MdAccountCircle } from "react-icons/md";
+
+import CartButton from "./CartButton";
 
 import logo from "../../logo.svg";
 import * as ROUTES from "../../constants/routes";
@@ -105,7 +107,7 @@ function NavbarContainer() {
             as={Link}
             to={ROUTES.CART}
           >
-            <MdOutlineShoppingCart style={{ color: "#ffffff" }} size={28} />
+            <CartButton />
           </NavLink>
         </div>
 

@@ -1,6 +1,9 @@
 import React from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { useDispatch, useSelector } from "react-redux";
+import {
+  // useDispatch,
+  useSelector
+} from "react-redux";
 
 import { CONFIRMATION, REVIEW } from "../../constants/routes";
 
@@ -22,11 +25,11 @@ import {
   selectCartAddress,
 } from "../../redux/checkout/cartSelectors";
 import { pay } from "../../services/paymentAPI";
-import { clearCart } from "../../redux/checkout/cartActions";
+// import { clearCart } from "../../redux/checkout/cartActions";
 
 const PaymentPage = () => {
   const navigate = useNavigate();
-  const dispatch = useDispatch();
+  // const dispatch = useDispatch();
   const cartLoading = useSelector(selectLoadingStatus);
   const cartItems = useSelector(selectCartItems);
   const cartAddress = useSelector(selectCartAddress);
@@ -44,7 +47,7 @@ const PaymentPage = () => {
     try {
       const response = await pay(order);
       if (response) {
-        dispatch(clearCart());
+        // dispatch(clearCart());
         // navigate(PAYMENT_SUCCESS);
       }
       setSubmitting(false);

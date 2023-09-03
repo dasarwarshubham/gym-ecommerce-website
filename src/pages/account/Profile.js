@@ -21,7 +21,7 @@ import OrderSection from "../../containers/account/OrderSection";
 // import FavoriteSection from "../../containers/account/FavouritesSection";
 import AddressSection from "../../containers/account/AddressSection";
 // import PaymentsSection from "../../containers/account/PaymentsSection";
-import { clearCart } from "../../redux/checkout/cartActions";
+// import { clearCart } from "../../redux/checkout/cartActions";
 
 const ProfilePage = () => {
   const navigate = useNavigate();
@@ -30,14 +30,14 @@ const ProfilePage = () => {
 
   const handleLogout = async () => {
     dispatch(logoutUser()).then(() => {
-      dispatch(clearCart());
+      // dispatch(clearCart());
       navigate(LOGIN);
     });
   };
 
   const handleLogoutAll = async () => {
     dispatch(logoutAllUser()).then(() => {
-      dispatch(clearCart());
+      // dispatch(clearCart());
       navigate(LOGIN);
     });
   };

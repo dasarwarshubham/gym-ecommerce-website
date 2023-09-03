@@ -1,5 +1,6 @@
 import React, { lazy, Suspense, useEffect } from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import { useDispatch } from "react-redux";
 import Loader from "./components/loader/Loader";
 
 import FooterContainer from "./containers/footer/FooterContainer";
@@ -13,7 +14,7 @@ import {
   fetchAccountAddress,
   fetchAccountOrder,
 } from "./redux/account/accountActions";
-import { useDispatch } from "react-redux";
+import { createNewCart, fetchCart } from "./redux/checkout/cartActions";
 
 const Home                  = lazy(() => import(/* webpackChunkName: "homePage" */ "./pages/Home"));
 const About                 = lazy(() => import(/* webpackChunkName: "aboutPage" */ "./pages/About"));
@@ -42,11 +43,11 @@ const Confirmation          = lazy(() => import(/* webpackChunkName: "confirmati
 const LinksPage             = lazy(() => import(/* webpackChunkName: "linksPage" */ "./pages/LinksPage"));
 
 function App() {
-
   const dispatch = useDispatch();
 
   useEffect(() => {
     const token = localStorage.getItem("token");
+    const cartId = localStorage.getItem("cartId");
 
     if (token) {
       dispatch(autoLogin(token))
@@ -59,6 +60,12 @@ function App() {
           dispatch(logoutUser());
         });
       // Dispatch autoSignIn action with the token
+    }
+
+    if (cartId) {
+      dispatch(fetchCart());
+    } else {
+      dispatch(createNewCart());
     }
   }, [dispatch]);
 

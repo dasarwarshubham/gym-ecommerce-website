@@ -1,77 +1,56 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
+import {
+  addItemToCart,
+  clearCart,
+  createCart,
+  deleteItemFromCart,
+  getCartDetails,
+  updateItemFromCart,
+} from "../../services/cartAPIs";
 
-// Simulate an API call to update the cart on the server
-const updateCartOnServer = async (cartItems) => {
-  // Simulate an API call
-  return new Promise((resolve) => {
-    setTimeout(() => {
-      resolve(cartItems);
-    }, 500);
-  });
-};
+export const fetchCart = createAsyncThunk("cart/fetch", async () => {
+  const response = await getCartDetails();
+  return response;
+});
 
-export const addToCart = createAsyncThunk(
-  "cart/addToCart",
-  async ({ productId, quantity, product }, { getState }) => {
-    const state = getState();
-    const existingItem = state.cart.items.find(
-      (cartItem) => cartItem.productId === productId
-    );
+export const createNewCart = createAsyncThunk("cart/create", async () => {
+  const response = await createCart();
+  console.log("Cart Actions response : ", response);
+  localStorage.setItem("cartId", response.id);
+  return response;
+});
 
-    let updatedCartItems;
+export const addItem = createAsyncThunk("cart/add", async (data) => {
+  const response = await addItemToCart(data);
+  console.log("Cart Add Item response : ", response);
+  return response;
+});
 
-    if (existingItem) {
-      updatedCartItems = state.cart.items.map((cartItem) =>
-        cartItem.id === productId
-          ? {
-              ...cartItem,
-              quantity: cartItem.quantity + quantity,
-            }
-          : cartItem
-      );
-    } else {
-      updatedCartItems = [
-        ...state.cart.items,
-        { productId, quantity, product },
-      ];
-    }
-    return updateCartOnServer(updatedCartItems);
+export const updateQuantity = createAsyncThunk("cart/update", async (data) => {
+  const response = await updateItemFromCart(data);
+  console.log("Cart Delete Item response : ", response);
+  return response;
+});
+
+export const deleteItem = createAsyncThunk(
+  "cart/delete",
+  async (product_id) => {
+    const response = await deleteItemFromCart(product_id);
+    console.log("Cart Delete Item response : ", response);
+    return response;
   }
 );
 
-export const removeFromCart = createAsyncThunk(
-  "cart/removeFromCart",
-  async (itemId, { getState }) => {
-    const state = getState();
-    const updatedCartItems = state.cart.items.filter(
-      (cartItem) => cartItem.productId !== itemId
-    );
-    return updateCartOnServer(updatedCartItems);
-  }
-);
+export const deleteAllItem = createAsyncThunk("cart/deleteAll", async () => {
+  const response = await clearCart();
+  console.log("Cart Delete All Item response : ", response);
+  return response;
+});
 
-export const updateQuantity = createAsyncThunk(
-  "cart/updateQuantity",
-  async ({ itemId, quantity }, { getState }) => {
-    const state = getState();
-    const updatedCartItems = state.cart.items.map((cartItem) =>
-      cartItem.productId === itemId ? { ...cartItem, quantity } : cartItem
-    );
-    return updateCartOnServer(updatedCartItems);
-  }
-);
-
-export const setShippingInfo = createAsyncThunk(
-  "cart/address",
-  async (shippingInfo) => {
-    // Simulate server interaction and return updated shippingInfo
-    return shippingInfo;
-  }
-);
-
-export const clearCart = createAsyncThunk(
-  "cart/clearCart",
-  async (_, { getState }) => {
-    return updateCartOnServer([]);
-  }
-);
+// export const setShippingInfo = createAsyncThunk(
+//   "cart/address",
+//   async (shippingInfo) => {
+//     // Simulate server interaction and return updated shippingInfo
+//     return shippingInfo;
+//   }
+// );

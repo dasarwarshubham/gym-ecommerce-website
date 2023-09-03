@@ -33,7 +33,7 @@ import {
 } from "../../redux/checkout/cartSelectors";
 
 // import required redux actions
-import { addToCart } from "../../redux/checkout/cartActions";
+import { addItem, fetchCart } from "../../redux/checkout/cartActions";
 import { getProductById } from "../../redux/product/productActions";
 
 // import required routes
@@ -63,17 +63,18 @@ const EquipmentDetailsPage = () => {
       navigate(CART);
     } else {
       dispatch(
-        addToCart({
-          productId: equipment.id,
+        addItem({
+          product_id: equipment.id,
           quantity: 1,
-          product: equipment,
         })
-      );
+      ).then(() => {
+        dispatch(fetchCart());
+      });
     }
   };
 
-  const alreadyInCart = cartItems.find(
-    (cartItem) => cartItem.productId === equipment?.id
+  const alreadyInCart = cartItems?.find(
+    (cartItem) => cartItem.product.id === equipment?.id
   );
 
   if (loading) {
@@ -101,10 +102,12 @@ const EquipmentDetailsPage = () => {
   ];
 
   const equipments_ratings =
-    equipment.reviews.reduce(
-      (accumulator, obj) => accumulator + obj.ratings,
-      0
-    ) / equipment.reviews.length;
+    equipment?.reviews.length > 0
+      ? equipment?.reviews.reduce(
+          (accumulator, obj) => accumulator + obj.ratings,
+          0
+        ) / equipment?.reviews.length
+      : 0;
 
   return (
     <Container className="my-5">
@@ -179,8 +182,8 @@ const EquipmentDetailsPage = () => {
               <div className="my-4">
                 <QuantityHandler item={alreadyInCart} removeTrash={true} />
               </div>
-              Item added to cart &nbsp;
-              <MdCheckCircle color="green" />
+              Item added to cart&nbsp;
+              <MdCheckCircle color="green" size={18} />
               <br />
               <Button variant="primary" onClick={handleAddToCart}>
                 Go To Cart &#8594;

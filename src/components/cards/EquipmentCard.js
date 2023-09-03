@@ -1,23 +1,22 @@
 import React from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { connect } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import { Card, Button } from "react-bootstrap";
 import { MdCheckCircle, MdOutlineShoppingCart } from "react-icons/md";
-
-import { addToCart } from "../../redux/checkout/cartActions";
 import { CART, EQUIPMENTS, LOGIN } from "../../constants/routes";
 
-const EquipmentCard = ({
-  isAuthenticated,
-  data,
-  loading,
-  cartItems,
-  addItem,
-}) => {
-  const navigate = useNavigate();
+import { addItem, fetchCart } from "../../redux/checkout/cartActions";
+import { selectCartItems } from "../../redux/checkout/cartSelectors";
+import { selectIsAuthenticated } from "../../redux/account/accountSelectors";
 
-  const alreadyInCart = cartItems.find(
-    (cartItem) => cartItem.productId === data.id
+const EquipmentCard = ({ data }) => {
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+  const isAuthenticated = useSelector(selectIsAuthenticated);
+  const cartItems = useSelector(selectCartItems);
+
+  const alreadyInCart = cartItems?.find(
+    (cartItem) => cartItem.product.id === data.id
   );
 
   const handleAddToCart = () => {
@@ -27,10 +26,13 @@ const EquipmentCard = ({
       if (!isAuthenticated) {
         navigate(LOGIN);
       } else {
-        addItem({
-          productId: data.id,
-          quantity: 1,
-          product: data,
+        dispatch(
+          addItem({
+            product_id: data.id,
+            quantity: 1,
+          })
+        ).then(() => {
+          dispatch(fetchCart());
         });
       }
     }
@@ -68,18 +70,4 @@ const EquipmentCard = ({
   );
 };
 
-const mapStateToProps = (state) => {
-  return {
-    loading: state.cart.loading,
-    cartItems: state.cart.items,
-    isAuthenticated: state.account.token != null,
-  };
-};
-
-const mapDispatchToProps = (dispatch) => {
-  return {
-    addItem: (values) => dispatch(addToCart(values)),
-  };
-};
-
-export default connect(mapStateToProps, mapDispatchToProps)(EquipmentCard);
+export default EquipmentCard;

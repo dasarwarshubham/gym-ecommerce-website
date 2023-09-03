@@ -1,30 +1,35 @@
-import { connect } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 
 import { FaTrash } from "react-icons/fa";
 import { QuantityBtn, QuantityCount } from "../styles/cartCard";
 
 import {
-  removeFromCart,
+  fetchCart,
   updateQuantity,
+  deleteItem,
 } from "../../../redux/checkout/cartActions";
+import { selectLoadingStatus } from "../../../redux/checkout/cartSelectors";
 
-const QuantityHandler = ({
-  item,
-  loading,
-  removeTrash,
-  updateItemQty,
-  removeItem,
-}) => {
+const QuantityHandler = ({ item, removeTrash }) => {
+  const dispatch = useDispatch();
+  const loading = useSelector(selectLoadingStatus);
+
   const handleRemove = () => {
-    removeItem(item.productId);
+    dispatch(deleteItem(item.id)).then(() => {
+      dispatch(fetchCart());
+    });
   };
 
   const handleQuantityChange = (change) => {
     const newQuantity = item.quantity + change;
     if (newQuantity > 0) {
-      updateItemQty({ itemId: item.productId, quantity: newQuantity });
+      dispatch(
+        updateQuantity({ product_id: item.id, quantity: newQuantity })
+      ).then(() => {
+        dispatch(fetchCart());
+      });
     } else {
-      removeItem(item.productId);
+      handleRemove();
     }
   };
 
@@ -62,17 +67,4 @@ const QuantityHandler = ({
   );
 };
 
-const mapStateToProps = (state) => {
-  return {
-    loading: state.cart.loading,
-  };
-};
-
-const mapDispatchToProps = (dispatch) => {
-  return {
-    removeItem: (id) => dispatch(removeFromCart(id)),
-    updateItemQty: (item) => dispatch(updateQuantity(item)),
-  };
-};
-
-export default connect(mapStateToProps, mapDispatchToProps)(QuantityHandler);
+export default QuantityHandler;

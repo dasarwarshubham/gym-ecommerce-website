@@ -2,7 +2,6 @@ import { Row, Col, Card } from "react-bootstrap";
 import QuantityHandler from "./QuantityHandler";
 
 const CartCard = ({ item, showQtyHandler }) => {
-  const subtotal = item.product.price * item.quantity;
   return (
     <Card className="mb-3">
       <Card.Body>
@@ -26,7 +25,7 @@ const CartCard = ({ item, showQtyHandler }) => {
                 )}
               </Col>
               <Col xs={12} lg={5} xl={4} className="text-lg-end">
-                <p>Subtotal: ${subtotal.toFixed(2)}</p>
+                <p>Subtotal: ${item.total_price.toFixed(2)}</p>
               </Col>
             </Row>
           </Col>
