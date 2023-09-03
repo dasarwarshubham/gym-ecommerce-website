@@ -169,7 +169,7 @@ class CartViewSet(CreateModelMixin,
 
 
 class CartItemViewSet(ModelViewSet):
-    http_method_names = ['get', 'post', 'patch', 'delete']
+    http_method_names = ['get', 'post', 'patch', 'delete', 'head', 'options']
 
     serializer_classes = {
         'create': AddCartItemSerializer,
@@ -188,6 +188,13 @@ class CartItemViewSet(ModelViewSet):
             .filter(cart_id=self.kwargs['cart_pk']) \
             .select_related('product') \
             .only('id', 'quantity', 'product__id', 'product__title', 'product__price')
+
+    @action(detail=False, methods=['DELETE'], url_path="delete-all")
+    def delete_all_items(self, request, cart_pk):
+        if request.method == 'DELETE':
+            # CartItem.objects.filter(cart_id=self.kwargs['cart_pk']).delete()
+            CartItem.objects.filter(cart_id=cart_pk).delete()
+            return Response('All items in the cart have been deleted')
 
 
 class OrderViewSet(ModelViewSet):
