@@ -47,10 +47,10 @@ export const deleteAllItem = createAsyncThunk("cart/deleteAll", async () => {
   return response;
 });
 
-// export const setShippingInfo = createAsyncThunk(
-//   "cart/address",
-//   async (shippingInfo) => {
-//     // Simulate server interaction and return updated shippingInfo
-//     return shippingInfo;
-//   }
-// );
+export const setShippingInfo = createAsyncThunk(
+  "cart/address",
+  async (shippingInfo) => {
+    // Simulate server interaction and return updated shippingInfo
+    return shippingInfo;
+  }
+);
