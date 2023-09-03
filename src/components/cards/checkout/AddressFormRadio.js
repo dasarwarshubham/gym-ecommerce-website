@@ -36,7 +36,7 @@ const AddressFormRadio = ({
   ...otherProps
 }) => {
   const { values, errors, touched, setFieldValue } = useFormikContext();
-  const isChecked = value.id === values[name].id;
+  const isChecked = value.id === values[name]?.id;
   return (
     <FormCheck type={type} id={`check-api-${type}`} className="p-0">
       <FormCheck.Input
@@ -57,11 +57,11 @@ const AddressFormRadio = ({
       >
         <Card checked={isChecked}>
           <Card.Body>
-            <Card.Title>{value.fullName}</Card.Title>
-            <Card.Text>{value.addressLine1}</Card.Text>
-            <Card.Text>{value.addressLine2}</Card.Text>
+            <Card.Title>{value.full_name}</Card.Title>
+            <Card.Text>{value.address_line_1}</Card.Text>
+            <Card.Text>{value.address_line_2}</Card.Text>
             <Card.Text>
-              {value.city}, {value.state} {value.zipCode}
+              {value.city}, {value.state} {value.zip}
             </Card.Text>
             <Card.Text>Phone: {value.phone}</Card.Text>
           </Card.Body>

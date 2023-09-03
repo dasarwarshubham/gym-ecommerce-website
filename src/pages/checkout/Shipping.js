@@ -8,10 +8,11 @@ import { Card, Col, Container, Row, Spinner } from "react-bootstrap";
 
 // import required redux selectors
 import {
-  selectCartItems,
   selectLoadingStatus,
   selectError as selectCartError,
   selectCartAddress,
+  selectCartItemsCount,
+  selectCart,
 } from "../../redux/checkout/cartSelectors";
 import { selectAccountAddress } from "../../redux/account/accountSelectors";
 
@@ -32,15 +33,11 @@ const ShippingPage = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const loading = useSelector(selectLoadingStatus);
-  const cartItems = useSelector(selectCartItems);
   const cartAddress = useSelector(selectCartAddress);
+  const count = useSelector(selectCartItemsCount);
+  const cart = useSelector(selectCart);
   const error = useSelector(selectCartError);
   const addresses = useSelector(selectAccountAddress);
-
-  const cartTotal = cartItems.reduce(
-    (total, item) => total + item.product.price * item.quantity,
-    0
-  );
 
   const handleClick = (values, setSubmitting, resetForm) => {
     dispatch(setShippingInfo(values.address))
@@ -69,25 +66,25 @@ const ShippingPage = () => {
         )}
         {error && <span className="text-danger">{error}</span>}
       </h2>
-      {cartItems.length === 0 ? (
+      {count === 0 ? (
         <p>Your cart is empty.</p>
       ) : (
         <FormikForm
           initialValues={{
             address: cartAddress
               ? cartAddress
-              : addresses.filter((address) => address.default)[0],
+              : addresses?.filter((address) => address.default)[0],
           }}
           validationSchema={Yup.object().shape({
             address: Yup.object()
               .required()
               .shape({
-                fullName: Yup.string().required().label("Full Name"),
-                addressLine1: Yup.string().required().label("Address Line 1"),
-                addressLine2: Yup.string().required().label("Address Line 2"),
+                full_name: Yup.string().required().label("Full Name"),
+                address_line_1: Yup.string().required().label("Address Line 1"),
+                address_line_2: Yup.string().required().label("Address Line 2"),
                 city: Yup.string().required().label("City"),
                 state: Yup.string().required().label("State"),
-                zipCode: Yup.string().required().label("Zip Code"),
+                zip: Yup.string().required().label("Zip Code"),
                 phone: Yup.string()
                   .required()
                   .label("Phone Number")
@@ -117,8 +114,10 @@ const ShippingPage = () => {
                   <Card.Title>Order Summary</Card.Title>
                 </Card.Header>
                 <Card.Body>
-                  <Card.Text>Total Items: {cartItems.length}</Card.Text>
-                  <Card.Text>Total Amount: ${cartTotal.toFixed(2)}</Card.Text>
+                  <Card.Text>Total Items: {count}</Card.Text>
+                  <Card.Text>
+                    Total Amount: ${cart.cart_total_price.toFixed(2)}
+                  </Card.Text>
                 </Card.Body>
                 <Card.Footer className="d-grid">
                   <FormButton>Proceed to Review</FormButton>

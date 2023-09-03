@@ -64,7 +64,7 @@ const CartPage = () => {
                 <Card.Title>Order Summary</Card.Title>
               </Card.Header>
               <Card.Body>
-                <Card.Text>Total Items: {cart.items.length}</Card.Text>
+                <Card.Text>Total Items: {count}</Card.Text>
                 <Card.Text>
                   Total Amount: ${cart.cart_total_price.toFixed(2)}
                 </Card.Text>

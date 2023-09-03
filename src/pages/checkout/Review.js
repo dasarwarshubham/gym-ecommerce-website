@@ -7,10 +7,11 @@ import { MdEdit } from "react-icons/md";
 
 // import required redux selectors
 import {
-  selectCartItems,
   selectLoadingStatus,
   selectError as selectCartError,
   selectCartAddress,
+  selectCartItemsCount,
+  selectCart,
 } from "../../redux/checkout/cartSelectors";
 
 import { CART, SHIPPING, PAYMENT } from "../../constants/routes";
@@ -18,12 +19,14 @@ import CartCard from "../../components/cards/checkout/CartCard";
 
 const ReviewPage = () => {
   const cartLoading = useSelector(selectLoadingStatus);
-  const cartItems = useSelector(selectCartItems);
+  // const cartItems = useSelector(selectCartItems);
+  const cart = useSelector(selectCart);
+  const count = useSelector(selectCartItemsCount);
   const cartError = useSelector(selectCartError);
   const cartAddress = useSelector(selectCartAddress);
 
   // Calculate total price
-  const cartTotal = cartItems.reduce(
+  const cartTotal = cart?.items.reduce(
     (total, item) => total + item.product.price * item.quantity,
     0
   );
@@ -39,7 +42,7 @@ const ReviewPage = () => {
         )}
         {cartError && <span className="text-danger">{cartError}</span>}
       </h2>
-      {cartItems.length === 0 ? (
+      {count === 0 ? (
         <p>Your cart is empty.</p>
       ) : (
         <Row className="g-4">
@@ -52,8 +55,8 @@ const ReviewPage = () => {
                 </Button>
               </Card.Header>
               <Card.Body>
-                {cartItems.map((item) => (
-                  <CartCard key={item.productId} item={item} />
+                {cart?.items.map((item) => (
+                  <CartCard key={item.product.id} item={item} />
                 ))}
               </Card.Body>
             </Card>
@@ -67,13 +70,22 @@ const ReviewPage = () => {
                 </Button>
               </Card.Header>
               <Card.Body>
-                <Card.Title>{cartAddress.fullName}</Card.Title>
-                <Card.Text>{cartAddress.addressLine1}</Card.Text>
-                <Card.Text>{cartAddress.addressLine2}</Card.Text>
-                <Card.Text>
-                  {cartAddress.city}, {cartAddress.state} {cartAddress.zipCode}
-                </Card.Text>
-                <Card.Text>Phone: {cartAddress.phone}</Card.Text>
+                {!cartAddress ? (
+                  <Card.Text className="text-danger">
+                    Delivery Address Not Provided
+                  </Card.Text>
+                ) : (
+                  <>
+                    <Card.Title>{cartAddress?.full_name}</Card.Title>
+                    <Card.Text>{cartAddress?.address_line_1}</Card.Text>
+                    <Card.Text>{cartAddress?.address_line_2}</Card.Text>
+                    <Card.Text>
+                      {cartAddress?.city}, {cartAddress?.state},{" "}
+                      {cartAddress?.zip}
+                    </Card.Text>
+                    <Card.Text>Phone: {cartAddress?.phone}</Card.Text>
+                  </>
+                )}
               </Card.Body>
             </Card>
           </Col>
@@ -83,11 +95,15 @@ const ReviewPage = () => {
                 <Card.Title className="my-2">Order Summary</Card.Title>
               </Card.Header>
               <Card.Body>
-                <Card.Text>Total Items: {cartItems.length}</Card.Text>
+                <Card.Text>Total Items: {cart.cart_total_price}</Card.Text>
                 <Card.Text>Total Amount: ${cartTotal.toFixed(2)}</Card.Text>
               </Card.Body>
               <Card.Footer className="d-grid">
-                <Button as={Link} to={PAYMENT} variant="primary">
+                <Button
+                  as={Link}
+                  to={!cartAddress ? SHIPPING : PAYMENT}
+                  variant="primary"
+                >
                   Proceed To Pay
                 </Button>
               </Card.Footer>
