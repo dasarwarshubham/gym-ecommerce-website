@@ -1,4 +1,4 @@
-import { publicAxios } from "./axiosInstance";
+import { publicAxios, userAxios } from "./axiosInstance";
 import { API_ROUTES } from "../constants/routes";
 
 export const getCartDetails = async () => {
@@ -90,6 +90,21 @@ export const deleteItemFromCart = async (product_id) => {
     const response = await publicAxios({
       method: "DELETE",
       url: `${API_ROUTES.cart}/${cartId}/items/${product_id}/`,
+    });
+    return response.data;
+  } catch (error) {
+    const errorMsg = error.message;
+    throw new Error(errorMsg);
+  }
+};
+
+export const setCartAddress = async (delivery_address) => {
+  try {
+    const cartId = localStorage.getItem("cartId");
+    const response = await userAxios({
+      method: "PUT",
+      url: `${API_ROUTES.cart}/${cartId}/address/`,
+      data: delivery_address,
     });
     return response.data;
   } catch (error) {

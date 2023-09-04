@@ -6,6 +6,7 @@ import {
   deleteItemFromCart,
   getCartDetails,
   updateItemFromCart,
+  setCartAddress,
 } from "../../services/cartAPIs";
 
 export const fetchCart = createAsyncThunk("cart/fetch", async () => {
@@ -47,10 +48,11 @@ export const deleteAllItem = createAsyncThunk("cart/deleteAll", async () => {
   return response;
 });
 
-export const setShippingInfo = createAsyncThunk(
+export const setDeliveryAddress = createAsyncThunk(
   "cart/address",
-  async (shippingInfo) => {
-    // Simulate server interaction and return updated shippingInfo
-    return shippingInfo;
+  async (delivery_address) => {
+    const response = await setCartAddress(delivery_address);
+    console.log("Cart Address Set response : ", response);
+    return response;
   }
 );

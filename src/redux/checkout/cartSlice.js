@@ -6,7 +6,7 @@ import {
   deleteItem,
   deleteAllItem,
   updateQuantity,
-  setShippingInfo,
+  setDeliveryAddress,
 } from "./cartActions";
 
 const isPendingAction = (action) => {
@@ -21,7 +21,6 @@ const isRejectedAction = (action) => {
 
 const initialState = {
   cart: null,
-  address: null,
   loading: false,
   error: null,
 };
@@ -78,9 +77,8 @@ const cartSlice = createSlice({
       .addCase(deleteAllItem.fulfilled, (state) => {
         state.loading = false;
       })
-      .addCase(setShippingInfo.fulfilled, (state, action) => {
+      .addCase(setDeliveryAddress.fulfilled, (state, action) => {
         state.loading = false;
-        state.address = action.payload;
       })
       // .addMatcher(isFulfilledAction, (state, action) => {
       //   state.loading = false;

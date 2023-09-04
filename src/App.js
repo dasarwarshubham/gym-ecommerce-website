@@ -63,7 +63,11 @@ function App() {
     }
 
     if (cartId) {
-      dispatch(fetchCart());
+      dispatch(fetchCart())
+        .unwrap()
+        .catch((error) => {
+          dispatch(createNewCart());
+        });
     } else {
       dispatch(createNewCart());
     }

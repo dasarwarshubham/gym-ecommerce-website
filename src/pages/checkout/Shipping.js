@@ -17,7 +17,10 @@ import {
 import { selectAccountAddress } from "../../redux/account/accountSelectors";
 
 // import required redux actions
-import { setShippingInfo } from "../../redux/checkout/cartActions";
+import {
+  fetchCart,
+  setDeliveryAddress,
+} from "../../redux/checkout/cartActions";
 
 // import required routes
 import { REVIEW } from "../../constants/routes";
@@ -26,8 +29,8 @@ import { FormButton, FormState, FormikForm } from "../../components/form";
 import FormRadio from "../../components/cards/checkout/AddressFormRadio";
 // import AddressCard from "../../components/cards/AddressCard";
 
-const phoneRegExp =
-  /^((\\+[1-9]{1,4}[ \\-]*)|(\\([0-9]{2,3}\\)[ \\-]*)|([0-9]{2,4})[ \\-]*)*?[0-9]{3,4}?[ \\-]*[0-9]{3,4}?$/;
+// const phoneRegExp =
+//   /^((\\+[1-9]{1,4}[ \\-]*)|(\\([0-9]{2,3}\\)[ \\-]*)|([0-9]{2,4})[ \\-]*)*?[0-9]{3,4}?[ \\-]*[0-9]{3,4}?$/;
 
 const ShippingPage = () => {
   const navigate = useNavigate();
@@ -40,10 +43,11 @@ const ShippingPage = () => {
   const addresses = useSelector(selectAccountAddress);
 
   const handleClick = (values, setSubmitting, resetForm) => {
-    dispatch(setShippingInfo(values.address))
+    dispatch(setDeliveryAddress(values))
       .then((loginAction) => {
         setSubmitting(false);
         if (loginAction.meta.requestStatus === "fulfilled") {
+          dispatch(fetchCart());
           navigate(REVIEW);
         }
       })
@@ -70,26 +74,33 @@ const ShippingPage = () => {
         <p>Your cart is empty.</p>
       ) : (
         <FormikForm
+          // initialValues={{
+          //   address: cartAddress
+          //     ? cartAddress
+          //     : addresses?.filter((address) => address.default)[0],
+          // }}
+          // validationSchema={Yup.object().shape({
+          //   address: Yup.object()
+          //     .required()
+          //     .shape({
+          //       full_name: Yup.string().required().label("Full Name"),
+          //       address_line_1: Yup.string().required().label("Address Line 1"),
+          //       address_line_2: Yup.string().required().label("Address Line 2"),
+          //       city: Yup.string().required().label("City"),
+          //       state: Yup.string().required().label("State"),
+          //       zip: Yup.string().required().label("Zip Code"),
+          //       phone: Yup.string()
+          //         .required()
+          //         .label("Phone Number")
+          //         .matches(phoneRegExp, "Phone number is not valid"),
+          //     }),
+          // })}
           initialValues={{
-            address: cartAddress
-              ? cartAddress
-              : addresses?.filter((address) => address.default)[0],
+            delivery_address: cartAddress?.id,
           }}
+          enableReinitialize
           validationSchema={Yup.object().shape({
-            address: Yup.object()
-              .required()
-              .shape({
-                full_name: Yup.string().required().label("Full Name"),
-                address_line_1: Yup.string().required().label("Address Line 1"),
-                address_line_2: Yup.string().required().label("Address Line 2"),
-                city: Yup.string().required().label("City"),
-                state: Yup.string().required().label("State"),
-                zip: Yup.string().required().label("Zip Code"),
-                phone: Yup.string()
-                  .required()
-                  .label("Phone Number")
-                  .matches(phoneRegExp, "Phone number is not valid"),
-              }),
+            delivery_address: Yup.string().required().label("Delivery Address"),
           })}
           onSubmit={(values, { setSubmitting, resetForm }) =>
             handleClick(values, setSubmitting, resetForm)
@@ -100,7 +111,7 @@ const ShippingPage = () => {
               <Row className="g-4">
                 {addresses?.map((address) => (
                   <Col md={6} key={`shipping-address-${address.id}`}>
-                    <FormRadio value={address} name="address" />
+                    <FormRadio value={address} name="delivery_address" />
                   </Col>
                 ))}
               </Row>

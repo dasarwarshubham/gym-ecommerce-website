@@ -29,7 +29,9 @@ const OrderCard = ({ order }) => {
                   </Link>
                 </Col>
                 <Col>
-                  <h6>{item.product.title}</h6>
+                  <Link to={`${EQUIPMENTS}/${item.id}`}>
+                    <h6>{item.product.title}</h6>
+                  </Link>
                   <p>Quantity: {item.quantity}</p>
                   <p>Price: ${item.unit_price}</p>
                 </Col>
@@ -39,18 +41,25 @@ const OrderCard = ({ order }) => {
         </ListGroup>
       </Card.Body>
       <Card.Footer>
-        <p>Date: {new Date(order.placed_at).toDateString()}</p>
-        {/* <p>
-          Billing Address: {order.billingAddress.street},{" "}
-          {order.billingAddress.city}, {order.billingAddress.state}{" "}
-          {order.billingAddress.zip}
-        </p>
-        <p>
-          Shipping Address: {order.shippingAddress.street},{" "}
-          {order.shippingAddress.city}, {order.shippingAddress.state}{" "}
-          {order.shippingAddress.zip}
-        </p> */}
-        <p>Total: ${order.total}</p>
+        <Row>
+          <Col xs={3}>Date:</Col>
+          <Col>{new Date(order.placed_at).toString()}</Col>
+        </Row>
+        <Row>
+          <Col xs={3}>Shipping Address: </Col>
+          <Col>
+            {order.address.full_name} <br />
+            {order.address.address_line_1}, {order.address.address_line_2},
+            <br />
+            {order.address.city}, {order.address.state} {order.address.zip}{" "}
+            <br />
+            {order.address.phone},
+          </Col>
+        </Row>
+        <Row>
+          <Col xs={3}>Total: </Col>
+          <Col>${order.total}</Col>
+        </Row>
       </Card.Footer>
     </Card>
   );

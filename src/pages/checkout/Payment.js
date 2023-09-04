@@ -1,9 +1,6 @@
 import React from "react";
 import { Link, useNavigate } from "react-router-dom";
-import {
-  // useDispatch,
-  useSelector
-} from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 
 import { CONFIRMATION, REVIEW } from "../../constants/routes";
 
@@ -24,12 +21,13 @@ import {
   selectLoadingStatus,
   selectCartAddress,
 } from "../../redux/checkout/cartSelectors";
-import { pay } from "../../services/paymentAPI";
-// import { clearCart } from "../../redux/checkout/cartActions";
+import { placeOrder } from "../../services/paymentAPI";
+import { fetchCart, createNewCart } from "../../redux/checkout/cartActions";
+import { fetchAccountData } from "../../redux/account/accountActions";
 
 const PaymentPage = () => {
   const navigate = useNavigate();
-  // const dispatch = useDispatch();
+  const dispatch = useDispatch();
   const cartLoading = useSelector(selectLoadingStatus);
   const cartItems = useSelector(selectCartItems);
   const cartAddress = useSelector(selectCartAddress);
@@ -39,14 +37,15 @@ const PaymentPage = () => {
   }
 
   const handleClick = async (values, setSubmitting, resetForm) => {
-    const order = {
-      orderItems: cartItems,
-      shippingAddress: cartAddress,
-      ...values,
-    };
     try {
-      const response = await pay(order);
+      const response = await placeOrder(values);
       if (response) {
+        dispatch(fetchCart())
+          .unwrap()
+          .catch((error) => {
+            dispatch(fetchAccountData());
+            dispatch(createNewCart());
+          });
         // dispatch(clearCart());
         // navigate(PAYMENT_SUCCESS);
       }
