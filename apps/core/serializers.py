@@ -2,10 +2,12 @@ from decimal import Decimal
 from rest_framework import serializers
 from rest_framework.exceptions import ValidationError
 from django.db import transaction
+from django.core.exceptions import ObjectDoesNotExist
 from django.contrib.auth import get_user_model
 from .models import Product, Category, Review, ProductImages, \
-    Customer, CustomerAddress, Order, OrderItem, Cart, CartItem
+    Customer, CustomerAddress, Order, OrderItem, Cart, CartItem, DeliveryAddress
 from .signals import order_created
+
 
 # Customer Profile Serializers
 
@@ -363,7 +365,7 @@ class CartSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Cart
-        fields = ['id', 'items', 'cart_total_price']
+        fields = ['id', 'items', 'delivery_address', 'cart_total_price']
 
 
 class AddCartItemSerializer(serializers.ModelSerializer):
@@ -405,6 +407,7 @@ class UpdateCartItemSerializer(serializers.ModelSerializer):
 
 # Order Serializers
 
+
 class OrderProductSerializer(serializers.ModelSerializer):
 
     class Meta:
@@ -420,8 +423,25 @@ class OrderItemSerializer(serializers.ModelSerializer):
         fields = ['id', 'product', 'quantity', 'unit_price']
 
 
+class OrderAddressSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = DeliveryAddress
+        fields = (
+            'id',
+            "full_name",
+            "address_line_1",
+            "address_line_2",
+            "city",
+            "state",
+            "country",
+            "zip",
+            "phone"
+        )
+
+
 class OrderSerializer(serializers.ModelSerializer):
     items = OrderItemSerializer(many=True)
+    address = OrderAddressSerializer(source="delivery_address")
     total = serializers.SerializerMethodField()
 
     def get_total(self, obj):
@@ -432,7 +452,7 @@ class OrderSerializer(serializers.ModelSerializer):
     class Meta:
         model = Order
         fields = ['id', 'customer', 'placed_at',
-                  'order_status', 'items', 'total']
+                  'order_status', 'items', 'total', 'address']
 
     def to_representation(self, instance: Order):
         representation = super().to_representation(instance)
@@ -462,17 +482,21 @@ class CreateOrderSerializer(serializers.Serializer):
             raise serializers.ValidationError('The cart is empty.')
         return cart_id
 
+    def validate_delivery_address(self, delivery_address):
+        if not CustomerAddress.objects.filter(id=delivery_address).exists():
+            raise serializers.ValidationError(
+                'No Address with the given ID was found.')
+        return delivery_address
+
     def save(self, **kwargs):
         with transaction.atomic():
             cart_id = self.validated_data['cart_id']
 
-            customer = Customer.objects.get(
-                account=self.context['user_id'])
+            customer = Customer.objects.get(account=self.context['user_id'])
             order = Order.objects.create(customer=customer)
 
-            cart_items = CartItem.objects \
-                .select_related('product') \
-                .filter(cart_id=cart_id)
+            cart_items = CartItem.objects.select_related(
+                'product').filter(cart_id=cart_id)
             order_items = [
                 OrderItem(
                     order=order,
@@ -483,9 +507,21 @@ class CreateOrderSerializer(serializers.Serializer):
             ]
             OrderItem.objects.bulk_create(order_items)
 
-            Cart.objects.filter(pk=cart_id).delete()
+            try:
+                address_id = Cart.objects.values('delivery_address').get(pk=cart_id)[
+                    'delivery_address']
+                # Retrieve address data excluding unwanted fields
+                address_data = CustomerAddress.objects.defer('id', 'default', 'customer_id').values(
+                    'full_name', 'address_line_1', 'address_line_2', 'city', 'state', 'zip', 'country', 'phone'
+                ).get(pk=address_id)
 
-            # send signal when order is created
+                # Create a delivery address if address data is found
+                DeliveryAddress.objects.create(order=order, **address_data)
+            except ObjectDoesNotExist:
+                address_data = None
+
+            # Delete the cart and send the order_created signal
+            Cart.objects.filter(pk=cart_id).delete()
             # this signal can be listened by other apps
             # for eg. when order created admin will be notified of new order
             order_created.send_robust(self.__class__, order=order)

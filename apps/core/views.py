@@ -27,9 +27,9 @@ class CustomerViewSet(ModelViewSet):
     serializer_class = CustomerSerializer
     permission_classes = [FullDjangoModelPermissions]
 
-    @action(detail=True, permission_classes=[ViewCustomerHistoryPermission])
-    def history(self, request, pk):
-        return Response('ok')
+    # @action(detail=True, permission_classes=[ViewCustomerHistoryPermission])
+    # def history(self, request, pk):
+    #     return Response('ok')
 
     @action(detail=False, methods=['GET', 'PATCH'], permission_classes=[IsAuthenticated])
     def me(self, request):
@@ -166,6 +166,24 @@ class CartViewSet(CreateModelMixin,
                   GenericViewSet):
     queryset = Cart.objects.prefetch_related('items__product')
     serializer_class = CartSerializer
+
+    @action(detail=True, methods=['PUT'], permission_classes=[IsAuthenticated], url_path="address")
+    def set_cart_address(self, request, pk):
+        if request.method == 'PUT':
+            try:
+                cart = Cart.objects.get(pk=pk)
+                address = CustomerAddress.objects.get(
+                    pk=request.data.get('delivery_address'))
+                cart.delivery_address = address
+                cart.save()
+
+                return Response("Cart Address Set", status=status.HTTP_200_OK)
+            except Cart.DoesNotExist:
+                return Response("Cart with given ID not does not exist", status=status.HTTP_404_NOT_FOUND)
+            except CustomerAddress.DoesNotExist:
+                return Response("No Customer Address not found, Please add new address in profile section.", status=status.HTTP_404_NOT_FOUND)
+
+        return Response("Invalid request method", status=status.HTTP_405_METHOD_NOT_ALLOWED)
 
 
 class CartItemViewSet(ModelViewSet):

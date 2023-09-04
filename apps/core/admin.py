@@ -7,7 +7,7 @@ from django.urls import reverse
 
 from .models import Customer, CustomerAddress, Category, \
     Promotion, Product, ProductImages, Review, \
-    Order, OrderItem, Cart, CartItem
+    Order, OrderItem, Cart, CartItem, DeliveryAddress
 
 
 @admin.register(Customer)
@@ -153,6 +153,21 @@ class ReviewAdmin(admin.ModelAdmin):
                     'description', 'ratings', 'date']
 
 
+# Order
+
+
+@admin.register(DeliveryAddress)
+class DeliveryAddressAdmin(admin.ModelAdmin):
+    list_display = ('order', 'full_name', 'address_line_1', 'address_line_2',
+                    'city', 'state', 'zip', 'country', 'phone')
+
+
+class DeliveryAddressInline(admin.StackedInline):
+    model = DeliveryAddress
+    extra = 1  # Number of empty forms to display for adding new delivery addresses
+    max_num = 1
+
+
 class OrderItemInline(admin.TabularInline):
     autocomplete_fields = ['product']
     min_num = 1
@@ -164,11 +179,12 @@ class OrderItemInline(admin.TabularInline):
 @admin.register(Order)
 class OrderAdmin(admin.ModelAdmin):
     autocomplete_fields = ['customer']
-    inlines = [OrderItemInline]
+    inlines = [OrderItemInline, DeliveryAddressInline]
     list_display = ['order_id',
                     'placed_at', 'customer', 'order_status']
 
     def order_id(self, obj):
+        print(obj)
         return obj.id
 
     order_id.short_description = "Order ID"
@@ -182,4 +198,5 @@ class CartItemInline(admin.TabularInline):
 @admin.register(Cart)
 class CartAdmin(admin.ModelAdmin):
     inlines = [CartItemInline]
-    list_display = ['id', 'created_at']
+    list_display = ['id', 'delivery_address', 'created_at']
+    list_select_related = ['delivery_address']

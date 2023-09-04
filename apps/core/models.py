@@ -54,8 +54,8 @@ class CustomerAddress(models.Model):
     city = models.CharField(max_length=255)
     state = models.CharField(max_length=255)
     country = models.CharField(max_length=255)
-    zip = models.CharField(max_length=255)
-    phone = models.CharField(max_length=255)
+    zip = models.CharField(max_length=20)
+    phone = models.CharField(max_length=12)
     default = models.BooleanField(
         verbose_name="Default Address", default=False)
     customer = models.ForeignKey(
@@ -191,10 +191,37 @@ class Order(models.Model):
     customer = models.ForeignKey(
         Customer, on_delete=models.PROTECT)
 
+    def __str__(self):
+        return f"Order #{self.pk} by {self.customer}"
+
     class Meta:
+        ordering = ['-placed_at']
         permissions = [
             ('cancel_order', 'Can cancel order')
         ]
+
+
+class DeliveryAddress(models.Model):
+    order = models.OneToOneField(
+        Order, on_delete=models.CASCADE, related_name='delivery_address')
+    full_name = models.CharField(max_length=255)
+    address_line_1 = models.CharField(max_length=255)
+    address_line_2 = models.CharField(max_length=255)
+    city = models.CharField(max_length=255)
+    state = models.CharField(max_length=255)
+    zip = models.CharField(max_length=20)
+    country = models.CharField(max_length=255)
+    phone = models.CharField(max_length=12)
+
+    def __str__(self) -> str:
+        return str(self.full_name) + ", " + str(self.phone)
+
+    class Meta:
+        verbose_name = 'Delivery address'
+        verbose_name_plural = 'Delivery addresses'
+
+    def __str__(self):
+        return f"{self.full_name}, {self.address_line_1}, {self.address_line_2}, {self.city}, {self.state}, {self.zip}, {self.country}"
 
 
 class OrderItem(models.Model):
@@ -210,6 +237,8 @@ class OrderItem(models.Model):
 
 class Cart(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid4)
+    delivery_address = models.OneToOneField(
+        CustomerAddress, on_delete=models.CASCADE, null=True, blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
 
 
