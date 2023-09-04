@@ -87,10 +87,10 @@ function App() {
             <Route path={ROUTES.SIGNUP}         Component={Signup} />
           </Route>
 
+          <Route path={ROUTES.CART}         Component={Cart} />
           {/* Private Routes */}
           <Route path={ROUTES.HOME} Component={PrivateRoute}>
             <Route path={ROUTES.PROFILE}      Component={Profile} />
-            <Route path={ROUTES.CART}         Component={Cart} />
             <Route path={ROUTES.SHIPPING}     Component={Shipping} />
             <Route path={ROUTES.REVIEW}       Component={Review} />
             <Route path={ROUTES.PAYMENT}      Component={Payment} />

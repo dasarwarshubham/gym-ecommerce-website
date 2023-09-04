@@ -14,7 +14,7 @@ import {
   FormState,
 } from "../../components/form";
 
-import { PROFILE, SIGNUP } from "../../constants/routes";
+import { SIGNUP } from "../../constants/routes";
 
 import {
   fetchAccountAddress,
@@ -43,7 +43,7 @@ const LoginPage = () => {
           dispatch(fetchAccountData());
           dispatch(fetchAccountAddress());
           dispatch(fetchAccountOrder());
-          navigate(PROFILE);
+          navigate(-1);
         }
       })
       .finally(() => {

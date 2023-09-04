@@ -3,16 +3,14 @@ import { Link, useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { Card, Button } from "react-bootstrap";
 import { MdCheckCircle, MdOutlineShoppingCart } from "react-icons/md";
-import { CART, EQUIPMENTS, LOGIN } from "../../constants/routes";
+import { CART, EQUIPMENTS } from "../../constants/routes";
 
 import { addItem, fetchCart } from "../../redux/checkout/cartActions";
 import { selectCartItems } from "../../redux/checkout/cartSelectors";
-import { selectIsAuthenticated } from "../../redux/account/accountSelectors";
 
 const EquipmentCard = ({ data }) => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const isAuthenticated = useSelector(selectIsAuthenticated);
   const cartItems = useSelector(selectCartItems);
 
   const alreadyInCart = cartItems?.find(
@@ -23,18 +21,14 @@ const EquipmentCard = ({ data }) => {
     if (alreadyInCart) {
       navigate(CART);
     } else {
-      if (!isAuthenticated) {
-        navigate(LOGIN);
-      } else {
-        dispatch(
-          addItem({
-            product_id: data.id,
-            quantity: 1,
-          })
-        ).then(() => {
-          dispatch(fetchCart());
-        });
-      }
+      dispatch(
+        addItem({
+          product_id: data.id,
+          quantity: 1,
+        })
+      ).then(() => {
+        dispatch(fetchCart());
+      });
     }
   };
 
