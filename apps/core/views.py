@@ -1,3 +1,5 @@
+import logging
+from requests import ConnectionError
 from django.db.models.aggregates import Count
 from django.views.decorators.cache import cache_page
 from django.utils.decorators import method_decorator
@@ -179,9 +181,9 @@ class CartViewSet(CreateModelMixin,
 
                 return Response("Cart Address Set", status=status.HTTP_200_OK)
             except Cart.DoesNotExist:
-                return Response("Cart with given ID not does not exist", status=status.HTTP_404_NOT_FOUND)
+                return Response("Cart with given ID does not exist", status=status.HTTP_404_NOT_FOUND)
             except CustomerAddress.DoesNotExist:
-                return Response("No Customer Address not found, Please add new address in profile section.", status=status.HTTP_404_NOT_FOUND)
+                return Response("Customer Address not found, Please add new address in profile section.", status=status.HTTP_404_NOT_FOUND)
 
         return Response("Invalid request method", status=status.HTTP_405_METHOD_NOT_ALLOWED)
 
@@ -215,6 +217,9 @@ class CartItemViewSet(ModelViewSet):
             return Response('All items in the cart have been deleted')
 
 
+logger = logging.getLogger(__name__)
+
+
 class OrderViewSet(ModelViewSet):
     http_method_names = ['get', 'post', 'patch', 'delete', 'head', 'options']
 
@@ -224,13 +229,20 @@ class OrderViewSet(ModelViewSet):
         return [IsAuthenticated()]
 
     def create(self, request, *args, **kwargs):
-        serializer = CreateOrderSerializer(
-            data=request.data,
-            context={'user_id': self.request.user.id})
-        serializer.is_valid(raise_exception=True)
-        order = serializer.save()
-        serializer = OrderSerializer(order)
-        return Response(serializer.data)
+        try:
+            logger.info("Order Received from {}".format(self.request.user))
+            serializer = CreateOrderSerializer(
+                data=request.data,
+                context={'user_id': self.request.user.id})
+            serializer.is_valid(raise_exception=True)
+            order = serializer.save()
+            serializer = OrderSerializer(order)
+            logger.info("Order#{} placed by {} successful.".format(
+                serializer.data["id"], self.request.user))
+            return Response(serializer.data)
+        except ConnectionError:
+            logger.critical(
+                "Order from {} failed".format(self.request.user))
 
     def get_serializer_class(self):
         if self.request.method == 'POST':
