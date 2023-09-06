@@ -60,7 +60,7 @@ const AboutContainer = (props) => {
         </Col>
         <Col className="px-0">
           <img
-            src="/images/risen-wang-20jX9b35r_M-unsplash.png"
+            src="/images/risen-wang-20jX9b35r_M-unsplash.webp"
             className="img-fluid"
             alt=""
           />
@@ -69,40 +69,5 @@ const AboutContainer = (props) => {
     </AboutBg>
   );
 };
-
-// const AboutContainer = (props) => {
-//   return (
-//     <AboutBg>
-//       <Container fluid="md" className="px-5">
-//         <h1>About FitFlex</h1>
-//         <p>
-//           At FitFlex, we believe that everyone deserves access to high-quality
-//           gym equipment, regardless of their budget. That's why we offer a wide
-//           range of affordable and durable home and commercial gym equipment that
-//           can help you reach your fitness goals.
-//         </p>
-
-//         <p>
-//           Our team is made up of fitness enthusiasts who are passionate about
-//           providing the best possible experience for our customers. We work hard
-//           to source the highest quality products and to ensure that our
-//           customers are satisfied with every purchase.
-//         </p>
-
-//         <p>
-//           We know that shopping for gym equipment can be overwhelming, which is
-//           why we offer expert advice and support to help you find the right
-//           equipment for your needs. Whether you're a seasoned athlete or just
-//           starting out on your fitness journey, we're here to help.
-//         </p>
-
-//         <p>
-//           Thank you for choosing FitFlex as your trusted source for gym
-//           equipment. We look forward to helping you reach your fitness goals!
-//         </p>
-//       </Container>
-//     </AboutBg>
-//   );
-// };
 
 export default AboutContainer;

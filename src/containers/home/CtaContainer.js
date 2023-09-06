@@ -4,7 +4,7 @@ import { Button, Col, Row } from "react-bootstrap";
 import styled from "styled-components/macro";
 
 const CTAContainer = styled.div`
-  background-image: url("/images/cta-background.png");
+  background-image: url("/images/cta-background.webp");
   background-repeat: no-repeat;
   background-position: center;
   background-size: cover;

@@ -85,10 +85,7 @@ function NavbarContainer() {
       className="py-3"
     >
       <Container fluid className="py-0">
-        <Navbar.Toggle
-          aria-controls={`offcanvasNavbar-expand-lg`}
-          onClick={handleToggle}
-        />
+        <Navbar.Toggle onClick={handleToggle} />
         <Navbar.Brand as={Link} to={ROUTES.HOME} onClick={handleClose}>
           <Logo src={logo} alt="fitflex logo" />
         </Navbar.Brand>
@@ -98,6 +95,7 @@ function NavbarContainer() {
             onClick={handleClose}
             as={Link}
             to={ROUTES.LOGIN}
+            aria-label="profile"
           >
             <MdAccountCircle style={{ color: "#ffffff" }} size={28} />
           </NavLink>
@@ -106,6 +104,7 @@ function NavbarContainer() {
             onClick={handleClose}
             as={Link}
             to={ROUTES.CART}
+            aria-label="cart"
           >
             <CartButton />
           </NavLink>

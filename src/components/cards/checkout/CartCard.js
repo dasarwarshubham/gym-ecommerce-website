@@ -9,14 +9,14 @@ const CartCard = ({ item, showQtyHandler }) => {
           <Col xs={4} md={3} lg={2} xl={2}>
             <img
               src={item.product.image}
-              alt={item.product.name}
+              alt={item.product.title}
               className="img-fluid w-100"
             />
           </Col>
           <Col xs={8} md={9} lg={10} xl={10} className="px-3">
             <Row className="h-100 ">
               <Col xs={12} lg={7} xl={8}>
-                <h5>{item.product.name}</h5>
+                <h5>{item.product.title}</h5>
                 <p>Price: ${item.product.price}</p>
                 {showQtyHandler ? (
                   <QuantityHandler item={item} />

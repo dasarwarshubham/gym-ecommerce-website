@@ -2,7 +2,7 @@ import { Link } from "react-router-dom";
 import styled from "styled-components/macro";
 
 export const Container = styled.div`
-  background: url("/images/banner.jpg");
+  background: url("/images/banner.webp");
   background-position: center;
   background-size: cover;
   position: relative;

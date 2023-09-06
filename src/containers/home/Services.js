@@ -41,7 +41,7 @@ const Services = (props) => {
             <img src={item.image} alt="" className="img-fluid" />
           </Col>
           <Col md={{ span: 9, order: idx % 2 === 0 ? "last" : "first" }}>
-            <h4 className="fs-3">{item.title}</h4>
+            <h3 className="fs-3">{item.title}</h3>
             <p>
               We provide professional installation and setup services to ensure
               your equipment is ready to use right away.

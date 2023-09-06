@@ -19,7 +19,6 @@ import {
 import {
   selectCartItems,
   selectLoadingStatus,
-  selectCartAddress,
 } from "../../redux/checkout/cartSelectors";
 import { placeOrder } from "../../services/paymentAPI";
 import { fetchCart, createNewCart } from "../../redux/checkout/cartActions";
@@ -30,7 +29,6 @@ const PaymentPage = () => {
   const dispatch = useDispatch();
   const cartLoading = useSelector(selectLoadingStatus);
   const cartItems = useSelector(selectCartItems);
-  const cartAddress = useSelector(selectCartAddress);
 
   if (cartLoading) {
     return <Loader />;

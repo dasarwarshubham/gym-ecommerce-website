@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import useInitialLoad from "../../hooks/useInitialLoad";
+// import useInitialLoad from "../../hooks/useInitialLoad";
 import { Button, Spinner } from "react-bootstrap";
 import {
   FormikForm,
@@ -43,7 +43,7 @@ const AccountDetailsSection = () => {
   const error = useSelector(selectAccountError);
   const dispatch = useDispatch();
 
-  const { initialLoad } = useInitialLoad(profile);
+  // const { initialLoad } = useInitialLoad(profile);
   const [isEditing, setIsEditing] = useState(false);
 
   const handleClick = (values, setSubmitting, resetForm) => {
@@ -64,7 +64,7 @@ const AccountDetailsSection = () => {
       });
   };
 
-  if (initialLoad) {
+  if (loading) {
     return (
       <div
         className="d-flex justify-content-center align-items-center w-100"
@@ -77,6 +77,7 @@ const AccountDetailsSection = () => {
 
   return (
     <>
+      {error && <p className="text-danger">{error}</p>}
       <FormikForm
         initialValues={{
           first_name: profile?.first_name,
@@ -91,8 +92,6 @@ const AccountDetailsSection = () => {
           handleClick(values, setSubmitting, resetForm)
         }
       >
-        {error && <p className="text-danger">{error}</p>}
-
         <FormField
           label="First Name"
           name="first_name"

@@ -29,7 +29,7 @@ function TestimonialCard({ data }) {
       {/* <Card.Img variant="bottom" src={data.image} alt={data.alt} /> */}
       <Card.Body>
         <CardText>{data.testimonial}</CardText>
-        <h6>— {data.name}</h6>
+        <span className="fw-bold">— {data.name}</span>
       </Card.Body>
     </Card>
   );

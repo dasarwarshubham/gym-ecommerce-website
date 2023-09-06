@@ -3,7 +3,7 @@ import React from "react";
 import styled from "styled-components";
 
 const Container = styled.header`
-  background-image: url("/images/anastase-maragos-9dzWZQWZMdE-unsplash.png");
+  background-image: url("/images/anastase-maragos-9dzWZQWZMdE-unsplash.webp");
   background-repeat: no-repeat;
   background-position: center;
   background-size: cover;
