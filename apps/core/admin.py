@@ -156,10 +156,10 @@ class ReviewAdmin(admin.ModelAdmin):
 # Order
 
 
-@admin.register(DeliveryAddress)
-class DeliveryAddressAdmin(admin.ModelAdmin):
-    list_display = ('order', 'full_name', 'address_line_1', 'address_line_2',
-                    'city', 'state', 'zip', 'country', 'phone')
+# @admin.register(DeliveryAddress)
+# class DeliveryAddressAdmin(admin.ModelAdmin):
+#     list_display = ('order', 'full_name', 'address_line_1', 'address_line_2',
+#                     'city', 'state', 'zip', 'country', 'phone')
 
 
 class DeliveryAddressInline(admin.StackedInline):
@@ -182,6 +182,11 @@ class OrderAdmin(admin.ModelAdmin):
     inlines = [OrderItemInline, DeliveryAddressInline]
     list_display = ['order_id',
                     'placed_at', 'customer', 'order_status']
+    # list_editable = ['order_status']
+    list_select_related = ['customer__account']
+
+    # def get_queryset(self, request):
+    #     return super().get_queryset(request).select_related('customer__account').prefetch_related('delivery_address')
 
     def order_id(self, obj):
         print(obj)

@@ -39,17 +39,17 @@ DEBUG = os.environ.get("DEBUG")
 HOST_URL = "http://127.0.0.1:8000/"
 ALLOWED_HOSTS = []
 
+# Replace with the URL of your React app
 CORS_ALLOWED_ORIGINS = [
-    "http://localhost:3001",  # Replace with the URL of your React app
+    "http://localhost:3001",
     # Add more allowed origins if needed
     "http://localhost:3000",
-    "http://localhost:3001",
     "http://127.0.0.1:3000",
     "http://127.0.0.1:3001",
     "http://172.31.135.210:3000"
 ]
 CORS_ALLOW_CREDENTIALS = True
-
+CSRF_COOKIE_SECURE = True
 
 # Application definition
 
@@ -128,6 +128,7 @@ MIDDLEWARE = [
     # 'silk.middleware.SilkyMiddleware',
 ]
 
+SESSION_COOKIE_SECURE = True
 
 ROOT_URLCONF = 'backend.urls'
 

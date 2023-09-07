@@ -49,7 +49,7 @@ CORS_ALLOWED_ORIGINS = [
     "http://172.31.135.210:3000"
 ]
 CORS_ALLOW_CREDENTIALS = True
-
+CSRF_COOKIE_SECURE = True
 
 # Application definition
 
@@ -117,6 +117,7 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware'
 ]
 
+SESSION_COOKIE_SECURE = True
 
 ROOT_URLCONF = 'backend.urls'
 
