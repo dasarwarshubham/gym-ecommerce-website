@@ -17,7 +17,7 @@ from celery.schedules import crontab
 from rest_framework.settings import api_settings
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
-BASE_DIR = Path(__file__).resolve().parent.parent
+BASE_DIR = Path(__file__).resolve().parent.parent.parent
 # Load environment variables from .env file
 with open(".env") as f:
     for line in f:

@@ -57,7 +57,6 @@ const AddressFormRadio = ({
       >
         <Card checked={isChecked}>
           <Card.Body>
-            <Card.Title>{value.id}</Card.Title>
             <Card.Title>{value.full_name}</Card.Title>
             <Card.Text>{value.address_line_1}</Card.Text>
             <Card.Text>{value.address_line_2}</Card.Text>

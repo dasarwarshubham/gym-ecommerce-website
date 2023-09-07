@@ -17,7 +17,7 @@ from datetime import timedelta
 from rest_framework.settings import api_settings
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
-BASE_DIR = Path(__file__).resolve().parent.parent
+BASE_DIR = Path(__file__).resolve().parent.parent.parent
 # Load environment variables from .env file
 with open(".env") as f:
     for line in f:
@@ -34,21 +34,21 @@ with open(".env") as f:
 SECRET_KEY = os.environ.get("SECRET_KEY")
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = os.environ.get("DEBUG")
+DEBUG = True
 
 HOST_URL = "http://127.0.0.1:8000/"
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['localhost','127.0.0.1']
 
 # Replace with the URL of your React app
+CORS_ORIGIN_ALLOW_ALL = True
 CORS_ALLOWED_ORIGINS = [
-    "http://localhost:3001",
     # Add more allowed origins if needed
     "http://localhost:3000",
     "http://127.0.0.1:3000",
-    "http://127.0.0.1:3001",
-    "http://172.31.135.210:3000"
+    "http://172.26.56.206:3000",
 ]
-CORS_ALLOW_CREDENTIALS = True
+# CORS_ALLOW_CREDENTIALS = True
+CORS_ALLOW_CREDENTIALS = False
 CSRF_COOKIE_SECURE = True
 
 # Application definition

@@ -22,7 +22,7 @@ import {
 } from "../../redux/checkout/cartSelectors";
 import { placeOrder } from "../../services/paymentAPI";
 import { fetchCart, createNewCart } from "../../redux/checkout/cartActions";
-import { fetchAccountData } from "../../redux/account/accountActions";
+import { fetchAccountData, fetchAccountOrder } from "../../redux/account/accountActions";
 
 const PaymentPage = () => {
   const navigate = useNavigate();
@@ -42,6 +42,7 @@ const PaymentPage = () => {
           .unwrap()
           .catch((error) => {
             dispatch(fetchAccountData());
+            dispatch(fetchAccountOrder());
             dispatch(createNewCart());
           });
         // dispatch(clearCart());
