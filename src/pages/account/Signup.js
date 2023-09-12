@@ -12,7 +12,7 @@ import {
   FormikForm,
   FormField,
   FormButton,
-  FormRadio,
+  // FormRadio,
 } from "../../components/form";
 
 import { signupUser } from "../../redux/account/accountActions";
@@ -23,24 +23,24 @@ const initialValues = {
   first_name: "",
   last_name: "",
   email: "",
-  phone: "",
-  gender: "",
+  // phone: "",
+  // gender: "",
   password: "",
   confirm_password: "",
 };
 
-const phoneRegExp =
-  /^((\\+[1-9]{1,4}[ \\-]*)|(\\([0-9]{2,3}\\)[ \\-]*)|([0-9]{2,4})[ \\-]*)*?[0-9]{3,4}?[ \\-]*[0-9]{3,4}?$/;
+// const phoneRegExp =
+//   /^((\\+[1-9]{1,4}[ \\-]*)|(\\([0-9]{2,3}\\)[ \\-]*)|([0-9]{2,4})[ \\-]*)*?[0-9]{3,4}?[ \\-]*[0-9]{3,4}?$/;
 
 const validationSchema = Yup.object().shape({
   first_name: Yup.string().required().label("First Name"),
   last_name: Yup.string().required().label("Last Name"),
   email: Yup.string().required().email().label("Email"),
-  phone: Yup.string()
-    .required()
-    .label("Phone Number")
-    .matches(phoneRegExp, "Phone number is not valid"),
-  gender: Yup.string().required().label("Gender").oneOf(["M", "F", "NA"]),
+  // phone: Yup.string()
+  //   .required()
+  //   .label("Phone Number")
+  //   .matches(phoneRegExp, "Phone number is not valid"),
+  // gender: Yup.string().required().label("Gender").oneOf(["M", "F", "NA"]),
   password: Yup.string().min(6).required().label("Password"),
   confirm_password: Yup.string()
     .oneOf([Yup.ref("password"), null], "Passwords don't match!")
@@ -85,7 +85,7 @@ const SignupPage = () => {
             <FormField label="First Name" name="first_name" />
             <FormField label="Last Name" name="last_name" />
             <FormField label="Email" type="email" name="email" />
-            <FormField label="Phone Number" name="phone" inputMode="numeric" />
+            {/* <FormField label="Phone Number" name="phone" inputMode="numeric" />
             <FormRadio
               label="Gender"
               name="gender"
@@ -94,7 +94,7 @@ const SignupPage = () => {
                 { label: "Female", value: "F" },
                 { label: "Prefer Not to Say", value: "NA" },
               ]}
-            />
+            /> */}
             <FormField label="Password" type="password" name="password" />
             <FormField
               label="Re-enter password"

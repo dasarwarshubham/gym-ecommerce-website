@@ -28,9 +28,11 @@ const FormField = ({
         controlId={name}
         className={fieldClass ? fieldClass : "mb-3"}
       >
-        <FormLabel column xs={12} md={4}>
-          {label}
-        </FormLabel>
+        {label && (
+          <FormLabel column xs={12} md={4}>
+            {label}
+          </FormLabel>
+        )}
         <Col xs={12} md={8}>
           {type === "select" ? (
             <FormSelect
@@ -65,7 +67,9 @@ const FormField = ({
   if (type === "select") {
     return (
       <FormGroup controlId={name} className={fieldClass ? fieldClass : "mb-5"}>
-        <FormLabel>{label}</FormLabel>
+        {label && (
+          <FormLabel>{label}</FormLabel>
+        )}
         <FormSelect
           aria-label={label}
           name={name}
@@ -82,7 +86,9 @@ const FormField = ({
   }
   return (
     <FormGroup controlId={name} className={fieldClass ? fieldClass : "mb-5"}>
-      <FormLabel>{label}</FormLabel>
+      {label && (
+        <FormLabel>{label}</FormLabel>
+      )}
       <FormControl
         aria-label={label}
         type={type}

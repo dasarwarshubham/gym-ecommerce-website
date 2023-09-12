@@ -28,7 +28,6 @@ const AddressSection = () => {
       </div>
     );
   }
-  console.log("Address: ", addresses);
 
   return (
     <>

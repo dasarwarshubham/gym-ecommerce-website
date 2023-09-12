@@ -173,14 +173,6 @@ function NavbarContainer() {
               >
                 Contact
               </NavLink>
-              <NavLink
-                className="nav-link"
-                onClick={handleClose}
-                as={Link}
-                to="/links"
-              >
-                Links
-              </NavLink>
             </Nav>
           </OffCanvas.Body>
         </OffCanvas>

@@ -1,19 +1,22 @@
 import React from "react";
-import OrderCard from "../../components/cards/OrderCard";
+import { useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
+import { Button, Spinner } from "react-bootstrap";
+
+import OrderCard from "../../components/cards/OrderCard";
+import { EQUIPMENTS } from "../../constants/routes";
+
 import {
   selectAccountLoading,
   selectOrders,
 } from "../../redux/account/accountSelectors";
 
-// import useInitialLoad from "../../hooks/useInitialLoad";
-import { Spinner } from "react-bootstrap";
 
 const OrderSection = () => {
-  const { currentOrders, pastOrders } = useSelector(selectOrders);
-  // const { initialLoad: currentOrderLoading } = useInitialLoad(currentOrders);
-  // const { initialLoad: pastOrderLoading } = useInitialLoad(pastOrders);
+  const navigate = useNavigate();
+
   const loading = useSelector(selectAccountLoading);
+  const { currentOrders, pastOrders } = useSelector(selectOrders);
 
   if (loading) {
     return (
@@ -26,16 +29,34 @@ const OrderSection = () => {
     );
   }
 
+  if (!currentOrders?.length && !pastOrders?.length) {
+    return (
+      <div className="text-center">
+        <p>No have not ordered anything yet.</p>
+        <p> Start you Fit and flexible journey with us.</p>
+        <Button onClick={() => navigate(EQUIPMENTS)}>Continue Shopping</Button>
+      </div>
+    )
+  }
+
   return (
     <>
-      <h4>Current Order</h4>
-      {currentOrders?.map((order) => (
-        <OrderCard key={order.id} order={order} />
-      ))}
-      <h4>Past Orders</h4>
-      {pastOrders?.map((order) => (
-        <OrderCard key={order.id} order={order} />
-      ))}
+      {currentOrders?.length > 0 && (
+        <>
+          <h4>Current Order</h4>
+          {currentOrders?.map((order) => (
+            <OrderCard key={order.id} order={order} />
+          ))}
+        </>
+      )}
+      {pastOrders?.length > 0 && (
+        <>
+          <h4>Past Orders</h4>
+          {pastOrders?.map((order) => (
+            <OrderCard key={order.id} order={order} />
+          ))}
+        </>
+      )}
     </>
   );
 };

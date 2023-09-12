@@ -24,6 +24,9 @@ const Faqs                  = lazy(() => import(/* webpackChunkName: "faqsPage" 
 const Login                 = lazy(() => import(/* webpackChunkName: "loginPage" */ "./pages/account/Login"));
 const Signup                = lazy(() => import(/* webpackChunkName: "signupPage" */ "./pages/account/Signup"));
 const Profile               = lazy(() => import(/* webpackChunkName: "profilePage" */ "./pages/account/Profile"));
+const ResetPasswordPage     = lazy(() => import(/* webpackChunkName: "resetPasswordPage" */ "./pages/account/ResetPasswordPage"));
+const ForgotPasswordPage    = lazy(() => import(/* webpackChunkName: "forgotPasswordPage" */ "./pages/account/ForgotPasswordPage"));
+const VerifyEmailPage       = lazy(() => import(/* webpackChunkName: "verifyEmailPage" */ "./pages/account/VerifyEmailPage"));
 
 const Equipments            = lazy(() => import(/* webpackChunkName: "equipmentsPage" */ "./pages/equipments/Equipments"));
 const HomeEquipments        = lazy(() => import(/* webpackChunkName: "homeEquipmentsPage" */ "./pages/equipments/HomeEquipments"));
@@ -40,7 +43,6 @@ const Review                = lazy(() => import(/* webpackChunkName: "reviewPage
 const Payment               = lazy(() => import(/* webpackChunkName: "paymentPage" */ "./pages/checkout/Payment"));
 const Confirmation          = lazy(() => import(/* webpackChunkName: "confirmationPage" */ "./pages/checkout/Confirmation"));
 
-const LinksPage             = lazy(() => import(/* webpackChunkName: "linksPage" */ "./pages/LinksPage"));
 
 function App() {
   const dispatch = useDispatch();
@@ -87,18 +89,21 @@ function App() {
 
           {/* Public Routes */}
           <Route path={ROUTES.HOME} Component={PublicRoute}>
-            <Route path={ROUTES.LOGIN}          Component={Login} />
-            <Route path={ROUTES.SIGNUP}         Component={Signup} />
+            <Route path={ROUTES.LOGIN}                              Component={Login} />
+            <Route path={ROUTES.SIGNUP}                             Component={Signup} />
+            <Route path={ROUTES.FORGOT_PASSWORD}                    Component={ForgotPasswordPage} />
+            <Route path={`${ROUTES.RESET_PASSWORD}/:token`}         Component={ResetPasswordPage} />
+            <Route path={`${ROUTES.VERIFY_EMAIL}/:user_id/:token`}  Component={VerifyEmailPage} />
           </Route>
 
-          <Route path={ROUTES.CART}         Component={Cart} />
+          <Route path={ROUTES.CART} Component={Cart} />
           {/* Private Routes */}
           <Route path={ROUTES.HOME} Component={PrivateRoute}>
-            <Route path={ROUTES.PROFILE}      Component={Profile} />
-            <Route path={ROUTES.SHIPPING}     Component={Shipping} />
-            <Route path={ROUTES.REVIEW}       Component={Review} />
-            <Route path={ROUTES.PAYMENT}      Component={Payment} />
-            <Route path={ROUTES.CONFIRMATION} Component={Confirmation} />
+            <Route path={ROUTES.PROFILE}          Component={Profile} />
+            <Route path={ROUTES.SHIPPING}         Component={Shipping} />
+            <Route path={ROUTES.REVIEW}           Component={Review} />
+            <Route path={ROUTES.PAYMENT}          Component={Payment} />
+            <Route path={ROUTES.CONFIRMATION}     Component={Confirmation} />
           </Route>
 
           <Route path={ROUTES.EQUIPMENTS}>
@@ -115,7 +120,6 @@ function App() {
 
           <Route path="*" Component={PageNotFound} />
 
-          <Route path="/links" Component={LinksPage} />
         </Routes>
       </Suspense>
       <FooterContainer />

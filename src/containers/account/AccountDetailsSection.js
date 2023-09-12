@@ -17,7 +17,9 @@ import {
   selectAccountError,
   selectAccountLoading,
 } from "../../redux/account/accountSelectors";
-import { updateAccountDetails } from "../../redux/account/accountActions";
+import { logoutAllUser, updateAccountDetails } from "../../redux/account/accountActions";
+import { useNavigate } from "react-router-dom";
+import { LOGIN } from "../../constants/routes";
 
 const phoneRegExp =
   /^((\\+[1-9]{1,4}[ \\-]*)|(\\([0-9]{2,3}\\)[ \\-]*)|([0-9]{2,4})[ \\-]*)*?[0-9]{3,4}?[ \\-]*[0-9]{3,4}?$/;
@@ -27,14 +29,9 @@ const validationSchema = Yup.object().shape({
   last_name: Yup.string().required().label("Last Name"),
   email: Yup.string().required().email().label("Email"),
   phone: Yup.string()
-    .required()
     .label("Phone Number")
-    .matches(phoneRegExp, "Phone number is not valid"),
-  // alternate_phone: Yup.string()
-  //   .required()
-  //   .label("Alternate Phone Number")
-  //   .matches(phoneRegExp, "Alternate Phone number is not valid"),
-  gender: Yup.string().required().label("Gender").oneOf(["M", "F", "NA"]),
+    .matches(phoneRegExp, "Phone number is not valid").nullable(),
+  gender: Yup.string().label("Gender").oneOf(["M", "F", "NA", null]),
 });
 
 const AccountDetailsSection = () => {
@@ -42,6 +39,7 @@ const AccountDetailsSection = () => {
   const profile = useSelector(selectAccountData);
   const error = useSelector(selectAccountError);
   const dispatch = useDispatch();
+  const navigate = useNavigate()
 
   // const { initialLoad } = useInitialLoad(profile);
   const [isEditing, setIsEditing] = useState(false);
@@ -52,6 +50,12 @@ const AccountDetailsSection = () => {
       .then((response) => {
         //update initialvalues with updated values from response after successful form submission
         resetForm({ values: response });
+        if (response && values?.email !== profile?.email) {
+          dispatch(logoutAllUser())
+            .then(() => {
+              navigate(LOGIN)
+            })
+        }
       })
       .catch((error) => {
         console.log(error);
@@ -83,14 +87,17 @@ const AccountDetailsSection = () => {
           first_name: profile?.first_name,
           last_name: profile?.last_name,
           email: profile?.email,
-          phone: profile?.phone,
-          // alternate_phone: profile?.alternate_phone,
-          gender: profile?.gender,
+          phone: profile?.phone ? profile?.phone : '',
+          gender: profile?.gender ? profile?.gender : '',
         }}
         validationSchema={validationSchema}
-        onSubmit={(values, { setSubmitting, resetForm }) =>
+        onSubmit={(values, { setSubmitting, resetForm }) => {
+          // if phone and  gender are blank then send null values 
+          values['phone'] = values["phone"] ? values["phone"] : null;
+          values['gender'] = values["gender"] ? values["gender"] : null;
           handleClick(values, setSubmitting, resetForm)
-        }
+        }}
+        enableReinitialize
       >
         <FormField
           label="First Name"
@@ -118,13 +125,6 @@ const AccountDetailsSection = () => {
           disabled={!isEditing || loading}
           modal
         />
-        {/* <FormField
-          label="Alternate Phone Number"
-          name="alternate_phone"
-          inputMode="numeric"
-          disabled={!isEditing || loading}
-          modal
-        /> */}
 
         <FormRadio
           label="Gender"
@@ -158,15 +158,9 @@ const AccountDetailsSection = () => {
             <>Edit</>
           </Button>
         )}
-
         <FormState />
       </FormikForm>
-      {/* <p>
-        <strong>DOB:</strong> {profile?.dob}
-      </p>
-      <p>
-        <strong>Password:</strong> ********
-      </p> */}
+      {/* <p> <strong>DOB:</strong> {profile?.dob} </p> */}
     </>
   );
 };

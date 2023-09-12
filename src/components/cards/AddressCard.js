@@ -6,8 +6,7 @@ import { FaTrash } from "react-icons/fa";
 import {
   FormikForm,
   FormField,
-  FormButton,
-  FormState,
+  FormButton
 } from "../../components/form";
 
 import * as Yup from "yup";
@@ -208,7 +207,6 @@ const AddressCard = ({ address }) => {
             <FormButton>Submit</FormButton>
           </div>
 
-          <FormState />
         </FormikForm>
       </Card.Body>
     </Card>

@@ -10,9 +10,10 @@ import {
   updateAccountAddress,
   deleteAccountAddress,
   addAccountAddress,
-  defaultAccountAddress,
+  // defaultAccountAddress,
   fetchAccountAddress,
   fetchAccountOrder,
+  changeUserPassword,
 } from "./accountActions";
 
 const isPendingAction = (action) => {
@@ -61,6 +62,9 @@ const accountSlice = createSlice({
         state.token = action.payload;
         state.error = null;
       })
+      .addCase(changeUserPassword.fulfilled, (state) => {
+        state.loading = false;
+      })
       .addCase(logoutUser.fulfilled, (state) => {
         return initialState;
       })
@@ -93,17 +97,17 @@ const accountSlice = createSlice({
         state.loading = false;
         state.error = null;
       })
-      .addCase(defaultAccountAddress.fulfilled, (state, action) => {
-        state.loading = false;
-        state.error = null;
-        state.user = state.address.map((address) => {
-          if (address.id === action.payload) {
-            return { ...address, default: true };
-          } else {
-            return { ...address, default: false };
-          }
-        });
-      })
+      // .addCase(defaultAccountAddress.fulfilled, (state, action) => {
+      //   state.loading = false;
+      //   state.error = null;
+      //   state.user = state.address.map((address) => {
+      //     if (address.id === action.payload) {
+      //       return { ...address, default: true };
+      //     } else {
+      //       return { ...address, default: false };
+      //     }
+      //   });
+      // })
       .addCase(deleteAccountAddress.fulfilled, (state, action) => {
         state.loading = false;
         state.error = null;

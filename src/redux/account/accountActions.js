@@ -11,9 +11,10 @@ import {
   addUserAddress,
   updateUserAddress,
   deleteUserAddress,
-  makeUserAddressDefault,
+  // makeUserAddressDefault,
   signup,
   getUserAddresses,
+  changePassword,
 } from "../../services/accountAPI";
 import { getUserOrders } from "../../services/orderAPI";
 
@@ -22,6 +23,14 @@ export const loginUser = createAsyncThunk(
   async (userData) => {
     const response = await login(userData);
     localStorage.setItem("token", response);
+    return response;
+  }
+);
+
+export const changeUserPassword = createAsyncThunk(
+  actionTypes.PASSWORD,
+  async (data) => {
+    const response = await changePassword(data);
     return response;
   }
 );
@@ -91,14 +100,14 @@ export const updateAccountAddress = createAsyncThunk(
   }
 );
 
-export const defaultAccountAddress = createAsyncThunk(
-  actionTypes.DEFAULT_ADDRESS,
-  async (addressId) => {
-    const response = await makeUserAddressDefault(addressId);
-    console.log(response);
-    return response;
-  }
-);
+// export const defaultAccountAddress = createAsyncThunk(
+//   actionTypes.DEFAULT_ADDRESS,
+//   async (addressId) => {
+//     const response = await makeUserAddressDefault(addressId);
+//     console.log(response);
+//     return response;
+//   }
+// );
 
 export const deleteAccountAddress = createAsyncThunk(
   actionTypes.DELETE_ADDRESS,

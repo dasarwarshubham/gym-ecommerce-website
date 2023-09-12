@@ -5,8 +5,7 @@ import { MdOutlineAddCircle } from "react-icons/md";
 import {
   FormikForm,
   FormField,
-  FormButton,
-  FormState,
+  FormButton
 } from "../../components/form";
 
 import * as Yup from "yup";
@@ -166,7 +165,6 @@ const AddAddressCard = ({ isButton }) => {
             <FormButton>Submit</FormButton>
           </div>
 
-          <FormState />
         </FormikForm>
       </Card.Body>
     </Card>

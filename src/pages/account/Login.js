@@ -10,11 +10,10 @@ import * as Yup from "yup";
 import {
   FormikForm,
   FormField,
-  FormButton,
-  FormState,
+  FormButton
 } from "../../components/form";
 
-import { SIGNUP } from "../../constants/routes";
+import { SIGNUP, FORGOT_PASSWORD } from "../../constants/routes";
 
 import {
   fetchAccountAddress,
@@ -73,12 +72,12 @@ const LoginPage = () => {
             {error && <p className="text-danger">{error}</p>}
             <FormField label="Username" type="email" name="username" />
             <FormField label="Password" type="password" name="password" />
-            {/* <Link
+            <Link
               className="btn btn-link btn-sm p-0 mx-auto mb-5 mt-2"
               to={FORGOT_PASSWORD}
             >
               Forgot your password?
-            </Link> */}
+            </Link>
 
             <div className="d-grid col-9 col-sm-5 col-md-4 mx-auto mb-4">
               <FormButton>Login</FormButton>
@@ -92,8 +91,6 @@ const LoginPage = () => {
                 </Link>
               </p>
             </div>
-
-            <FormState />
           </FormikForm>
         </Col>
       </Row>

@@ -12,6 +12,9 @@ export const PAGE_NOT_FOUND_404 = "/not-found";
 export const LOGIN = "/login";
 export const SIGNUP = "/signup";
 export const PROFILE = "/account";
+export const FORGOT_PASSWORD = "/forgot-password";
+export const RESET_PASSWORD = "/reset-password";
+export const VERIFY_EMAIL = "/verify-email";
 
 export const CART = "/cart";
 export const SHIPPING = "/shipping";
@@ -26,6 +29,7 @@ export const INSTAGRAM = "https://www.instagram.com";
 export const FACEBOOK = "https://www.facebook.com";
 
 const API_BASE_URL = "http://127.0.0.1:8000";
+// const API_BASE_URL = "http://127.0.0.1";
 
 export const API_ROUTES = {
   equipments: `${API_BASE_URL}/api/products`,

@@ -13,13 +13,14 @@ import {
 } from "react-bootstrap";
 
 import { LOGIN } from "../../constants/routes";
-import { logoutUser, logoutAllUser } from "../../redux/account/accountActions";
+import { logoutUser } from "../../redux/account/accountActions";
 import { selectAccountLoading } from "../../redux/account/accountSelectors";
 
 import PersonalInfoSection from "../../containers/account/AccountDetailsSection";
 import OrderSection from "../../containers/account/OrderSection";
 // import FavoriteSection from "../../containers/account/FavouritesSection";
 import AddressSection from "../../containers/account/AddressSection";
+import SecuritySection from "../../containers/account/SecuritySection";
 // import PaymentsSection from "../../containers/account/PaymentsSection";
 // import { clearCart } from "../../redux/checkout/cartActions";
 
@@ -30,13 +31,6 @@ const ProfilePage = () => {
 
   const handleLogout = async () => {
     dispatch(logoutUser()).then(() => {
-      // dispatch(clearCart());
-      navigate(LOGIN);
-    });
-  };
-
-  const handleLogoutAll = async () => {
-    dispatch(logoutAllUser()).then(() => {
       // dispatch(clearCart());
       navigate(LOGIN);
     });
@@ -61,13 +55,6 @@ const ProfilePage = () => {
                   <>Logout</>
                 )}
               </Button>
-              <Button variant="danger" title="logout" onClick={handleLogoutAll}>
-                {loading ? (
-                  <Spinner as="span" size="sm" animation="border" />
-                ) : (
-                  <>Logout from all devices</>
-                )}
-              </Button>
             </div>
           </div>
           <hr />
@@ -90,6 +77,9 @@ const ProfilePage = () => {
                   {/* <Nav.Item>
                     <Nav.Link eventKey="payments">Payment Methods</Nav.Link>
                   </Nav.Item> */}
+                  <Nav.Item>
+                    <Nav.Link eventKey="security">Security</Nav.Link>
+                  </Nav.Item>
                 </Nav>
               </Col>
               <Col sm={9}>
@@ -109,6 +99,9 @@ const ProfilePage = () => {
                   {/* <Tab.Pane eventKey="payments">
                     <PaymentsSection />
                   </Tab.Pane> */}
+                  <Tab.Pane eventKey="security">
+                    <SecuritySection />
+                  </Tab.Pane>
                 </Tab.Content>
               </Col>
             </Row>
