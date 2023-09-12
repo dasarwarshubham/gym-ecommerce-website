@@ -15,6 +15,8 @@ from pathlib import Path
 from datetime import timedelta
 from celery.schedules import crontab
 from rest_framework.settings import api_settings
+from logging.handlers import TimedRotatingFileHandler
+
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent.parent
@@ -36,17 +38,15 @@ SECRET_KEY = os.environ.get("SECRET_KEY")
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
 
-HOST_URL = "http://127.0.0.1:8000/"
-ALLOWED_HOSTS = []
+REACT_APP_URL = os.environ.get("REACT_APP_URL")
+HOST_URL = "http://127.0.0.1/"
+ALLOWED_HOSTS = ['127.0.0.1', 'localhost']
 
+# Replace with the URL of your React app
 CORS_ALLOWED_ORIGINS = [
-    "http://localhost:3001",  # Replace with the URL of your React app
     # Add more allowed origins if needed
-    "http://localhost:3000",
-    "http://localhost:3001",
-    "http://127.0.0.1:3000",
-    "http://127.0.0.1:3001",
-    "http://172.31.135.210:3000"
+    "http://localhost",
+    "http://127.0.0.1",
 ]
 CORS_ALLOW_CREDENTIALS = True
 CSRF_COOKIE_SECURE = True
@@ -124,7 +124,7 @@ ROOT_URLCONF = 'backend.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [BASE_DIR, 'templates/',],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -194,7 +194,10 @@ MEDIA_URL = "/media/"
 MEDIA_ROOT = os.path.join(BASE_DIR, "media")
 
 STATIC_URL = "/static/"
-STATIC_ROOT = os.path.join(BASE_DIR, 'static')
+STATIC_ROOT = os.path.join(BASE_DIR, "static")
+
+STATICFILES_DIRS = [os.path.join(BASE_DIR, "build/static")]
+
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
@@ -228,12 +231,17 @@ CELERY_BEAT_SCHEDULE = {
 CACHES = {
     "default": {
         "BACKEND": "django_redis.cache.RedisCache",
-        "LOCATION": "redis://127.0.0.1:6379/2",
+        "LOCATION": "redis://127.0.0.1:6379/1",
         "OPTIONS": {
             "CLIENT_CLASS": "django_redis.client.DefaultClient",
         }
     }
 }
+
+LOGGING_DIR = os.path.join(BASE_DIR, 'logs')  # Set the directory for log files
+
+if not os.path.exists(LOGGING_DIR):
+    os.makedirs(LOGGING_DIR)
 
 LOGGING = {
     'version': 1,
@@ -242,11 +250,18 @@ LOGGING = {
         'console': {
             'class': 'logging.StreamHandler'
         },
+        # 'file': {
+        #     'class': 'logging.FileHandler',
+        #     'filename': 'general.log',
+        #     'formatter': 'verbose'
+        # },
         'file': {
-            'class': 'logging.FileHandler',
-            'filename': 'general.log',
-            'formatter': 'verbose'
-        }
+            'class': 'logging.handlers.TimedRotatingFileHandler',
+            'filename': os.path.join(LOGGING_DIR, 'general.log'),
+            'when': 'midnight',  # Rotate logs daily at midnight
+            'backupCount': 30,    # Keep up to 30 backup log files (30 day's worth)
+            'formatter': 'verbose',
+        },
     },
     'loggers': {
         '': {

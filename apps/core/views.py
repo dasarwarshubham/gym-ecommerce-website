@@ -14,6 +14,7 @@ from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework.filters import SearchFilter, OrderingFilter
 from .filters import ProductFilter
 from .permissions import IsAdminOrReadOnly, FullDjangoModelPermissions, ViewCustomerHistoryPermission
+from .signals import order_created
 
 from .models import Category, Product, Review, Customer, CustomerAddress, \
     Cart, CartItem, Order, OrderItem
@@ -239,6 +240,10 @@ class OrderViewSet(ModelViewSet):
             serializer = OrderSerializer(order)
             logger.info("Order#{} placed by {} successful.".format(
                 serializer.data["id"], self.request.user))
+
+            # this signal can be listened by other apps
+            # for eg. when order created admin will be notified of new order
+            order_created.send_robust(self.__class__, order=serializer.data)
             return Response(serializer.data)
         except ConnectionError:
             logger.critical(
@@ -258,5 +263,5 @@ class OrderViewSet(ModelViewSet):
 
         customer_id = Customer.objects.only(
             'account').get(account_id=user.id)
-        # customer_id = Customer.objects.get(account_id=user.id).customer_id
+
         return Order.objects.filter(customer_id=customer_id)

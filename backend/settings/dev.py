@@ -36,8 +36,10 @@ SECRET_KEY = os.environ.get("SECRET_KEY")
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
+REACT_APP_URL = os.environ.get("REACT_APP_URL")
 HOST_URL = "http://127.0.0.1:8000/"
-ALLOWED_HOSTS = ['localhost','127.0.0.1']
+ALLOWED_HOSTS = ['*']
+
 
 # Replace with the URL of your React app
 CORS_ORIGIN_ALLOW_ALL = True
@@ -47,8 +49,7 @@ CORS_ALLOWED_ORIGINS = [
     "http://127.0.0.1:3000",
     "http://172.26.56.206:3000",
 ]
-# CORS_ALLOW_CREDENTIALS = True
-CORS_ALLOW_CREDENTIALS = False
+CORS_ALLOW_CREDENTIALS = True
 CSRF_COOKIE_SECURE = True
 
 # Application definition
@@ -135,7 +136,7 @@ ROOT_URLCONF = 'backend.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [BASE_DIR, 'templates/',],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -204,8 +205,11 @@ USE_TZ = True
 MEDIA_URL = "/media/"
 MEDIA_ROOT = os.path.join(BASE_DIR, "media")
 
-STATIC_URL = "/static/"
+STATIC_URL = "/django_static/"
 STATIC_ROOT = os.path.join(BASE_DIR, 'static')
+
+
+STATICFILES_DIRS = [os.path.join(BASE_DIR, "build/static")]
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
@@ -246,6 +250,11 @@ CACHES = {
     }
 }
 
+LOGGING_DIR = os.path.join(BASE_DIR, 'logs')  # Set the directory for log files
+
+if not os.path.exists(LOGGING_DIR):
+    os.makedirs(LOGGING_DIR)
+
 LOGGING = {
     'version': 1,
     'disable_existing_loggers': False,
@@ -253,11 +262,19 @@ LOGGING = {
         'console': {
             'class': 'logging.StreamHandler'
         },
+        # 'file': {
+        #     'class': 'logging.FileHandler',
+        #     'filename': 'general.log',
+        #     'formatter': 'verbose'
+        # },
         'file': {
-            'class': 'logging.FileHandler',
-            'filename': 'general.log',
-            'formatter': 'verbose'
-        }
+            'class': 'logging.handlers.TimedRotatingFileHandler',
+            'filename': os.path.join(LOGGING_DIR, 'general.log'),
+            'when': 'M',  # Rotate logs daily at every minute
+            'interval': 5,
+            'backupCount': 24,    # Keep up to 12 backup log files (two hour's worth)
+            'formatter': 'verbose',
+        },
     },
     'loggers': {
         '': {

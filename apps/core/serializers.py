@@ -4,9 +4,10 @@ from rest_framework.exceptions import ValidationError
 from django.db import transaction
 from django.core.exceptions import ObjectDoesNotExist
 from django.contrib.auth import get_user_model
+# from django.contrib.auth.signals import user_logged_out
 from .models import Product, Category, Review, ProductImages, \
     Customer, CustomerAddress, Order, OrderItem, Cart, CartItem, DeliveryAddress
-from .signals import order_created
+from .signals import user_email_updated
 
 
 # Customer Profile Serializers
@@ -244,6 +245,16 @@ class CustomerUpdateSerializer(serializers.ModelSerializer):
                 if get_user_model().objects.filter(email=new_email).exclude(pk=user.pk).exists():
                     raise ValidationError(
                         'A user with this email already exists.')
+                user.is_verified = False
+                user.email = new_email
+
+                # #  as email is changed, user is logged out
+                # user.auth_token_set.all().delete()
+                # user_logged_out.send_robust(self.__class__, user=user)
+
+                # send signal to accounts app that email has been updated by user
+                # and send email verification link to new email
+                user_email_updated.send_robust(self.__class__, user=user)
 
             user.email = new_email
             user.save()
@@ -522,8 +533,5 @@ class CreateOrderSerializer(serializers.Serializer):
 
             # Delete the cart and send the order_created signal
             Cart.objects.filter(pk=cart_id).delete()
-            # this signal can be listened by other apps
-            # for eg. when order created admin will be notified of new order
-            order_created.send_robust(self.__class__, order=order)
 
             return order

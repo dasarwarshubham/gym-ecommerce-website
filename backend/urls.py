@@ -15,12 +15,13 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.contrib import admin
-from django.urls import path, include
+from django.urls import path, include, re_path
 from django.views.generic import TemplateView
 
 # Required for Media
 from django.conf import settings
 from django.conf.urls.static import static
+from django.views.static import serve
 
 urlpatterns = [
     # path('', TemplateView.as_view(template_name="core/index.html")),
@@ -29,16 +30,9 @@ urlpatterns = [
     path('api/', include('apps.core.urls')),
     path('__debug__/', include('debug_toolbar.urls')),
     # path('silk/', include('silk.urls', namespace='silk')),
+    re_path(r'^media/(?P<path>.*)$', serve,{'document_root': settings.MEDIA_ROOT}),
+    re_path(r'^static/(?P<path>.*)$', serve,{'document_root': settings.STATIC_ROOT}),
 ]
-
-
-# Media URL
-if settings.DEBUG:
-    urlpatterns += static(settings.STATIC_URL,
-                          document_root=settings.STATIC_ROOT)
-    urlpatterns += static(settings.MEDIA_URL,
-                          document_root=settings.MEDIA_ROOT)
-
 
 admin.site.site_header = 'FitFlex Admin Panel'
 admin.site.site_title = "FitFlex admin site"

@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Email Verification</title>
+</head>
+<body>
+    <h1>Email Verification</h1>
+    <p>Dear {{first_name}},</p>
+    <p>Thank you for registering with our website. To complete your registration and activate your account, please click the link below:</p>
+    <p>Click the following link to verify your email address:</p>
+    <p><a href="{{ verification_link }}">Verify Your Email</a></p>
+
+    <p>If you did not register on our website, you can safely ignore this email.</p>
+
+    <p>Best regards,</p>
+    <p>Team Fitflex</p>
+</body>
+</html>

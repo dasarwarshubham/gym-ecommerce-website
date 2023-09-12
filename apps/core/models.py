@@ -22,7 +22,7 @@ class Customer(models.Model):
 
     account = models.OneToOneField(
         settings.AUTH_USER_MODEL, on_delete=models.CASCADE, primary_key=True)
-    phone = models.CharField(max_length=12)
+    phone = models.CharField(max_length=12, blank=True, null=True)
     gender = models.CharField(
         max_length=2, choices=GENDER_CHOICES, default=GENDER_NA, null=True)
     last_update = models.DateTimeField(auto_now=True)
