@@ -7,7 +7,7 @@ import Col from "react-bootstrap/Col";
 
 import * as Yup from "yup";
 
-import { FormikForm, FormField, FormButton, FormState } from "../../components/form";
+import { FormikForm, FormField, FormButton } from "../../components/form";
 import { LOGIN } from "../../constants/routes";
 
 import { resetPassword } from "../../services/accountAPI";
