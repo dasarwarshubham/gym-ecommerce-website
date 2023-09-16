@@ -4,7 +4,7 @@
 migrations/
 commands/
 media/
-static/
+# static/
 
 # Dependency directories
 /__pycache__/
