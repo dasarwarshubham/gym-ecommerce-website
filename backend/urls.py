@@ -16,7 +16,7 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include, re_path
-from django.views.generic import TemplateView
+# from django.views.generic import TemplateView
 
 # Required for Media
 from django.conf import settings
@@ -27,12 +27,22 @@ urlpatterns = [
     # path('', TemplateView.as_view(template_name="core/index.html")),
     path('admin/', admin.site.urls),
     path('auth/', include('apps.accounts.urls')),
-    path('api/', include('apps.core.urls')),
-    path('__debug__/', include('debug_toolbar.urls')),
-    # path('silk/', include('silk.urls', namespace='silk')),
-    re_path(r'^media/(?P<path>.*)$', serve,{'document_root': settings.MEDIA_ROOT}),
-    re_path(r'^static/(?P<path>.*)$', serve,{'document_root': settings.STATIC_ROOT}),
+    path('api/', include('apps.core.urls'))
 ]
+
+if settings.DEBUG:
+    urlpatterns += [
+        path('__debug__/', include('debug_toolbar.urls')),
+        # path('silk/', include('silk.urls', namespace='silk')),
+    ]
+    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+    urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
+else:
+    urlpatterns += [
+        re_path(r'^media/(?P<path>.*)$', serve,{'document_root': settings.MEDIA_ROOT}),
+        # re_path(r'^django_static/(?P<path>.*)$', serve,{'document_root': settings.STATIC_ROOT}),
+    ]
+
 
 admin.site.site_header = 'FitFlex Admin Panel'
 admin.site.site_title = "FitFlex admin site"
