@@ -125,7 +125,6 @@ const accountSlice = createSlice({
       })
       .addMatcher(isRejectedAction, (state, action) => {
         state.loading = false;
-        console.log(action.error);
         state.error = JSON.stringify(action.error.message);
       })
       .addDefaultCase((state) => {

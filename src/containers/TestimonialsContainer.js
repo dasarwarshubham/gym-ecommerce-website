@@ -88,8 +88,6 @@ const Testimonials = (props) => {
             el: ".custom-swiper-pagination",
             clickable: true,
           }}
-          // onSlideChange={() => console.log("slide change")}
-          // onSwiper={(swiper) => console.log(swiper)}
         >
           {data.map((testimonial, idx) => (
             <SwiperSlide key={`testimonial-${idx}`}>

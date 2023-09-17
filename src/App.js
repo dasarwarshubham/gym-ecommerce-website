@@ -58,7 +58,7 @@ function App() {
           dispatch(fetchAccountOrder());
         })
         .catch((error) => {
-          console.log(error);
+          // console.log(error);
           dispatch(logoutUser());
         });
       // Dispatch autoSignIn action with the token

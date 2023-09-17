@@ -21,13 +21,11 @@ const ResetPasswordPage = () => {
     const navigate = useNavigate();
 
     const [error, setError] = useState(null);
-    console.log(token)
 
     const handleClick = async (values, setSubmitting, resetForm) => {
         setError(null);
         try {
             forgotPassword(values);
-            console.log(values)
             setSubmitting(false);
             resetForm();
             navigate(LOGIN)

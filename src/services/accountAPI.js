@@ -20,7 +20,7 @@ export const login = async (userData) => {
       throw new Error("Invalid credentials");
     }
   } catch (error) {
-    console.log(error.response);
+    // console.log(error.response);
     let errorMsg = error.response.data;
     if (error?.response?.data?.non_field_errors) {
       errorMsg = error?.response?.data?.non_field_errors[0];
@@ -43,7 +43,7 @@ export const logout = async () => {
       throw new Error("Something went wrong...");
     }
   } catch (error) {
-    console.log(error.response);
+    // console.log(error.response);
     const errorMsg = error.message;
     throw new Error(errorMsg);
   }
@@ -63,7 +63,7 @@ export const logoutAll = async () => {
       throw new Error("Something went wrong...");
     }
   } catch (error) {
-    console.log(error.response);
+    // console.log(error.response);
     const errorMsg = error.message;
     throw new Error(errorMsg);
   }

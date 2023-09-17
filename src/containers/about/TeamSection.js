@@ -108,8 +108,6 @@ const TeamSection = () => {
           el: ".custom-swiper-pagination",
           clickable: true,
         }}
-        // onSlideChange={() => console.log("slide change")}
-        // onSwiper={(swiper) => console.log(swiper)}
       >
         {teamMembers.map((member, idx) => (
           <SwiperSlide key={`member-${idx}`}>
