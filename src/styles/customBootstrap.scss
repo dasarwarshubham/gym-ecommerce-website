@@ -75,6 +75,10 @@ input[type="number"]::-webkit-outer-spin-button {
   margin: 0;
 }
 
+.navbar-toggler {
+  z-index: 1050;
+}
+
 @import "bootstrap/scss/variables";
 @import "bootstrap/scss/variables-dark";
 @import "bootstrap/scss/mixins";

@@ -2,7 +2,10 @@ import React from "react";
 import { Container, Row, Col } from "react-bootstrap";
 import styled from "styled-components/macro";
 
-import logo from "../../logo.svg";
+/****************** Styles ****************************/
+const Logo = styled.img`
+  height: 5rem;
+`;
 
 const FooterContainer = styled.div`
   background-color: #111111;
@@ -18,13 +21,14 @@ const FooterContainer = styled.div`
   }
 `;
 
-const Footer = (props) => {
+/************************** Footer Component ******************************/
+const Footer = () => {
   return (
     <FooterContainer>
       <Container fluid="md">
         <Row>
           <Col lg={3} md={12}>
-            <img src={logo} alt="Fitflex logo" style={{ height: "5rem" }} />
+            <Logo src="/images/logo.svg" alt="fitflex logo" />
             <p>
               123 Main Street,
               <br />
@@ -37,7 +41,8 @@ const Footer = (props) => {
             </p>
           </Col>
           <Col lg={3} md={4} sm={12}>
-            <div className="collapse dont-collapse-sm" id="collapseExample">
+            <div className="collapse dont-collapse-sm" id="collapseLinks1">
+              <h5>Links</h5>
               <ul>
                 <li>Home</li>
                 <li>About Us</li>
@@ -47,10 +52,18 @@ const Footer = (props) => {
             </div>
           </Col>
           <Col lg={3} md={4} sm={12}>
-            Footer
+            <h5>Links</h5>
           </Col>
           <Col lg={3} md={4} sm={12}>
-            Social Media
+            <div className="collapse dont-collapse-sm" id="collapseLinks3">
+              <h5>Follow Us On</h5>
+              <ul>
+                <li>instagram</li>
+                <li>facebook</li>
+                <li>twitter</li>
+                <li>youtube</li>
+              </ul>
+            </div>
           </Col>
         </Row>
       </Container>

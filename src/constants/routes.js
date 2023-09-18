@@ -29,6 +29,7 @@ export const INSTAGRAM = "https://www.instagram.com";
 export const FACEBOOK = "https://www.facebook.com";
 
 const API_BASE_URL = "https://fitflex.site";
+// const API_BASE_URL = "http://127.0.0.1:8000";
 
 export const API_ROUTES = {
   equipments: `${API_BASE_URL}/api/products`,

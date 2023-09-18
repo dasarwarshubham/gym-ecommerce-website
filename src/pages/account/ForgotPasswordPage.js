@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { useNavigate, useParams } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 import Container from "react-bootstrap/Container";
 import Row from "react-bootstrap/Row";
@@ -7,9 +7,9 @@ import Col from "react-bootstrap/Col";
 
 import * as Yup from "yup";
 import {
-  FormikForm,
-  FormField,
-  FormButton,
+    FormikForm,
+    FormField,
+    FormButton,
 } from "../../components/form";
 
 import { LOGIN } from "../../constants/routes";
@@ -17,7 +17,6 @@ import { LOGIN } from "../../constants/routes";
 import { forgotPassword } from "../../services/accountAPI";
 
 const ResetPasswordPage = () => {
-    const { token } = useParams();
     const navigate = useNavigate();
 
     const [error, setError] = useState(null);
@@ -29,7 +28,7 @@ const ResetPasswordPage = () => {
             setSubmitting(false);
             resetForm();
             navigate(LOGIN)
-        //   navigate(RESET_RESPONSE, { state: { prevPage: RESET_PASSWORD } });
+            //   navigate(RESET_RESPONSE, { state: { prevPage: RESET_PASSWORD } });
         } catch (error) {
             console.log(error.message);
             setError(error.message);
@@ -42,8 +41,8 @@ const ResetPasswordPage = () => {
     return (
         <Container>
             <Row
-            className="justify-content-center align-items-center"
-            style={{ minHeight: "70vh" }}
+                className="justify-content-center align-items-center"
+                style={{ minHeight: "70vh" }}
             >
                 <Col xs={12} md={9} lg={8} xl={7}>
                     <h1 className="text-center mb-4">Reset Your Password</h1>

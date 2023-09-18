@@ -12,7 +12,6 @@ import { MdAccountCircle } from "react-icons/md";
 
 import CartButton from "./CartButton";
 
-import logo from "../../logo.svg";
 import * as ROUTES from "../../constants/routes";
 
 /****************** Styles ****************************/
@@ -87,7 +86,7 @@ function NavbarContainer() {
       <Container fluid className="py-0">
         <Navbar.Toggle onClick={handleToggle} />
         <Navbar.Brand as={Link} to={ROUTES.HOME} onClick={handleClose}>
-          <Logo src={logo} alt="fitflex logo" />
+          <Logo src="/images/logo.svg" alt="fitflex logo" />
         </Navbar.Brand>
         <div className="d-flex">
           <NavLink
