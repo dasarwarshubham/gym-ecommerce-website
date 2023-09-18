@@ -27,6 +27,9 @@ export const Text = styled.h1`
   text-align: center;
   font-weight: 600;
   /* color: rgba(240, 240, 240, 1); */
+  @media (max-width: 640px) {
+    font-size: 7rem;
+  }
 
   span:last-child {
     /* text-decoration: underline; */
@@ -43,4 +46,12 @@ export const CtaButton = styled(Link)`
   padding: 1rem 3rem;
   background-color: #00000050;
   color: #ffffff;
+  @media (max-width: 640px) {
+    font-size: 2rem;
+    padding: 0.8rem 2rem;
+  }
+  &:hover {
+    background-color: #00000080;
+    color: #ffffff;
+  }
 `;

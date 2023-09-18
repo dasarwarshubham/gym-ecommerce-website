@@ -17,9 +17,31 @@ import * as ROUTES from "../../constants/routes";
 /****************** Styles ****************************/
 const Logo = styled.img`
   height: 5rem;
+  @media (max-width: 768px) {
+    height: 3.5rem;
+  }
+  @media (max-width: 375px) {
+    height: 2.5rem;
+  }
 `;
 const NavLink = styled(Nav.Link)`
   margin: 0 1.8rem;
+  @media (max-width: 768px) {
+    margin: 0 1rem;
+  }
+  @media (max-width: 375px) {
+    margin: 0 0.5rem;
+  }
+  .profileIcon {
+    @media (max-width: 375px) {
+      height: 2rem;
+    }
+  }
+  .cartIcon {
+    @media (max-width: 375px) {
+      height: 2rem;
+    }
+  }
 `;
 
 const OffCanvas = styled(Offcanvas)`
@@ -96,7 +118,7 @@ function NavbarContainer() {
             to={ROUTES.LOGIN}
             aria-label="profile"
           >
-            <MdAccountCircle style={{ color: "#ffffff" }} size={28} />
+            <MdAccountCircle className="profileIcon" style={{ color: "#ffffff" }} size={28} />
           </NavLink>
           <NavLink
             className="nav-link"

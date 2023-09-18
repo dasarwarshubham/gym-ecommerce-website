@@ -33,7 +33,7 @@ const Featured = (props) => {
       <h2 className="text-center my-5">
         Get Fit in Style with Our Featured Products
       </h2>
-      <Row className="g-5">
+      <Row className="g-5 mx-0">
         {featuredItems.map((item, idx) => (
           <Col md={6} key={`featured-item-${idx}`}>
             <FeaturedProductCard item={item} />

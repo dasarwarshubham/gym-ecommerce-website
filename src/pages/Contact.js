@@ -8,8 +8,7 @@ import * as Yup from "yup";
 import {
   FormikForm,
   FormField,
-  FormButton,
-  FormState,
+  FormButton
 } from "../components/form";
 
 import { EMAIL } from "../constants/routes";
@@ -52,14 +51,13 @@ const ContactPage = () => {
   };
   return (
     <Container className="my-5 py-5">
-      <Row className="justify-content-center align-items-center">
-        <Col xs={12} md={9} lg={8} xl={7}>
+      <Row className="justify-content-center align-items-center mx-0">
+        <Col xs={12} md={9} lg={8} xl={7} className="text-center text-sm-start">
           <h1>Get in Touch</h1>
           <p className="mb-5">Let's Make Your Fitness Journey Extraordinary!</p>
         </Col>
         <Col xs={12} md={9} lg={8} xl={7}>
           <FormikForm
-            style={{ maxWidth: "80%" }}
             initialValues={initialValues}
             validationSchema={validationSchema}
             onSubmit={(values, { setSubmitting, resetForm }) =>
@@ -76,17 +74,16 @@ const ContactPage = () => {
               name="message"
             />
 
-            <div className="d-grid col-9 col-sm-5 col-md-4 mb-5">
+            <div className="d-grid col-12 col-sm-5 col-md-4 mb-5 justify-content-center justify-content-sm-start">
               <FormButton>Submit</FormButton>
             </div>
 
-            <p>
+            <p className="text-center text-sm-start">
               Or email us at&nbsp;
               <a variant="link" href={EMAIL}>
                 info@fitflex.com
               </a>
             </p>
-            <FormState />
           </FormikForm>
         </Col>
       </Row>

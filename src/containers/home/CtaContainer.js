@@ -1,5 +1,7 @@
 import React from "react";
-import { Button, Col, Row } from "react-bootstrap";
+import { Link } from "react-router-dom";
+import { Row, Col } from "react-bootstrap";
+import { CONTACT } from "../../constants/routes";
 
 import styled from "styled-components/macro";
 
@@ -15,10 +17,10 @@ const CTAContainer = styled.div`
   color: #ffffff;
 `;
 
-const CtaContainer = (props) => {
+const CtaContainer = () => {
   return (
     <CTAContainer style={{}}>
-      <Row>
+      <Row className="mx-0">
         <Col>
           <div
             className="text-center"
@@ -31,9 +33,9 @@ const CtaContainer = (props) => {
               Contact us to learn more about our services <br /> and how we can
               help you.
             </p>
-            <Button variant="dark" size="lg" className="px-5 py-3 rounded">
+            <Link to={CONTACT} className="btn btn-dark btn-lg px-5 py-3 rounded">
               Contact
-            </Button>
+            </Link>
           </div>
         </Col>
       </Row>
