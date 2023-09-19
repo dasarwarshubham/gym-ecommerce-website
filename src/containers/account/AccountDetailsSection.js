@@ -6,8 +6,7 @@ import {
   FormikForm,
   FormField,
   FormButton,
-  FormRadio,
-  FormState,
+  FormRadio
 } from "../../components/form";
 
 import * as Yup from "yup";
@@ -158,7 +157,6 @@ const AccountDetailsSection = () => {
             <>Edit</>
           </Button>
         )}
-        <FormState />
       </FormikForm>
       {/* <p> <strong>DOB:</strong> {profile?.dob} </p> */}
     </>

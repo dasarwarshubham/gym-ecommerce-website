@@ -11,8 +11,7 @@ import Loader from "../../components/loader/Loader";
 import {
   FormikForm,
   FormButton,
-  FormRadio,
-  FormState,
+  FormRadio
 } from "../../components/form";
 
 // import required redux selectors
@@ -66,7 +65,7 @@ const PaymentPage = () => {
           <h2 className="d-flex align-items-center">
             Select Payment Method&nbsp;
           </h2>
-          {cartItems.length === 0 ? (
+          {cartItems?.length === 0 ? (
             <p>Your cart is empty.</p>
           ) : (
             <FormikForm
@@ -92,7 +91,7 @@ const PaymentPage = () => {
                       name="paymentMethod"
                       options={[
                         { label: "Cash On Delivery", value: "cod" },
-                        { label: "Paytm", value: "paytm" },
+                        // { label: "Paytm", value: "paytm" },
                       ]}
                     />
                   </div>
@@ -109,8 +108,6 @@ const PaymentPage = () => {
                   <FormButton>Proceed to Confirmation</FormButton>
                 </Card.Footer>
               </Card>
-
-              <FormState />
             </FormikForm>
           )}
         </Col>

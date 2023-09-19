@@ -25,7 +25,7 @@ import {
 // import required routes
 import { REVIEW } from "../../constants/routes";
 import AddAddressCard from "../../components/cards/AddAddressCard";
-import { FormButton, FormState, FormikForm } from "../../components/form";
+import { FormButton, FormikForm } from "../../components/form";
 import FormRadio from "../../components/cards/checkout/AddressFormRadio";
 // import AddressCard from "../../components/cards/AddressCard";
 
@@ -136,7 +136,6 @@ const ShippingPage = () => {
               </Card>
             </Col>
           </Row>
-          <FormState />
         </FormikForm>
       )}
     </Container>
