@@ -388,6 +388,12 @@ class AddCartItemSerializer(serializers.ModelSerializer):
                 'No product with the given ID was found.')
         return value
 
+    def validate_quantity(self, value):
+        if value < 1 or value > 5:
+            raise serializers.ValidationError(
+                'Quantity should be between 1 and 5.')
+        return value
+
     def save(self, **kwargs):
         cart_id = self.context['cart_id']
         product_id = self.validated_data['product_id']
@@ -396,10 +402,24 @@ class AddCartItemSerializer(serializers.ModelSerializer):
         try:
             cart_item = CartItem.objects.get(
                 cart_id=cart_id, product_id=product_id)
+            print("\n\n\n")
+            print("Quantity in database : ", cart_item.product.inventory, "Quantity requested : ",
+                  cart_item.quantity + quantity, "in limit : ", cart_item.product.inventory < cart_item.quantity + quantity)
+            print("\n\n\n")
+
+            if cart_item.product.inventory < cart_item.quantity + quantity:
+                raise serializers.ValidationError(
+                    'Not enough inventory for this product.')
             cart_item.quantity += quantity
             cart_item.save()
             self.instance = cart_item
         except CartItem.DoesNotExist:
+            product = Product.objects.get(pk=product_id)
+            # Check if the quantity exceeds the inventory
+            if product.inventory < quantity:
+                raise serializers.ValidationError(
+                    'Not enough inventory for this product.')
+
             self.instance = CartItem.objects.create(
                 cart_id=cart_id, **self.validated_data)
 
@@ -411,6 +431,24 @@ class AddCartItemSerializer(serializers.ModelSerializer):
 
 
 class UpdateCartItemSerializer(serializers.ModelSerializer):
+
+    def validate_quantity(self, value):
+
+        print("\n\n\n", value, "\n\n\n")
+        if value < 1 or value > 5:
+            raise serializers.ValidationError(
+                'Quantity should be between 1 and 5.')
+
+        # Get the existing cart item
+        cart_item = self.instance
+
+        # Check if the new quantity exceeds the inventory
+        if cart_item.product.inventory < value:
+            raise serializers.ValidationError(
+                'Not enough inventory for this product.')
+
+        return value
+
     class Meta:
         model = CartItem
         fields = ['quantity']
@@ -499,6 +537,18 @@ class CreateOrderSerializer(serializers.Serializer):
                 'No Address with the given ID was found.')
         return delivery_address
 
+    def validate(self, data):
+        cart_id = data.get('cart_id')
+        cart_items = CartItem.objects.select_related(
+            'product').filter(cart_id=cart_id)
+
+        for item in cart_items:
+            if item.quantity > item.product.inventory:
+                raise serializers.ValidationError(
+                    f'Not enough inventory for product {item.product.title}')
+
+        return data
+
     def save(self, **kwargs):
         with transaction.atomic():
             cart_id = self.validated_data['cart_id']
@@ -508,14 +558,31 @@ class CreateOrderSerializer(serializers.Serializer):
 
             cart_items = CartItem.objects.select_related(
                 'product').filter(cart_id=cart_id)
-            order_items = [
-                OrderItem(
+            # order_items = [
+            #     OrderItem(
+            #         order=order,
+            #         product=item.product,
+            #         unit_price=item.product.price,
+            #         quantity=item.quantity
+            #     ) for item in cart_items
+            # ]
+
+            order_items = []
+
+            for item in cart_items:
+                # Create an order item
+                order_item = OrderItem(
                     order=order,
                     product=item.product,
                     unit_price=item.product.price,
                     quantity=item.quantity
-                ) for item in cart_items
-            ]
+                )
+                order_items.append(order_item)
+
+                # Reduce the product quantity
+                item.product.inventory -= item.quantity
+                item.product.save()
+
             OrderItem.objects.bulk_create(order_items)
 
             try:

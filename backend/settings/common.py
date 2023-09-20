@@ -46,6 +46,7 @@ INSTALLED_APPS = [
     'knox',
     'django_filters',
     'django_rest_passwordreset',
+    'defender',
 
     # installed apps
     'apps.accounts',
@@ -93,10 +94,10 @@ MIDDLEWARE = [
     'django.middleware.csrf.CsrfViewMiddleware',
     'backend.middleware.ConditionalCsrfMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
+    'defender.middleware.FailedLoginMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
-
 
 
 SESSION_COOKIE_SECURE = True
@@ -182,11 +183,17 @@ EMAIL_HOST_PASSWORD = os.environ.get("HOST_PASSWORD")
 
 # worker settings
 
+DEFENDER_REDIS_URL = "redis://:{}@{}:{}".format(
+    os.environ.get("REDIS_DB_PASSWORD"),
+    os.environ.get("REDIS_DB_HOST"),
+    os.environ.get("REDIS_DB_PORT")
+)
+
 CELERY_BROKER_URL = "redis://:{}@{}:{}".format(
     os.environ.get("REDIS_DB_PASSWORD"),
     os.environ.get("REDIS_DB_HOST"),
     os.environ.get("REDIS_DB_PORT")
-    )
+)
 
 CACHES = {
     "default": {
@@ -194,7 +201,7 @@ CACHES = {
         "LOCATION": "redis://{}:{}".format(
             os.environ.get("REDIS_DB_HOST"),
             os.environ.get("REDIS_DB_PORT")
-            ),
+        ),
         "OPTIONS": {
             "CLIENT_CLASS": "django_redis.client.DefaultClient",
             "PASSWORD": os.environ.get("REDIS_DB_PASSWORD"),
@@ -233,7 +240,8 @@ LOGGING = {
             'class': 'logging.handlers.TimedRotatingFileHandler',
             'filename': os.path.join(LOGGING_DIR, 'gunicorn/access.log'),
             'when': 'midnight',  # Rotate logs daily at midnight
-            'backupCount': 30, # Keep up to 30 backup log files (30 day's worth)
+            # Keep up to 30 backup log files (30 day's worth)
+            'backupCount': 30,
             'formatter': 'verbose',
         },
         'gunicorn.error': {
@@ -241,7 +249,8 @@ LOGGING = {
             'class': 'logging.handlers.TimedRotatingFileHandler',
             'filename': os.path.join(LOGGING_DIR, 'gunicorn/error.log'),
             'when': 'midnight',  # Rotate logs daily at midnight
-            'backupCount': 30, # Keep up to 30 backup log files (30 day's worth)
+            # Keep up to 30 backup log files (30 day's worth)
+            'backupCount': 30,
             'formatter': 'verbose',
         },
     },
@@ -268,4 +277,3 @@ LOGGING = {
         }
     }
 }
-

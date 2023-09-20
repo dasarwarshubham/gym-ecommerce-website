@@ -26,7 +26,7 @@ if DEBUG:
         'debug_toolbar',
         # 'silk'
     ]
-    MIDDLEWARE.insert(0,'debug_toolbar.middleware.DebugToolbarMiddleware')
+    MIDDLEWARE.insert(0, 'debug_toolbar.middleware.DebugToolbarMiddleware')
 #    MIDDLEWARE.append('silk.middleware.SilkyMiddleware')
     INTERNAL_IPS = [
         '127.0.0.1',

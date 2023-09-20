@@ -63,8 +63,11 @@ export const addItemToCart = async (data) => {
     });
     return response.data;
   } catch (error) {
-    const errorMsg = error.message;
-    throw new Error(errorMsg);
+    let errorMsg = error?.response?.data;
+    if (error?.response?.data?.quantity) {
+      errorMsg = error?.response?.data?.quantity[0];
+    }
+    throw new Error(JSON.stringify(errorMsg));
   }
 };
 
@@ -79,8 +82,11 @@ export const updateItemFromCart = async (data) => {
     });
     return response.data;
   } catch (error) {
-    const errorMsg = error.message;
-    throw new Error(errorMsg);
+    let errorMsg = error?.response?.data;
+    if (error?.response?.data?.quantity) {
+      errorMsg = error?.response?.data?.quantity[0];
+    }
+    throw new Error(JSON.stringify(errorMsg));
   }
 };
 

@@ -26,6 +26,7 @@ from django.views.static import serve
 
 urlpatterns = [
     # path('', TemplateView.as_view(template_name="core/index.html")),
+    path(f'{os.environ.get("DJANGO_ADMIN_URL_SECRET")}/admin/defender/', include('defender.urls')),
     path(f'{os.environ.get("DJANGO_ADMIN_URL_SECRET")}/admin/', admin.site.urls),
     path('auth/', include('apps.accounts.urls')),
     path('api/', include('apps.core.urls'))

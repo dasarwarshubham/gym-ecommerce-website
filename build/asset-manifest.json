@@ -1,7 +1,7 @@
 {
   "files": {
     "main.css": "/static/css/main.24aef22b.css",
-    "main.js": "/static/js/main.af387b4e.js",
+    "main.js": "/static/js/main.ea6b7014.js",
     "homePage.js": "/static/js/homePage.2f364eb6.chunk.js",
     "aboutPage.js": "/static/js/aboutPage.5bbc0c68.chunk.js",
     "contactPage.js": "/static/js/contactPage.edca7511.chunk.js",
@@ -15,13 +15,13 @@
     "equipmentsPage.js": "/static/js/equipmentsPage.d5218fcb.chunk.js",
     "homeEquipmentsPage.js": "/static/js/homeEquipmentsPage.e3adb6f5.chunk.js",
     "commercialEquipmentsPage.js": "/static/js/commercialEquipmentsPage.bc0c6f04.chunk.js",
-    "equipmentDetailsPage.js": "/static/js/equipmentDetailsPage.461bdf3e.chunk.js",
+    "equipmentDetailsPage.js": "/static/js/equipmentDetailsPage.34bdfb95.chunk.js",
     "blogListPage.js": "/static/js/blogListPage.2bef4915.chunk.js",
     "blogDetailsPage.js": "/static/js/blogDetailsPage.deb71b7d.chunk.js",
     "pageNotFound.js": "/static/js/pageNotFound.a85db41e.chunk.js",
-    "cartPage.js": "/static/js/cartPage.36864e0d.chunk.js",
+    "cartPage.js": "/static/js/cartPage.8c3529c6.chunk.js",
     "shippingPage.js": "/static/js/shippingPage.d91c10f0.chunk.js",
-    "reviewPage.js": "/static/js/reviewPage.82bed234.chunk.js",
+    "reviewPage.js": "/static/js/reviewPage.9ca164e5.chunk.js",
     "paymentPage.js": "/static/js/paymentPage.0d06e677.chunk.js",
     "confirmationPage.js": "/static/js/confirmationPage.0671b4b6.chunk.js",
     "static/js/113.e0b28e1d.chunk.js": "/static/js/113.e0b28e1d.chunk.js",
@@ -30,7 +30,7 @@
     "static/js/120.2d510543.chunk.js": "/static/js/120.2d510543.chunk.js",
     "index.html": "/index.html",
     "main.24aef22b.css.map": "/static/css/main.24aef22b.css.map",
-    "main.af387b4e.js.map": "/static/js/main.af387b4e.js.map",
+    "main.ea6b7014.js.map": "/static/js/main.ea6b7014.js.map",
     "homePage.2f364eb6.chunk.js.map": "/static/js/homePage.2f364eb6.chunk.js.map",
     "aboutPage.5bbc0c68.chunk.js.map": "/static/js/aboutPage.5bbc0c68.chunk.js.map",
     "contactPage.edca7511.chunk.js.map": "/static/js/contactPage.edca7511.chunk.js.map",
@@ -44,13 +44,13 @@
     "equipmentsPage.d5218fcb.chunk.js.map": "/static/js/equipmentsPage.d5218fcb.chunk.js.map",
     "homeEquipmentsPage.e3adb6f5.chunk.js.map": "/static/js/homeEquipmentsPage.e3adb6f5.chunk.js.map",
     "commercialEquipmentsPage.bc0c6f04.chunk.js.map": "/static/js/commercialEquipmentsPage.bc0c6f04.chunk.js.map",
-    "equipmentDetailsPage.461bdf3e.chunk.js.map": "/static/js/equipmentDetailsPage.461bdf3e.chunk.js.map",
+    "equipmentDetailsPage.34bdfb95.chunk.js.map": "/static/js/equipmentDetailsPage.34bdfb95.chunk.js.map",
     "blogListPage.2bef4915.chunk.js.map": "/static/js/blogListPage.2bef4915.chunk.js.map",
     "blogDetailsPage.deb71b7d.chunk.js.map": "/static/js/blogDetailsPage.deb71b7d.chunk.js.map",
     "pageNotFound.a85db41e.chunk.js.map": "/static/js/pageNotFound.a85db41e.chunk.js.map",
-    "cartPage.36864e0d.chunk.js.map": "/static/js/cartPage.36864e0d.chunk.js.map",
+    "cartPage.8c3529c6.chunk.js.map": "/static/js/cartPage.8c3529c6.chunk.js.map",
     "shippingPage.d91c10f0.chunk.js.map": "/static/js/shippingPage.d91c10f0.chunk.js.map",
-    "reviewPage.82bed234.chunk.js.map": "/static/js/reviewPage.82bed234.chunk.js.map",
+    "reviewPage.9ca164e5.chunk.js.map": "/static/js/reviewPage.9ca164e5.chunk.js.map",
     "paymentPage.0d06e677.chunk.js.map": "/static/js/paymentPage.0d06e677.chunk.js.map",
     "confirmationPage.0671b4b6.chunk.js.map": "/static/js/confirmationPage.0671b4b6.chunk.js.map",
     "113.e0b28e1d.chunk.js.map": "/static/js/113.e0b28e1d.chunk.js.map",
@@ -60,6 +60,6 @@
   },
   "entrypoints": [
     "static/css/main.24aef22b.css",
-    "static/js/main.af387b4e.js"
+    "static/js/main.ea6b7014.js"
   ]
 }
