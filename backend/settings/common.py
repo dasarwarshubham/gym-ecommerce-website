@@ -228,14 +228,18 @@ LOGGING = {
         'console': {
             'class': 'logging.StreamHandler'
         },
-        'file': {
-            # 'class': 'logging.FileHandler',
-            # 'filename': 'general.log',
+        'gunicorn.access': {
+            'level': 'INFO',
             'class': 'logging.handlers.TimedRotatingFileHandler',
-            'filename': os.path.join(LOGGING_DIR, 'general.log'),
-            # 'when': 'M',  # Rotate logs daily at every minute
-            # 'interval': 5,
-            # 'backupCount': 24, # Keep up to 12 backup log files (two hour's worth)
+            'filename': os.path.join(LOGGING_DIR, 'gunicorn/access.log'),
+            'when': 'midnight',  # Rotate logs daily at midnight
+            'backupCount': 30, # Keep up to 30 backup log files (30 day's worth)
+            'formatter': 'verbose',
+        },
+        'gunicorn.error': {
+            'level': 'ERROR',
+            'class': 'logging.handlers.TimedRotatingFileHandler',
+            'filename': os.path.join(LOGGING_DIR, 'gunicorn/error.log'),
             'when': 'midnight',  # Rotate logs daily at midnight
             'backupCount': 30, # Keep up to 30 backup log files (30 day's worth)
             'formatter': 'verbose',
@@ -243,9 +247,19 @@ LOGGING = {
     },
     'loggers': {
         '': {
-            'handlers': ['console', 'file'],
+            'handlers': ['console'],
             'level': os.environ.get('DJANGO_LOG_LEVEL', 'INFO')
-        }
+        },
+        'gunicorn.access': {
+            'handlers': ['gunicorn.access'],
+            'level': 'INFO',
+            'propagate': False,
+        },
+        'gunicorn.error': {
+            'handlers': ['gunicorn.error'],
+            'level': 'ERROR',
+            'propagate': False,
+        },
     },
     'formatters': {
         'verbose': {
