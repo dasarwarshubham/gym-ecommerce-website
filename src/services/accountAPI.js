@@ -245,16 +245,34 @@ export const resetPassword = async (data) => {
     throw new Error(error.message);
   }
 };
-
 export const verifyEmail = async (user_id, token) => {
   try {
     const response = await publicAxios({
       method: "POST",
       url: `${API_ROUTES.accounts}/verify-email/${user_id}/${token}/`,
     });
-    // throw new Error("Failed to verify email");
     return response;
   } catch (error) {
-    throw new Error(error?.response?.data);
+    let errorMsg = error.message
+    if (error?.response?.data) {
+      errorMsg = JSON.stringify(error?.response?.data)
+    }
+    throw new Error(errorMsg);
+  }
+}
+
+export const newVerifyEmailToken = async (user_id, token) => {
+  try {
+    const response = await publicAxios({
+      method: "POST",
+      url: `${API_ROUTES.accounts}/verify-email/${user_id}/${token}/generate-token/`,
+    });
+    return response;
+  } catch (error) {
+    let errorMsg = error.message
+    if (error?.response?.data) {
+      errorMsg = JSON.stringify(error?.response?.data)
+    }
+    throw new Error(errorMsg);
   }
 }

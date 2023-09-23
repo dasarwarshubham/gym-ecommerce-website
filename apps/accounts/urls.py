@@ -1,4 +1,4 @@
-from .views import AccountRegisterView, LoginView, AccountView, ChangePasswordView, VerifyEmailView
+from .views import AccountRegisterView, LoginView, AccountView, ChangePasswordView, VerifyEmailView, CreateEmailVerificationToken
 
 from django.urls import path, include
 from knox import views as knox_views
@@ -8,6 +8,8 @@ urlpatterns = [
     path('user/', AccountView.as_view(), name='user-details'),
     path('verify-email/<int:user_id>/<str:token>/',
          VerifyEmailView.as_view(), name='verify-email'),
+    path('verify-email/<int:user_id>/<str:token>/generate-token/',
+         CreateEmailVerificationToken.as_view(), name='verify-email-new'),
     path('login/', LoginView.as_view(), name='login'),
     path('logout/', knox_views.LogoutView.as_view(), name='logout'),
     path('logoutall/', knox_views.LogoutAllView.as_view(), name='logoutall'),

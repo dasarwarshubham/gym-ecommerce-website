@@ -183,28 +183,15 @@ EMAIL_HOST_PASSWORD = os.environ.get("HOST_PASSWORD")
 
 # worker settings
 
-DEFENDER_REDIS_URL = "redis://:{}@{}:{}".format(
-    os.environ.get("REDIS_DB_PASSWORD"),
-    os.environ.get("REDIS_DB_HOST"),
-    os.environ.get("REDIS_DB_PORT")
-)
-
-CELERY_BROKER_URL = "redis://:{}@{}:{}".format(
-    os.environ.get("REDIS_DB_PASSWORD"),
-    os.environ.get("REDIS_DB_HOST"),
-    os.environ.get("REDIS_DB_PORT")
-)
+DEFENDER_REDIS_URL = f'{os.environ.get("REDIS_DB_URL")}/0'
+CELERY_BROKER_URL = f'{os.environ.get("REDIS_DB_URL")}/1'
 
 CACHES = {
     "default": {
         "BACKEND": "django_redis.cache.RedisCache",
-        "LOCATION": "redis://{}:{}".format(
-            os.environ.get("REDIS_DB_HOST"),
-            os.environ.get("REDIS_DB_PORT")
-        ),
+        "LOCATION": f'{os.environ.get("REDIS_DB_URL")}/2',
         "OPTIONS": {
             "CLIENT_CLASS": "django_redis.client.DefaultClient",
-            "PASSWORD": os.environ.get("REDIS_DB_PASSWORD"),
         }
     }
 }
