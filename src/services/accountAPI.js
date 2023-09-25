@@ -1,6 +1,5 @@
-import { publicAxios, userAxios } from "./axiosInstance";
 import { API_ROUTES } from "../constants/routes";
-
+import { publicAxios, userAxios } from "./axiosInstance";
 
 export const login = async (userData) => {
   try {
@@ -20,8 +19,7 @@ export const login = async (userData) => {
       throw new Error("Invalid credentials");
     }
   } catch (error) {
-    // console.log(error.response);
-    let errorMsg = error.response.data;
+    let errorMsg = error.msg;
     if (error?.response?.data?.non_field_errors) {
       errorMsg = error?.response?.data?.non_field_errors[0];
     }
@@ -79,7 +77,7 @@ export const signup = async (userData) => {
 
     return response;
   } catch (error) {
-    let errorMsg = error.response;
+    let errorMsg = error.message;
     if (error.response.status === 400) {
       const data = error.response.data;
       if (data?.email) {
@@ -88,7 +86,6 @@ export const signup = async (userData) => {
         errorMsg = JSON.stringify(data);
       }
     }
-    // console.log(JSON.stringify(errorMsg));
     throw new Error(errorMsg);
   }
 };
@@ -193,28 +190,34 @@ export const changePassword = async (data) => {
     const response = await userAxios({
       method: "PUT",
       url: `${API_ROUTES.accounts}/change-password/`,
-      data: data
+      data: data,
     });
     // throw new Error("Failed to change password");
     return response;
   } catch (error) {
     throw new Error(error.message);
   }
-}
+};
 
 export const forgotPassword = async (email) => {
   try {
     const response = await publicAxios({
       method: "POST",
       url: `${API_ROUTES.accounts}/password-reset/`,
-      data: email
+      data: email,
     });
     // throw new Error("Failed to reset password");
     return response;
   } catch (error) {
-    throw new Error(error.message);
+    let errorMsg = error.message;
+    if (error?.response?.data?.email) {
+      errorMsg = error?.response?.data?.email[0];
+    } else if (error?.response?.data) {
+      errorMsg = JSON.stringify(error?.response?.data);
+    }
+    throw new Error(errorMsg);
   }
-}
+};
 
 export const resetPassword = async (data) => {
   const { token } = data;
@@ -229,7 +232,7 @@ export const resetPassword = async (data) => {
       },
     }).catch((error) => {
       throw new Error("Invalid token received!! This link has been expired.");
-    })
+    });
 
     // Confirm the password reset
     const response = await publicAxios({
@@ -238,7 +241,7 @@ export const resetPassword = async (data) => {
       data: data,
     }).catch((error) => {
       throw new Error("Invalid token received!! This link has been expired.");
-    })
+    });
 
     return response;
   } catch (error) {
@@ -253,13 +256,13 @@ export const verifyEmail = async (user_id, token) => {
     });
     return response;
   } catch (error) {
-    let errorMsg = error.message
+    let errorMsg = error.message;
     if (error?.response?.data) {
-      errorMsg = JSON.stringify(error?.response?.data)
+      errorMsg = JSON.stringify(error?.response?.data);
     }
     throw new Error(errorMsg);
   }
-}
+};
 
 export const newVerifyEmailToken = async (user_id, token) => {
   try {
@@ -269,10 +272,10 @@ export const newVerifyEmailToken = async (user_id, token) => {
     });
     return response;
   } catch (error) {
-    let errorMsg = error.message
+    let errorMsg = error.message;
     if (error?.response?.data) {
-      errorMsg = JSON.stringify(error?.response?.data)
+      errorMsg = JSON.stringify(error?.response?.data);
     }
     throw new Error(errorMsg);
   }
-}
+};

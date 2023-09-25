@@ -1,20 +1,21 @@
 import React, { useState } from "react";
-import { useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 
+import Col from "react-bootstrap/Col";
 import Container from "react-bootstrap/Container";
 import Row from "react-bootstrap/Row";
-import Col from "react-bootstrap/Col";
 
 import * as Yup from "yup";
 
-import { FormikForm, FormField, FormButton } from "../../components/form";
+import { FormButton, FormField, FormikForm } from "../../components/form";
 import {
-    VerificationSuccess,
-    VerificationError
-} from '../../components/response'
+    Error,
+    Success
+} from '../../components/response';
 
+import { LOGIN } from '../../constants/routes';
 
-import { verifyEmail, newVerifyEmailToken } from "../../services/accountAPI";
+import { newVerifyEmailToken, verifyEmail } from "../../services/accountAPI";
 
 const VerifyEmailPage = () => {
     const { user_id, token } = useParams();
@@ -59,19 +60,26 @@ const VerifyEmailPage = () => {
     return (
         <Container>
             <Row
-                className="justify-content-center align-items-center"
+                className="justify-content-center align-items-center mx-0"
                 style={{ minHeight: "70vh" }}
             >
                 {verificationStatus === "success" && (
                     <Col xs={12} md={7} lg={6}>
-                        <VerificationSuccess status={status} />
+                        <Success
+                            title="Verification Successful"
+                            status={status}
+                        >
+                            <>Your email has been verified successfully.</>
+                            <br /> You can now <Link to={LOGIN}>login</Link>.
+                        </Success>
                     </Col>
                 )}
                 {verificationStatus === "error" && (
                     <Col xs={12} md={7} lg={6}>
-                        <VerificationError
-                            resendToken={() => handleNewTokenRequest()}
+                        <Error
+                            title="Verification Failed"
                             error={error}
+                            action={() => handleNewTokenRequest()}
                         />
                     </Col>
                 )}

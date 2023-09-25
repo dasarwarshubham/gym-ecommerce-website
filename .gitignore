@@ -60,4 +60,5 @@ yarn-error.log*
 general.log*
 *.log*
 
-
+# certificates
+certs/

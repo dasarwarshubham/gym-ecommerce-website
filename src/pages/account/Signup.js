@@ -1,28 +1,27 @@
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
+import { Link } from "react-router-dom";
 
+import Col from "react-bootstrap/Col";
 import Container from "react-bootstrap/Container";
 import Row from "react-bootstrap/Row";
-import Col from "react-bootstrap/Col";
 
 import * as Yup from "yup";
 
 import {
-  FormikForm,
-  FormField,
   FormButton,
-  // FormRadio,
+  FormField,
+  FormikForm,
 } from "../../components/form";
 
 import {
-  SignupSuccess,
-  SignupError
-} from '../../components/response'
+  Error,
+  Success
+} from '../../components/response';
 
+import { LOGIN } from "../../constants/routes";
 import { signupUser } from "../../redux/account/accountActions";
 import { selectAccountError } from "../../redux/account/accountSelectors";
-import { LOGIN } from "../../constants/routes";
 
 const initialValues = {
   first_name: "",
@@ -63,11 +62,9 @@ const SignupPage = () => {
       .then((signupAction) => {
         setSubmitting(false);
         if (signupAction.meta.requestStatus === "fulfilled") {
-          // Signup was successful, set the signup status to "success"
           setSignupStatus("success");
           resetForm();
         } else {
-          // Signup failed, set the signup status to "error"
           setSignupStatus("error");
         }
       });
@@ -76,17 +73,25 @@ const SignupPage = () => {
   return (
     <Container className="my-5">
       <Row
-        className="justify-content-center align-items-center"
+        className="justify-content-center align-items-center mx-0"
         style={{ minHeight: "70vh" }}
       >
         {signupStatus === "success" && (
           <Col xs={12} md={7} lg={6}>
-            <SignupSuccess />
+            <Success
+              title="Signup Successful!"
+            >
+              Please check your email for a verification link.
+            </Success>
           </Col>
         )}
         {signupStatus === "error" && (
           <Col xs={12} md={7} lg={6}>
-            <SignupError setSignupStatus={setSignupStatus} error={error} />
+            <Error
+              title="Signup Failed"
+              error={error}
+              action={() => setSignupStatus(null)}
+            />
           </Col>
         )}
         {signupStatus === null && (

@@ -38,7 +38,7 @@ const ProfilePage = () => {
 
   return (
     <Container className="my-5 py-5" style={{ minHeight: "70vh" }}>
-      <Row className="justify-content-center mt-5">
+      <Row className="justify-content-center mx-0 mt-5">
         <Col md={12}>
           <div className="d-flex justify-content-between align-items-center">
             <h2>User Profile</h2>

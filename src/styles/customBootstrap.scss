@@ -74,6 +74,9 @@ input[type="number"]::-webkit-outer-spin-button {
   appearance: none;
   margin: 0;
 }
+input[type=number] {
+  -moz-appearance:textfield;
+}
 
 .navbar-toggler {
   z-index: 1050;
@@ -147,10 +150,10 @@ input[type="number"]::-webkit-outer-spin-button {
 @import "bootstrap/scss/badge";
 @import "bootstrap/scss/tooltip";
 @import "bootstrap/scss/dropdown";
+@import "bootstrap/scss/alert";
 // @import "bootstrap/scss/button-group";
 // @import "bootstrap/scss/toasts";
 // @import "bootstrap/scss/progress";
-// @import "bootstrap/scss/alert";
 // @import "bootstrap/scss/breadcrumb";
 // @import "bootstrap/scss/pagination";
 // @import "bootstrap/scss/list-group";
@@ -160,7 +163,7 @@ input[type="number"]::-webkit-outer-spin-button {
 
 // Helpers
 @import "bootstrap/scss/helpers/visually-hidden";
-// @import "bootstrap/scss/helpers/text-truncation";
+@import "bootstrap/scss/helpers/text-truncation";
 // @import "bootstrap/scss/helpers/position";
 // @import "bootstrap/scss/helpers/colored-links";
 // @import "bootstrap/scss/helpers/clearfix";

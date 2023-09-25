@@ -1,4 +1,2 @@
-export { default as SignupSuccess } from './signup/Success';
-export { default as SignupError } from './signup/Error';
-export { default as VerificationSuccess } from './emailVerification/Success';
-export { default as VerificationError } from './emailVerification/Error';
+export { default as Error } from './Error';
+export { default as Success } from './Success';

@@ -1,5 +1,5 @@
 import React from "react";
-import { Container, Row, Col } from "react-bootstrap";
+import { Col, Container, Row } from "react-bootstrap";
 import styled from "styled-components/macro";
 
 /****************** Styles ****************************/
@@ -35,7 +35,7 @@ const Footer = () => {
               Suite 500, Anytown USA 12345
             </p>
             <p>555-555-5555</p>
-            <p>info@fitflex.com</p>
+            <p>hello.fitflex@gmail.com</p>
             <p>
               Hours of Operation: <br /> Monday - Friday 9am - 5pm EST
             </p>

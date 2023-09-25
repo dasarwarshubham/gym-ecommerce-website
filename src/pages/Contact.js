@@ -1,14 +1,14 @@
 import React from "react";
 
+import Col from "react-bootstrap/Col";
 import Container from "react-bootstrap/Container";
 import Row from "react-bootstrap/Row";
-import Col from "react-bootstrap/Col";
 
 import * as Yup from "yup";
 import {
-  FormikForm,
+  FormButton,
   FormField,
-  FormButton
+  FormikForm
 } from "../components/form";
 
 import { EMAIL } from "../constants/routes";
@@ -81,7 +81,7 @@ const ContactPage = () => {
             <p className="text-center text-sm-start">
               Or email us at&nbsp;
               <a variant="link" href={EMAIL}>
-                info@fitflex.com
+                hello.fitflex@gmail.com
               </a>
             </p>
           </FormikForm>

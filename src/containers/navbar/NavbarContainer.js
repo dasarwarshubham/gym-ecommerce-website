@@ -92,6 +92,7 @@ const OffCanvas = styled(Offcanvas)`
 /************************** Navbar Component ******************************/
 function NavbarContainer() {
   const [show, setShow] = useState(false);
+  const isAuthenticated = localStorage.getItem("token") ? true : false;
 
   const handleToggle = () => setShow(!show);
   const handleClose = () => show && setShow(false);
@@ -115,7 +116,7 @@ function NavbarContainer() {
             className="nav-link"
             onClick={handleClose}
             as={Link}
-            to={ROUTES.LOGIN}
+            to={isAuthenticated ? ROUTES.PROFILE : ROUTES.LOGIN}
             aria-label="profile"
           >
             <MdAccountCircle className="profileIcon" style={{ color: "#ffffff" }} size={28} />

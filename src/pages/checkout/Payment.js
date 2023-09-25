@@ -1,33 +1,37 @@
 import React from "react";
-import { Link, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 
 import { CONFIRMATION, REVIEW } from "../../constants/routes";
 
 import { Button, Card, Col, Container, Row } from "react-bootstrap";
 import * as Yup from "yup";
 
-import Loader from "../../components/loader/Loader";
 import {
-  FormikForm,
   FormButton,
-  FormRadio
+  FormRadio,
+  FormikForm
 } from "../../components/form";
+import Loader from "../../components/loader/Loader";
 
 // import required redux selectors
+import { fetchAccountData, fetchAccountOrder } from "../../redux/account/accountActions";
+import { createNewCart, fetchCart } from "../../redux/checkout/cartActions";
 import {
   selectCartItems,
   selectLoadingStatus,
 } from "../../redux/checkout/cartSelectors";
 import { placeOrder } from "../../services/paymentAPI";
-import { fetchCart, createNewCart } from "../../redux/checkout/cartActions";
-import { fetchAccountData, fetchAccountOrder } from "../../redux/account/accountActions";
 
 const PaymentPage = () => {
   const navigate = useNavigate();
+  const location = useLocation();
   const dispatch = useDispatch();
+  
   const cartLoading = useSelector(selectLoadingStatus);
   const cartItems = useSelector(selectCartItems);
+
+  console.log("Payment : ", location)
 
   if (cartLoading) {
     return <Loader />;
@@ -36,6 +40,8 @@ const PaymentPage = () => {
   const handleClick = async (values, setSubmitting, resetForm) => {
     try {
       const response = await placeOrder(values);
+      setSubmitting(false);
+      resetForm();
       if (response) {
         dispatch(fetchCart())
           .unwrap()
@@ -44,27 +50,28 @@ const PaymentPage = () => {
             dispatch(fetchAccountOrder());
             dispatch(createNewCart());
           });
-        // dispatch(clearCart());
-        // navigate(PAYMENT_SUCCESS);
+        navigate(CONFIRMATION, {state: {status: "success", error: null, from: location.pathname }});
       }
-      setSubmitting(false);
     } catch (error) {
-      console.log(error);
-      // navigate(PAYMENT_FAILURE);
-    } finally {
       setSubmitting(false);
       resetForm();
-      navigate(CONFIRMATION);
+      let errorMsg = error.message
+      navigate(CONFIRMATION, {state: {status: "failed", error: errorMsg, from: location.pathname }});
     }
   };
 
   return (
     <Container className="my-5 py-5">
-      <Row className="justify-content-center">
-        <Col xs={12} md={8} lg={6}>
-          <h2 className="d-flex align-items-center">
-            Select Payment Method&nbsp;
+      <Row className="justify-content-center mx-0">
+        <Col xs={12} md={8} xl={6}>
+          <h2 className="text-center">
+            Select Payment Method
           </h2>
+          <h6 className="alert alert-danger text-center text-danger">
+            Kindly note that this website is for demonstration purposes only.
+            <br />
+            No charges will be applied, and no real products or services will be provided.
+          </h6>
           {cartItems?.length === 0 ? (
             <p>Your cart is empty.</p>
           ) : (

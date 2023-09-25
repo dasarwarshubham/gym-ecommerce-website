@@ -1,5 +1,5 @@
-import { userAxios } from "./axiosInstance";
 import { API_ROUTES } from "../constants/routes";
+import { userAxios } from "./axiosInstance";
 
 export const placeOrder = async () => {
   try {
@@ -12,7 +12,10 @@ export const placeOrder = async () => {
     localStorage.removeItem("cartId");
     return response.data;
   } catch (error) {
-    const errorMsg = error.message;
+    let errorMsg = error.message;
+    if (error?.response?.data) {
+      errorMsg = error?.response?.data;
+    }
     throw new Error(errorMsg);
   }
 };
