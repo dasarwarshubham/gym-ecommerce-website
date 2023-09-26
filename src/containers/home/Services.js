@@ -16,22 +16,22 @@ const ServicesContainer = styled(Container)`
 const Services = () => {
   const data = [
     {
-      "image": "/images/services/installation-and-setup.png",
+      "image": "/images/services/installation-and-setup.webp",
       "title": "Equipment installation and setup",
       "description": "Our team of experts will efficiently install and set up your equipment, ensuring it operates smoothly and meets your requirements. We handle the technical details, so you can focus on your business."
     },
     {
-      "image": "/images/services/maintenance.png",
+      "image": "/images/services/maintenance.webp",
       "title": "Preventative maintenance plans",
       "description": "Our preventative maintenance plans are designed to keep your equipment in optimal condition. We schedule regular inspections and maintenance to identify and address potential issues before they become major problems, minimizing downtime."
     },
     {
-      "image": "/images/services/repair-and-part-replacement.png",
+      "image": "/images/services/repair-and-part-replacement.webp",
       "title": "Repair services and replacement parts",
       "description": "When your equipment needs repair or replacement parts, rely on our skilled technicians. We diagnose issues quickly and provide efficient repair services, ensuring your equipment is back in operation promptly."
     },
     {
-      "image": "/images/services/leasing-and-financing.png",
+      "image": "/images/services/leasing-and-financing.webp",
       "title": "Equipment leasing and financing options",
       "description": "Explore our flexible equipment leasing and financing options to acquire the machinery and tools you need. We offer customized solutions to fit your budget and business goals, making equipment acquisition more accessible."
     }

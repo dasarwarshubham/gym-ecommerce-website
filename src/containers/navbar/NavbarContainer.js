@@ -126,7 +126,6 @@ function NavbarContainer() {
             onClick={handleClose}
             as={Link}
             to={ROUTES.CART}
-            aria-label="cart"
           >
             <CartButton />
           </NavLink>
