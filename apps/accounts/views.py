@@ -9,11 +9,13 @@ from rest_framework import status, generics
 from rest_framework.response import Response
 from rest_framework.permissions import AllowAny, IsAuthenticated
 from rest_framework.views import APIView
+from rest_framework.viewsets import ModelViewSet
 from knox.views import LoginView as KnoxLoginView
 from knox.auth import TokenAuthentication
-from .serializers import UserCreateSerializer, UserLoginSerializer, UserSerializer, UserChangePasswordSerializer
+from .serializers import UserCreateSerializer, UserLoginSerializer, UserSerializer, UserChangePasswordSerializer, ContactFormSerializer
 from .models import User, EmailVerificationToken
-from .tasks import send_email_verification_mail
+from .tasks import send_email_verification_mail, send_new_contact_mail
+
 
 # from django.contrib.sites.shortcuts import get_current_site
 # from django.urls import reverse
@@ -209,3 +211,32 @@ class CreateEmailVerificationToken(APIView):
         except Exception as e:
             # Handle exceptions gracefully, log them, or customize the response as needed
             return Response("An error occurred while sending the verification link.", status=status.HTTP_400_BAD_REQUEST)
+
+
+# Contact Us Form ViewSet
+
+
+@method_decorator(csrf_exempt, name='dispatch')
+class ContactUsViewSet(ModelViewSet):
+    http_method_names = ['post', 'head', 'options']
+    serializer_class = ContactFormSerializer
+    permission_classes = (AllowAny, )
+
+    def create(self, request, *args, **kwargs):
+        serializer = self.get_serializer(data=request.data)
+
+        if serializer.is_valid():
+            context = {
+                "name": serializer.validated_data['name'],
+                "email": serializer.validated_data['email'],
+                "subject": serializer.validated_data['subject'],
+                "message": serializer.validated_data['message'],
+            }
+
+            try:
+                send_new_contact_mail.delay(context)
+                return Response({"message": "Message received successfully"}, status=status.HTTP_201_CREATED)
+            except Exception as e:
+                return Response({"error": "An error occurred while sending the message"}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+        else:
+            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)

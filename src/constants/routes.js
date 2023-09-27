@@ -4,6 +4,7 @@ export const ABOUT = "/about";
 export const CONTACT = "/contact";
 export const FAQS = "/faqs";
 export const EQUIPMENTS = "/equipments";
+export const CATEGORIES = "categories";
 export const EQUIPMENTS_HOME = `${EQUIPMENTS}/home`;
 export const EQUIPMENTS_COMMERCIAL = `${EQUIPMENTS}/commercial`;
 export const BLOGS = "/blogs";
@@ -32,10 +33,12 @@ const API_BASE_URL = "https://fitflex.site";
 // const API_BASE_URL = "http://127.0.0.1:8000";
 
 export const API_ROUTES = {
-  equipments: `${API_BASE_URL}/api/products`,
   accounts: `${API_BASE_URL}/auth`,
+  contact: `${API_BASE_URL}/auth/contact/`,
   profile: `${API_BASE_URL}/api/customers/me`,
   signup: `${API_BASE_URL}/api/customers/signup`,
+  categories: `${API_BASE_URL}/api/categories`,
+  equipments: `${API_BASE_URL}/api/products`,
   cart: `${API_BASE_URL}/api/carts`,
   order: `${API_BASE_URL}/api/orders`,
 };

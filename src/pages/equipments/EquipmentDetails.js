@@ -147,7 +147,7 @@ const EquipmentDetailsPage = () => {
             <tbody>
               <tr>
                 <td>Price</td>
-                <td>{equipment?.price}</td>
+                <td>${equipment?.price}</td>
               </tr>
               <tr>
                 <td>Type</td>

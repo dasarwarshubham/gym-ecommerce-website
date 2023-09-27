@@ -29,8 +29,9 @@ const ForgotPasswordPage    = lazy(() => import(/* webpackChunkName: "forgotPass
 const VerifyEmailPage       = lazy(() => import(/* webpackChunkName: "verifyEmailPage" */ "./pages/account/VerifyEmailPage"));
 
 const Equipments            = lazy(() => import(/* webpackChunkName: "equipmentsPage" */ "./pages/equipments/Equipments"));
-const HomeEquipments        = lazy(() => import(/* webpackChunkName: "homeEquipmentsPage" */ "./pages/equipments/HomeEquipments"));
-const CommercialEquipments  = lazy(() => import(/* webpackChunkName: "commercialEquipmentsPage" */ "./pages/equipments/CommercialEquipments"));
+// const HomeEquipments        = lazy(() => import(/* webpackChunkName: "homeEquipmentsPage" */ "./pages/equipments/HomeEquipments"));
+// const CommercialEquipments  = lazy(() => import(/* webpackChunkName: "commercialEquipmentsPage" */ "./pages/equipments/CommercialEquipments"));
+const CategoryList          = lazy(() => import(/* webpackChunkName: "CategoryListPage" */ "./pages/equipments/CategoryList"));
 const EquipmentDetails      = lazy(() => import(/* webpackChunkName: "equipmentDetailsPage" */ "./pages/equipments/EquipmentDetails"));
 
 const BlogList              = lazy(() => import(/* webpackChunkName: "blogListPage" */ "./pages/blogs/BlogList"));
@@ -107,10 +108,10 @@ function App() {
           </Route>
 
           <Route path={ROUTES.EQUIPMENTS}>
-          <Route index                        Component={Equipments} />
-            <Route path="home"                Component={HomeEquipments} />
-            <Route path="commercial"          Component={CommercialEquipments} />
-            <Route path=":productId"          Component={EquipmentDetails} />
+            <Route index                          Component={Equipments} />
+            <Route path="categories" exact        Component={CategoryList} />
+            <Route path=":categoryId"             Component={Equipments} />
+            <Route path=":caegoryId/:productId"   Component={EquipmentDetails} />
           </Route>
 
           <Route path={ROUTES.BLOGS}>

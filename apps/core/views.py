@@ -1,6 +1,7 @@
 import logging
 from requests import ConnectionError
 from django.db.models.aggregates import Count
+from django.db.models import F
 from django.views.decorators.cache import cache_page
 from django.utils.decorators import method_decorator
 from rest_framework.decorators import action
@@ -9,11 +10,12 @@ from rest_framework.response import Response
 from rest_framework.mixins import CreateModelMixin, RetrieveModelMixin, DestroyModelMixin
 from rest_framework.viewsets import ModelViewSet, GenericViewSet
 from rest_framework import status
-from .pagination import DefaultPagination
+from .utils.pagination import DefaultPagination
 from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework.filters import SearchFilter, OrderingFilter
-from .filters import ProductFilter
-from .permissions import IsAdminOrReadOnly, FullDjangoModelPermissions, ViewCustomerHistoryPermission
+from .utils.lookups import CaseInsensitiveLookup
+from .utils.filters import ProductFilter
+from .utils.permissions import IsAdminOrReadOnly, FullDjangoModelPermissions, ViewCustomerHistoryPermission
 from .signals import order_created
 
 from .models import Category, Product, Review, Customer, CustomerAddress, \
@@ -78,7 +80,7 @@ class ProductViewSet(ModelViewSet):
 
     queryset = Product.objects.only('id', 'title', 'slug',  'description',
                                     'image', 'price', 'category__id', 'category__title').select_related('category')
-
+    lookup_field = 'slug__iexact'
     filter_backends = [DjangoFilterBackend, SearchFilter, OrderingFilter]
     filterset_class = ProductFilter
     pagination_class = DefaultPagination
@@ -92,6 +94,15 @@ class ProductViewSet(ModelViewSet):
         'create': ProductCreateSerializer
     }
     default_serializer_class = ProductSerializer
+
+    @action(detail=False, methods=['GET'])
+    def featured(self, request):
+        if request.method == 'GET':
+            featured_products = Product.objects.filter(
+                category__featured_product_id=F('id'))
+            serializer = ProductSerializer(
+                featured_products, many=True, context={'request': request})
+            return Response(serializer.data)
 
     def get_serializer_class(self):
         return self.serializer_classes.get(self.action, self.default_serializer_class)
@@ -127,6 +138,7 @@ class CategoryViewSet(ModelViewSet):
 
     queryset = Category.objects.annotate(
         products_count=Count('products')).select_related('featured_product').all()
+    lookup_field = 'title__iexact'
     serializer_class = CategorySerializer
 
     @method_decorator(cache_page(60 * 15))
@@ -241,9 +253,14 @@ class OrderViewSet(ModelViewSet):
             logger.info("Order#{} placed by {} successful.".format(
                 serializer.data["id"], self.request.user))
 
+            user = self.request.user
             # this signal can be listened by other apps
-            # for eg. when order created admin will be notified of new order
-            order_created.send_robust(self.__class__, order=serializer.data)
+            # for eg. when order created admin and user will be notified of new order
+            order_created.send_robust(
+                sender=self.__class__,
+                order=serializer.data,
+                user=user.email
+            )
             return Response(serializer.data)
         except ConnectionError:
             logger.critical(

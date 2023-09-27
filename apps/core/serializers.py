@@ -301,11 +301,10 @@ class ProductSerializer(serializers.ModelSerializer):
         fields = ['id', 'title', 'slug', 'image', 'price', 'category']
 
     def get_category(self, product: Product):
-        return product.category.title
+        return product.category.title.lower()
 
 
 class ProductDetailsSerializer(serializers.ModelSerializer):
-    # category = CategorySerializer()
     category = serializers.SerializerMethodField()
     images = ProductImageSerializer(many=True, read_only=True)
     reviews = ReviewSerializer(many=True)
@@ -343,11 +342,11 @@ class SimpleProductSerializer(serializers.ModelSerializer):
 
 class CategorySerializer(serializers.ModelSerializer):
     products_count = serializers.IntegerField(read_only=True)
-    featured_product = SimpleProductSerializer()
+    featured_product = ProductSerializer()
 
     class Meta:
         model = Category
-        fields = ['id', 'title', 'description',
+        fields = ['id', 'title', 'image', 'description',
                   'products_count', 'featured_product']
 
 
@@ -402,10 +401,6 @@ class AddCartItemSerializer(serializers.ModelSerializer):
         try:
             cart_item = CartItem.objects.get(
                 cart_id=cart_id, product_id=product_id)
-            print("\n\n\n")
-            print("Quantity in database : ", cart_item.product.inventory, "Quantity requested : ",
-                  cart_item.quantity + quantity, "in limit : ", cart_item.product.inventory < cart_item.quantity + quantity)
-            print("\n\n\n")
 
             if cart_item.product.inventory < cart_item.quantity + quantity:
                 raise serializers.ValidationError(
@@ -457,15 +452,8 @@ class UpdateCartItemSerializer(serializers.ModelSerializer):
 # Order Serializers
 
 
-class OrderProductSerializer(serializers.ModelSerializer):
-
-    class Meta:
-        model = Product
-        fields = ['id', 'title', 'slug', 'image', 'price']
-
-
 class OrderItemSerializer(serializers.ModelSerializer):
-    product = OrderProductSerializer()
+    product = ProductSerializer()
 
     class Meta:
         model = OrderItem

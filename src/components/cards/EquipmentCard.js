@@ -37,7 +37,7 @@ const EquipmentCard = ({ data }) => {
       <div style={{ position: "relative" }}>
         <Card.Img variant="top" src={data.image} alt={data.name} />
         <Link
-          to={`${EQUIPMENTS}/${data.id}`}
+          to={`${EQUIPMENTS}/${data.category}/${data.slug}`}
           style={{ position: "absolute", top: 0, bottom: 0, left: 0, right: 0 }}
         />
       </div>

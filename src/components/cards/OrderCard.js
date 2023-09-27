@@ -18,7 +18,7 @@ const OrderCard = ({ order }) => {
             <ListGroup.Item key={index} className="mb-3">
               <Row>
                 <Col xs={3}>
-                  <Link to={`${EQUIPMENTS}/${item.id}`}>
+                  <Link to={`${EQUIPMENTS}/${item.product.category}/${item.product.slug}`}>
                     <img
                       src={item.product.image}
                       alt={item.product.title}
@@ -29,7 +29,7 @@ const OrderCard = ({ order }) => {
                   </Link>
                 </Col>
                 <Col>
-                  <Link to={`${EQUIPMENTS}/${item.id}`}>
+                  <Link to={`${EQUIPMENTS}/${item.product.category}/${item.product.slug}`}>
                     <h6>{item.product.title}</h6>
                   </Link>
                   <p>Quantity: {item.quantity}</p>

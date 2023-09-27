@@ -6,7 +6,7 @@ import { Link } from "react-router-dom";
 
 import Nav from "react-bootstrap/Nav";
 import Navbar from "react-bootstrap/Navbar";
-import NavDropdown from "react-bootstrap/NavDropdown";
+// import NavDropdown from "react-bootstrap/NavDropdown";
 import Offcanvas from "react-bootstrap/Offcanvas";
 import { MdAccountCircle } from "react-icons/md";
 
@@ -150,7 +150,16 @@ function NavbarContainer() {
               >
                 About
               </NavLink>
-              <NavDropdown
+              <NavLink
+                className="nav-link"
+                onClick={handleClose}
+                as={Link}
+                to={`${ROUTES.EQUIPMENTS}/${ROUTES.CATEGORIES}`}
+              >
+                Equipments
+              </NavLink>
+
+              {/* <NavDropdown
                 title="Equipments"
                 id={`offcanvasNavbarDropdown-expand-lg`}
                 className="nav-link"
@@ -169,7 +178,7 @@ function NavbarContainer() {
                 >
                   Commercial Equipment
                 </NavDropdown.Item>
-              </NavDropdown>
+              </NavDropdown> */}
               <NavLink
                 className="nav-link"
                 onClick={handleClose}

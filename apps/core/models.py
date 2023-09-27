@@ -3,7 +3,7 @@ from django.contrib import admin
 from django.conf import settings
 from uuid import uuid4
 from django.core.validators import MinValueValidator, MaxValueValidator
-from .validators import validate_file_size
+from .utils.validators import validate_file_size
 
 
 # Customer Model
@@ -70,10 +70,13 @@ class CustomerAddress(models.Model):
 
 
 # Category Model
+def product_directory_path(instance, filename):
+    return 'categories/{}'.format(filename)
 
 
 class Category(models.Model):
     title = models.CharField(max_length=255)
+    image = models.ImageField(upload_to=product_directory_path)
     description = models.TextField()
     featured_product = models.ForeignKey(
         # 'Product',  '+' is added to solve circular dependency

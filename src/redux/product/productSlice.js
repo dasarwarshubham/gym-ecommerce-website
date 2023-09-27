@@ -1,5 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { retrieveProducts, getProductById } from "./productActions";
+import { retrieveProducts, retrieveFeaturedProducts, getProductById, retrieveCategories } from "./productActions";
 
 const isPendingAction = (action) => {
   return action.type.startsWith(`product/`) && action.type.endsWith("/pending");
@@ -15,6 +15,8 @@ const productSlice = createSlice({
   initialState: {
     loading: false,
     productList: [],
+    featuredProductList: [],
+    categoryList: [],
     productDetails: null,
     error: null,
   },
@@ -23,6 +25,16 @@ const productSlice = createSlice({
       .addCase(retrieveProducts.fulfilled, (state, action) => {
         state.loading = false;
         state.productList = action.payload;
+        state.error = null;
+      })
+      .addCase(retrieveFeaturedProducts.fulfilled, (state, action) => {
+        state.loading = false;
+        state.featuredProductList = action.payload;
+        state.error = null;
+      })
+      .addCase(retrieveCategories.fulfilled, (state, action) => {
+        state.loading = false;
+        state.categoryList = action.payload;
         state.error = null;
       })
       .addCase(getProductById.fulfilled, (state, action) => {
