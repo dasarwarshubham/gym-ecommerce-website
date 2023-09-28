@@ -49,7 +49,7 @@ const BlogDetailsPage = () => {
   }
 
   return (
-    <Container className="my-5 py-5">
+    <Container className="my-5 py-5" style={{ minHeight: "65vh" }}>
       <h2>{blogDetails?.title}</h2>
       <p>{blogDetails?.content}</p>
     </Container>

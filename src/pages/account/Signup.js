@@ -74,7 +74,7 @@ const SignupPage = () => {
     <Container className="my-5">
       <Row
         className="justify-content-center align-items-center mx-0"
-        style={{ minHeight: "70vh" }}
+        style={{ minHeight: "65vh" }}
       >
         {signupStatus === "success" && (
           <Col xs={12} md={7} lg={6}>

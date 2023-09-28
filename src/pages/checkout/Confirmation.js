@@ -15,7 +15,7 @@ const ConfirmationPage = () => {
   }
 
   return (
-    <Container className="my-5 py-5">
+    <Container className="my-5 py-5" style={{ minHeight: "65vh" }}>
       <Row className="justify-content-center mx-0" style={{minHeight: "65vh"}}>
         <Col xs={12} md={8} lg={6} className="d-flex justify-content-center align-items-center">
           {location?.state?.status === "success" ? (

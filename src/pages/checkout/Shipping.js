@@ -60,7 +60,7 @@ const ShippingPage = () => {
   };
 
   return (
-    <Container className="my-5 py-5">
+    <Container className="my-5 py-5" style={{ minHeight: "65vh" }}>
       <Row className="g-4 mx-0">
         <Col xs={12}>
           <h2 className="d-flex align-items-center">

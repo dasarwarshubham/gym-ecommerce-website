@@ -61,7 +61,7 @@ const PaymentPage = () => {
   };
 
   return (
-    <Container className="my-5 py-5">
+    <Container className="my-5 py-5" style={{ minHeight: "65vh" }}>
       <Row className="justify-content-center mx-0">
         <Col xs={12} md={8} xl={6}>
           <h2 className="text-center">

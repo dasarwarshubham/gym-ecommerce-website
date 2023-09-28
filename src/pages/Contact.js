@@ -59,7 +59,7 @@ const ContactPage = () => {
     })
   };
   return (
-    <Container className="my-5 py-5">
+    <Container className="my-5 py-5" style={{ minHeight: "65vh" }}>
       <Row className="justify-content-center align-items-center mx-0">
         {status === "success" && (
           <Col xs={12} md={7} lg={6}>
