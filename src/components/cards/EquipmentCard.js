@@ -34,12 +34,11 @@ const EquipmentCard = ({ data }) => {
 
   return (
     <Card className="border-0 shadow h-100 text-decoration-none">
-      <div style={{ position: "relative" }}>
+      <div style={{ position: "relative" }} class="ratio ratio-12x10">
         <Card.Img
           variant="top"
           src={data.image}
           alt={data.title}
-          style={{ height: "300px" }}
           className="img-fluid w-100 object-fit-cover"
         />
         <Link
@@ -47,9 +46,11 @@ const EquipmentCard = ({ data }) => {
           style={{ position: "absolute", top: 0, bottom: 0, left: 0, right: 0 }}
         />
       </div>
-      <Card.Body>
-        <Card.Title>{data.title}</Card.Title>
-        <Card.Text>Price: ${data.price}</Card.Text>
+      <Card.Body className="d-flex flex-column justify-content-between">
+        <div>
+          <Card.Title className="text-truncate">{data.title}</Card.Title>
+          <Card.Text>Price: ${data.price}</Card.Text>
+        </div>
         <div className="d-grid">
           <Button variant="primary" onClick={handleAddToCart}>
             {alreadyInCart ? (
