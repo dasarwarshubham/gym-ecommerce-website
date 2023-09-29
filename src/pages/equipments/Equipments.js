@@ -45,7 +45,7 @@ const EquipmentsPage = () => {
   }
   return (
     <Container>
-      <Row className="g-5 my-5 py-5 mx-0">
+      <Row className="g-4 g-md-5 my-5 py-5 mx-0">
         {equipments.map((equipment) => (
           <Col xs={6} lg={4} xl={3} key={`equipment-${equipment.id}`}>
             <EquipmentCard data={equipment} />

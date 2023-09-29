@@ -58,20 +58,20 @@ const Footer = () => {
             <p>
               <FaLocationDot size={16} />&nbsp;
               <Link className="nav-link" target="_blank" rel="noopener noreferrer" to={ROUTES.MAP}>
-                <div>
+                <span>
                   123 Main Street,
                   <br />
                   Suite 500, Anytown India 123456
-                </div>
+                </span>
               </Link>
             </p>
             <p><FaPhone size={16} />&nbsp;<Link className="nav-link" to={ROUTES.PHONE}>555-555-5555</Link></p>
             <p><FaEnvelope size={16} />&nbsp;<Link className="nav-link" to={ROUTES.EMAIL}>hello.fitflex@gmail.com</Link></p>
             <p>
               <FaBusinessTime size={16} />&nbsp;
-              <div className="d-inline-flex">
+              <span className="d-inline-flex">
                 Hours of Operation: <br /> Monday - Friday 9am - 5pm IST
-              </div>
+              </span>
             </p>
           </Col>
           <Col xl={3} lg={4} md={4} sm={6}>
@@ -84,7 +84,7 @@ const Footer = () => {
             </ul>
           </Col>
           <Col xl={3} lg={4} md={4} sm={6}>
-            <h5 className="mb-4 fw-bold">Equipments to</h5>
+            <h5 className="mb-4 fw-bold">Equipments</h5>
             <ul className="list-group list-group-flush list-unstyled">
               <li><Link className="list-group-item nav-link" to="/equipments/core">Train Your Core</Link></li>
               <li><Link className="list-group-item nav-link" to="/equipments/cardio">Boost Cardio Health</Link></li>

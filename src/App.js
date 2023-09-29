@@ -2,9 +2,10 @@ import React, { lazy, Suspense, useEffect } from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import Loader from "./components/loader/Loader";
-
 import FooterContainer from "./containers/footer/FooterContainer";
 import Navbar from "./containers/navbar/NavbarContainer";
+
+import ScrollToTop from "./hooks/useScrollToTop";
 
 import * as ROUTES from "./constants/routes";
 import { PrivateRoute, PublicRoute } from "./helpers/RouteComponent";
@@ -53,6 +54,7 @@ function App() {
     const cartId = localStorage.getItem("cartId");
 
     if (token) {
+      // Dispatch autoSignIn action with the token
       dispatch(autoLogin(token))
         .then(() => {
           dispatch(fetchAccountAddress());
@@ -62,7 +64,6 @@ function App() {
           // console.log(error);
           dispatch(logoutUser());
         });
-      // Dispatch autoSignIn action with the token
     }
 
     if (cartId) {
@@ -79,6 +80,7 @@ function App() {
   return (
     <Router>
       <Navbar />
+      <ScrollToTop />
       <Suspense fallback={Loader()}>
         <Routes>
           <Route path={ROUTES.HOME}           Component={Home} />

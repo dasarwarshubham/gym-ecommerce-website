@@ -63,20 +63,6 @@ $accordion-body-padding-y: 1.5rem;
 $input-bg: $white;
 $input-placeholder-color: #b9bdc2;
 
-input:-webkit-autofill {
-  -webkit-box-shadow: 0 0 0 30px white inset !important;
-}
-
-input[type="number"]::-webkit-inner-spin-button,
-input[type="number"]::-webkit-outer-spin-button {
-  -webkit-appearance: none;
-  -moz-appearance: none;
-  appearance: none;
-  margin: 0;
-}
-input[type="number"] {
-  -moz-appearance: textfield;
-}
 
 .navbar-toggler {
   z-index: 1050;
@@ -131,7 +117,7 @@ input[type="number"] {
 $aspect-ratios: (
   "1x1": 100%,
   "4x3": calc(3 / 4 * 100%),
-  "12x10": calc(12 / 10 * 100%),
+  "12x10": calc(12 / 10 * 100%), //custom ratio added
   "16x9": calc(9 / 16 * 100%),
   "21x9": calc(9 / 21 * 100%),
 );
@@ -221,11 +207,3 @@ $aspect-ratios: (
 //   );
 //   filter: progid:DXImageTransform.Microsoft.gradient(startColorstr="#c7d5f0",endColorstr="#dedef6",GradientType=1);
 // }
-
-.text-truncate {
-  display: -webkit-box;
-  -webkit-line-clamp: 2;
-  -webkit-box-orient: vertical;
-  overflow: hidden;
-  text-overflow: ellipsis;
-}

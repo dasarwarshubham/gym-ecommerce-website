@@ -34,7 +34,7 @@ const EquipmentCard = ({ data }) => {
 
   return (
     <Card className="border-0 shadow h-100 text-decoration-none">
-      <div style={{ position: "relative" }} class="ratio ratio-12x10">
+      <div style={{ position: "relative" }} className="ratio ratio-12x10">
         <Card.Img
           variant="top"
           src={data.image}
