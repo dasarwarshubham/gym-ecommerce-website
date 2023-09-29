@@ -34,7 +34,7 @@ const Container = styled(BsContainer)`
     margin-bottom: 20px;
   }
   
-  h6, p {
+  span, p {
     font-size: 16px;
   }
 
@@ -134,7 +134,7 @@ const AboutPage = () => {
             premium-quality exercise equipment that delivers unparalleled
             performance and durability.
           </p>
-          <h6>Our Commitment:</h6>
+          <div className="fs-6 fw-bold">Our Commitment:</div>
           <p className="mb-5">
             We pride ourselves on the commitment to excellence and customer
             satisfaction. Every piece of gym equipment in our collection is
@@ -143,7 +143,7 @@ const AboutPage = () => {
             which is why we strive to offer a diverse range of products that cater
             to different fitness goals and preferences.
           </p>
-          <h6>Quality and Innovation:</h6>
+          <div className="fs-6 fw-bold">Quality and Innovation:</div>
           <p className="mb-5">
             With a strong emphasis on quality and innovation, we collaborate with
             industry experts and fitness enthusiasts to develop cutting-edge fitness
@@ -151,7 +151,7 @@ const AboutPage = () => {
             rigorous testing to ensure it meets our stringent quality benchmarks,
             allowing our customers to work out with confidence.
           </p>
-          <h6>Expert Customer Support:</h6>
+          <div className="fs-6 fw-bold">Expert Customer Support:</div>
           <p className="mb-5">
             At FitFlex, we value our customers and prioritize their needs. Our
             dedicated team of fitness experts is always ready to assist with any
@@ -160,7 +160,7 @@ const AboutPage = () => {
             with our customers and are committed to providing exceptional customer
             support throughout their fitness journey.
           </p>
-          <h6>A Holistic Approach:</h6>
+          <div className="fs-6 fw-bold">A Holistic Approach:</div>
           <p className="mb-5">
             Our commitment to fitness goes beyond providing top-notch equipment. We
             believe in promoting a holistic approach to wellness, encompassing not
@@ -169,7 +169,7 @@ const AboutPage = () => {
             advice, and motivational content to inspire and support our customers in
             leading a healthy and balanced lifestyle.
           </p>
-          <h6>Join Our Fitness Community:</h6>
+          <div className="fs-6 fw-bold">Join Our Fitness Community:</div>
           <p className="mb-5">
             At FitFlex, we take pride in fostering a vibrant fitness community where
             like-minded individuals come together to support and motivate one

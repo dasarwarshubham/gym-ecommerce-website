@@ -11,7 +11,7 @@ const ReviewCard = ({ data }) => {
     return (
         <Card className="border border-dark border-4 h-100">
             <Card.Header className="bg-dark text-light border-dark rounded-0">
-                <h5 className="text-truncate">{data.title}</h5>
+                <Card.Title className="text-truncate">{data.title}</Card.Title>
                 <div className="d-flex mx-0 justify-content-between mt-3">
                     <Badge className="d-flex align-items-center bg-dark">
                         <Ratings ratings={data.ratings} />

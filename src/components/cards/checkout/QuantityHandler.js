@@ -63,7 +63,7 @@ const QuantityHandler = ({ item, removeTrash }) => {
         >
           -
         </QuantityBtn>
-        <QuantityCount type="number" min="1" max="5" value={item.quantity} readOnly />
+        <QuantityCount type="number" min="1" max="5" value={item.quantity} readOnly aria-label="item quantity" />
         <QuantityBtn
           title="increase quantity"
           onClick={() => handleQuantityChange(1)}

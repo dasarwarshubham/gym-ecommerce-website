@@ -38,10 +38,11 @@ const EquipmentCard = ({ data }) => {
         <Card.Img
           variant="top"
           src={data.image}
-          alt={data.title}
+          alt={data.title?.replaceAll('-', '')}
           className="img-fluid w-100 object-fit-cover"
         />
         <Link
+          aria-label={`Go to ${data.title?.replaceAll('-', '')} page`}
           to={`${EQUIPMENTS}/${data.category}/${data.slug}`}
           style={{ position: "absolute", top: 0, bottom: 0, left: 0, right: 0 }}
         />

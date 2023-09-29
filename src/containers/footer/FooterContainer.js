@@ -75,7 +75,7 @@ const Footer = () => {
             </p>
           </Col>
           <Col xl={3} lg={4} md={4} sm={6}>
-            <h5 className="mb-4 fw-bold">Explore</h5>
+            <p className="mb-4 fs-5 fw-bold">Explore</p>
             <ul className="list-group list-group-flush list-unstyled">
               <li><Link className="list-group-item nav-link" to={ROUTES.BLOGS}>Blogs</Link></li>
               <li><Link className="list-group-item nav-link" to={ROUTES.ABOUT}>About Us</Link></li>
@@ -84,7 +84,7 @@ const Footer = () => {
             </ul>
           </Col>
           <Col xl={3} lg={4} md={4} sm={6}>
-            <h5 className="mb-4 fw-bold">Equipments</h5>
+            <p className="mb-4 fs-5 fw-bold">Equipments</p>
             <ul className="list-group list-group-flush list-unstyled">
               <li><Link className="list-group-item nav-link" to="/equipments/core">Train Your Core</Link></li>
               <li><Link className="list-group-item nav-link" to="/equipments/cardio">Boost Cardio Health</Link></li>
@@ -94,12 +94,12 @@ const Footer = () => {
             </ul>
           </Col>
           <Col xl={3} lg={4} md={4} sm={12}>
-            <h5 className="mb-4 fw-bold">Follow Us On</h5>
+            <p className="mb-4 fs-5 fw-bold">Follow Us On</p>
             <div className="d-flex justify-content-start">
-              <Link className="nav-link me-5" target="_blank" rel="noopener noreferrer" to={ROUTES.INSTAGRAM}><FaInstagram size={20} /></Link>
-              <Link className="nav-link me-5" target="_blank" rel="noopener noreferrer" to={ROUTES.FACEBOOK}><FaFacebook size={20} /></Link>
-              <Link className="nav-link me-5" target="_blank" rel="noopener noreferrer" to={ROUTES.TWITTER}><FaTwitter size={20} /></Link>
-              <Link className="nav-link me-5" target="_blank" rel="noopener noreferrer" to={ROUTES.YOUTUBE}><FaYoutube size={20} /></Link>
+              <Link className="nav-link me-5" target="_blank" rel="noopener noreferrer" aria-label="Fitflex instagram account" to={ROUTES.INSTAGRAM}><FaInstagram size={20} /></Link>
+              <Link className="nav-link me-5" target="_blank" rel="noopener noreferrer" aria-label="Fitflex facebook page" to={ROUTES.FACEBOOK}><FaFacebook size={20} /></Link>
+              <Link className="nav-link me-5" target="_blank" rel="noopener noreferrer" aria-label="Fitflex twitter handle" to={ROUTES.TWITTER}><FaTwitter size={20} /></Link>
+              <Link className="nav-link me-5" target="_blank" rel="noopener noreferrer" aria-label="Fitflex youtube channel" to={ROUTES.YOUTUBE}><FaYoutube size={20} /></Link>
             </div>
           </Col>
         </Row>

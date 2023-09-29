@@ -183,12 +183,12 @@ const EquipmentDetailsPage = () => {
             </div>
           )}
           <div className="d-none d-xl-block">
-            <h5>Description</h5>
+            <div className="d-block fs-5 fw-bold">Description</div>
             {equipment.description}
           </div>
         </Col>
         <Col md={12} className="d-block d-xl-none">
-          <h5>Description</h5>
+          <div className="d-block fs-5 fw-bold">Description</div>
           {equipment.description}
         </Col>
       </Row>
@@ -196,9 +196,9 @@ const EquipmentDetailsPage = () => {
         <>
           <hr />
           <Row className="mx-0 g-4">
-            <h5>Reviews</h5>
+            <div className="d-block fs-5 fw-bold">Reviews</div>
             {equipment?.reviews.map((review, idx) => (
-              <Col xl={6} key={`${equipment.id}-${idx}`}>
+              <Col lg={6} key={`${equipment.id}-${idx}`}>
                 <ReviewCard data={review} />
               </Col>
             ))}
