@@ -21,7 +21,7 @@ Link => [https://fitflex.site](https://fitflex.site)
 
 3. Install required python libraries and node modules from requirements.txt and package.json respectively
 
-4. Add .env file at root of your project and add he below settings to it.
+4. Add .env file at root of your project and add below environment variables to it.
     ```
     DJANGO_APP_URL=http://127.0.0.1:8000
     REACT_APP_URL=http://127.0.0.1:3000
