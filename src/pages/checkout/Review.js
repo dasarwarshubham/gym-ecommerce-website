@@ -1,21 +1,21 @@
 import React from "react";
-import { Link } from "react-router-dom";
 import { useSelector } from "react-redux";
+import { Link } from "react-router-dom";
 
 import { Button, Card, Col, Container, Row, Spinner } from "react-bootstrap";
 import { MdEdit } from "react-icons/md";
 
 // import required redux selectors
 import {
-  selectLoadingStatus,
-  selectError as selectCartError,
-  selectCartAddress,
-  selectCartItemsCount,
   selectCart,
+  selectCartAddress,
+  selectError as selectCartError,
+  selectCartItemsCount,
+  selectLoadingStatus,
 } from "../../redux/checkout/cartSelectors";
 
-import { CART, SHIPPING, PAYMENT } from "../../constants/routes";
 import CartCard from "../../components/cards/checkout/CartCard";
+import { CART, PAYMENT, SHIPPING } from "../../constants/routes";
 
 const ReviewPage = () => {
   const cartLoading = useSelector(selectLoadingStatus);
@@ -32,20 +32,25 @@ const ReviewPage = () => {
   );
 
   return (
-    <Container className="my-5 py-5">
-      <h2 className="d-flex align-items-center">
-        Review Your Order&nbsp;
-        {cartLoading && (
-          <Spinner animation="grow">
-            <span className="visually-hidden">Loading...</span>
-          </Spinner>
-        )}
-        {cartError && <span className="text-danger">{cartError}</span>}
-      </h2>
-      {count === 0 ? (
-        <p>Your cart is empty.</p>
-      ) : (
-        <Row className="g-4">
+    <Container className="my-5 py-5" style={{ minHeight: "65vh" }}>
+      <Row className="g-4 mx-0">
+        <Col xs={12}>
+          <h2 className="d-flex align-items-center">
+            Review Your Order&nbsp;
+            {cartLoading && (
+              <Spinner animation="grow">
+                <span className="visually-hidden">Loading...</span>
+              </Spinner>
+            )}
+            {cartError && <span className="text-danger">{cartError}</span>}
+          </h2>
+        </Col>
+        {count === 0 ? (
+          <Col xs={12}>
+            <p>Your cart is empty.</p>
+          </Col>
+          ) : (
+          <>
           <Col xs={{ span: 12, order: 1 }} lg={{ span: 8, order: 1 }}>
             <Card>
               <Card.Header className="d-flex justify-content-between align-items-center">
@@ -109,8 +114,9 @@ const ReviewPage = () => {
               </Card.Footer>
             </Card>
           </Col>
-        </Row>
-      )}
+          </>
+        )}
+      </Row>
     </Container>
   );
 };

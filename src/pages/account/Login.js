@@ -1,5 +1,5 @@
 import React from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate, useLocation } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 
 import Container from "react-bootstrap/Container";
@@ -13,14 +13,14 @@ import {
   FormButton
 } from "../../components/form";
 
-import { SIGNUP, FORGOT_PASSWORD } from "../../constants/routes";
+import { SIGNUP, FORGOT_PASSWORD, PROFILE } from "../../constants/routes";
 
 import {
   fetchAccountAddress,
+  fetchAccountData,
   fetchAccountOrder,
   loginUser,
 } from "../../redux/account/accountActions";
-import { fetchAccountData } from "../../redux/account/accountActions";
 import { selectAccountError } from "../../redux/account/accountSelectors";
 
 const validationSchema = Yup.object().shape({
@@ -30,30 +30,38 @@ const validationSchema = Yup.object().shape({
 
 const LoginPage = () => {
   const navigate = useNavigate();
+  const location = useLocation();
   const error = useSelector(selectAccountError);
 
   const dispatch = useDispatch();
+
+  const prevLocation = location?.state?.from;
 
   const handleClick = (values, setSubmitting, resetForm) => {
     dispatch(loginUser(values))
       .then((loginAction) => {
         setSubmitting(false);
+        resetForm();
         if (loginAction.meta.requestStatus === "fulfilled") {
           dispatch(fetchAccountData());
           dispatch(fetchAccountAddress());
           dispatch(fetchAccountOrder());
-          navigate(-1);
+          if (prevLocation) {
+            navigate(prevLocation);
+          }
+          else {
+            navigate(PROFILE);
+          }
         }
+      }).catch((error) => {
+        console.log(error);
       })
-      .finally(() => {
-        resetForm();
-      });
   };
 
   return (
     <Container>
       <Row
-        className="justify-content-center align-items-center"
+        className="justify-content-center align-items-center mx-0"
         style={{ minHeight: "70vh" }}
       >
         <Col xs={12} md={9} lg={8} xl={4}>

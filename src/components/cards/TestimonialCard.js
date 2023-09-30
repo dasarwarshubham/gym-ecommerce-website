@@ -10,6 +10,10 @@ const Card = styled(BsCard)`
   border: none;
   background-color: #fafafa;
   padding: 2rem 3rem;
+  @media (max-width: 640px) {
+    margin: 0 1rem;
+    padding: 2rem 1rem;
+  }
 `;
 
 const CardText = styled(Card.Text)`

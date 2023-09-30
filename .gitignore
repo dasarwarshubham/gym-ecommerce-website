@@ -4,7 +4,7 @@
 migrations/
 commands/
 media/
-static/
+# static/
 
 # Dependency directories
 /__pycache__/
@@ -38,7 +38,7 @@ __pycache__/
 
 # Dependency directories
 /node_modules
-/build
+# /build
 /.pnp
 .pnp.js
 
@@ -54,10 +54,11 @@ __pycache__/
 /dist
 
 # Log files
-/logs
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
 general.log*
+*.log*
 
-
+# certificates
+certs/

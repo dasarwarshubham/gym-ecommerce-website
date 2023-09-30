@@ -89,3 +89,10 @@ class EmailVerificationTokenSerializer(serializers.ModelSerializer):
     class Meta:
         model = EmailVerificationToken
         fields = ('token',)
+
+
+class ContactFormSerializer(serializers.Serializer):
+    name = serializers.CharField(max_length=255)
+    email = serializers.EmailField()
+    subject = serializers.CharField(max_length=255)
+    message = serializers.CharField()

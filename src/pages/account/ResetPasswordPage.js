@@ -1,31 +1,39 @@
 import React, { useState } from "react";
-import { useNavigate, useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 
+import Col from "react-bootstrap/Col";
 import Container from "react-bootstrap/Container";
 import Row from "react-bootstrap/Row";
-import Col from "react-bootstrap/Col";
 
 import * as Yup from "yup";
 
-import { FormikForm, FormField, FormButton } from "../../components/form";
-import { LOGIN } from "../../constants/routes";
+import { FormButton, FormField, FormikForm } from "../../components/form";
+import {
+	Error,
+	Success
+} from '../../components/response';
 
+import { LOGIN } from "../../constants/routes";
 import { resetPassword } from "../../services/accountAPI";
 
 const ResetPasswordPage = () => {
     const { token } = useParams();
-    const navigate = useNavigate();
 
     const [error, setError] = useState(null);
+    const [status, setStatus] = useState(null);
+    const [resetStatus, setResetStatus] = useState(null);
 
     const handleClick = async (values, setSubmitting, resetForm) => {
         delete values["confirm_password"];
         setError(null);
         try {
-            await resetPassword(values);
-            navigate(LOGIN)
+            const response = await resetPassword(values);
+            setResetStatus("success");
+            if (response.status === 200)
+                setStatus(JSON.stringify(response?.data));
         } catch (error) {
             setError(error.message);
+            setResetStatus("error");
         } finally {
             setSubmitting(false);
             resetForm();
@@ -35,9 +43,31 @@ const ResetPasswordPage = () => {
     return (
         <Container>
             <Row
-                className="justify-content-center align-items-center"
+                className="justify-content-center align-items-center mx-0"
                 style={{ minHeight: "70vh" }}
             >
+                {resetStatus === "success" && (
+                    <Col xs={12} md={7} lg={6}>
+                        <Success
+                            title="Password Reset Successful!"
+                            status={status}
+                        >
+                            <>Please log in using your new password.</>
+                            <br/>
+                            <Link className="btn btn-dark mt-4" to={LOGIN}>login</Link>
+                        </Success>
+                    </Col>
+                )}
+                {resetStatus === "error" && (
+                    <Col xs={12} md={7} lg={6}>
+                        <Error
+                            title="Password Reset Failed"
+                            error={error}
+                            action={() => setResetStatus(null)}
+                        />
+                    </Col>
+                )}
+                {resetStatus === null && (
                 <Col xs={12} md={9} lg={8} xl={7}>
                     <h1 className="text-center mb-4">Reset Your Password</h1>
                     <FormikForm
@@ -62,7 +92,6 @@ const ResetPasswordPage = () => {
                             handleClick(values, setSubmitting, resetForm)
                         }
                     >
-                        {error && <p className="text-danger">{JSON.stringify(error)}</p>}
                         <FormField
                             label="Enter New Password"
                             type="password"
@@ -83,6 +112,7 @@ const ResetPasswordPage = () => {
                         </div>
                     </FormikForm>
                 </Col>
+                )}
             </Row>
         </Container>
     );

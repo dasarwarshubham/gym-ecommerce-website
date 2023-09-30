@@ -18,14 +18,14 @@ export const createCart = async () => {
       method: "POST",
       url: `${API_ROUTES.cart}/`,
     });
-    console.log("Create Cart response : ", response);
+    // console.log("Create Cart response : ", response);
     if (response.status === 201) {
       return response.data;
     } else {
       throw new Error("Some thing went wrong");
     }
   } catch (error) {
-    console.log(error.response);
+    // console.log(error.response);
     let errorMsg = error.response.data;
     // if (error?.response?.data?.non_field_errors) {
     //   errorMsg = error?.response?.data?.non_field_errors[0];
@@ -41,10 +41,10 @@ export const clearCart = async () => {
       method: "DELETE",
       url: `${API_ROUTES.cart}/${cartId}/items/delete-all/`,
     });
-    console.log("Clear Cart response : ", response);
+    // console.log("Clear Cart response : ", response);
     return response.data;
   } catch (error) {
-    console.log(error.response);
+    // console.log(error.response);
     let errorMsg = error.response.data;
     // if (error?.response?.data?.non_field_errors) {
     //   errorMsg = error?.response?.data?.non_field_errors[0];
@@ -63,8 +63,11 @@ export const addItemToCart = async (data) => {
     });
     return response.data;
   } catch (error) {
-    const errorMsg = error.message;
-    throw new Error(errorMsg);
+    let errorMsg = error?.response?.data;
+    if (error?.response?.data?.quantity) {
+      errorMsg = error?.response?.data?.quantity[0];
+    }
+    throw new Error(JSON.stringify(errorMsg));
   }
 };
 
@@ -79,8 +82,11 @@ export const updateItemFromCart = async (data) => {
     });
     return response.data;
   } catch (error) {
-    const errorMsg = error.message;
-    throw new Error(errorMsg);
+    let errorMsg = error?.response?.data;
+    if (error?.response?.data?.quantity) {
+      errorMsg = error?.response?.data?.quantity[0];
+    }
+    throw new Error(JSON.stringify(errorMsg));
   }
 };
 

@@ -42,17 +42,15 @@ const BlogListPage = () => {
   }
 
   return (
-    <>
-      <Container className="my-5 py-5">
-        <Row className="g-5 mx-0">
-          {blogs.map((blog) => (
-            <Col key={blog.id} sm={6} md={4}>
-              <BlogCard blog={blog} />
-            </Col>
-          ))}
-        </Row>
-      </Container>
-    </>
+    <Container className="my-5 py-5" style={{ minHeight: "65vh" }}>
+      <Row className="g-5 mx-0">
+        {blogs.map((blog) => (
+          <Col key={blog.id} sm={6} md={4}>
+            <BlogCard blog={blog} />
+          </Col>
+        ))}
+      </Row>
+    </Container>
   );
 };
 

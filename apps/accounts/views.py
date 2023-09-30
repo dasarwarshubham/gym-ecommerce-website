@@ -1,3 +1,4 @@
+import uuid
 from django.utils import timezone
 from django.utils.decorators import method_decorator
 from django.conf import settings
@@ -8,11 +9,13 @@ from rest_framework import status, generics
 from rest_framework.response import Response
 from rest_framework.permissions import AllowAny, IsAuthenticated
 from rest_framework.views import APIView
+from rest_framework.viewsets import ModelViewSet
 from knox.views import LoginView as KnoxLoginView
 from knox.auth import TokenAuthentication
-from .serializers import UserCreateSerializer, UserLoginSerializer, UserSerializer, UserChangePasswordSerializer
+from .serializers import UserCreateSerializer, UserLoginSerializer, UserSerializer, UserChangePasswordSerializer, ContactFormSerializer
 from .models import User, EmailVerificationToken
-from .tasks import send_email_verification_mail
+from .tasks import send_email_verification_mail, send_new_contact_mail
+
 
 # from django.contrib.sites.shortcuts import get_current_site
 # from django.urls import reverse
@@ -48,17 +51,19 @@ class AccountRegisterView(APIView):
                 expires_at=timezone.now() + timezone.timedelta(days=1)
             )
 
+            verification_link = "{}/verify-email/{}/{}/".format(
+                settings.REACT_APP_URL,
+                serializer.data["id"],
+                token.token
+            )
+
             context = {
                 'first_name': serializer.data["first_name"],
                 'email': serializer.data["email"],
-                'verification_link': "{}/verify-email/{}/{}/".format(
-                    settings.REACT_APP_URL,
-                    serializer.data["id"],
-                    token.token
-                ),
+                'verification_link': verification_link,
             }
             send_email_verification_mail.delay(context)
-            return Response(serializer.data, status=status.HTTP_201_CREATED)
+            return Response("User created successfully", status=status.HTTP_201_CREATED)
         else:
             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
@@ -130,7 +135,15 @@ class VerifyEmailView(APIView):
     permission_classes = (AllowAny, )
 
     def post(self, request, user_id, token):
-        user = get_object_or_404(User, pk=user_id)
+        try:
+            user = User.objects.get(pk=user_id)
+        except User.DoesNotExist:
+            # Custom error response when the token is invalid
+            return Response("User does not exist", status=status.HTTP_400_BAD_REQUEST)
+
+        if user.is_verified:
+            return Response("User is already verified", status=status.HTTP_200_OK)
+
         try:
             token_obj = EmailVerificationToken.objects.get(
                 user=user, token=token)
@@ -146,3 +159,84 @@ class VerifyEmailView(APIView):
         token_obj.delete()
 
         return Response("User email verified", status=status.HTTP_200_OK)
+
+
+@method_decorator(csrf_exempt, name='dispatch')
+class CreateEmailVerificationToken(APIView):
+    """
+    An endpoint for creating a new token for email verification.
+    """
+    permission_classes = (AllowAny, )
+
+    def post(self, request, user_id, token):
+        try:
+            user = User.objects.get(pk=user_id)
+        except User.DoesNotExist:
+            # Custom error response when the token is invalid
+            return Response("User does not exist", status=status.HTTP_400_BAD_REQUEST)
+
+        serializer = UserSerializer(user)
+
+        if user.is_verified:
+            return Response("User is already verified", status=status.HTTP_200_OK)
+
+        try:
+            # Check if a token already exists for the user, or create a new one
+            token_obj, created = EmailVerificationToken.objects.get_or_create(
+                user=user,
+                token=token,
+                defaults={'expires_at': timezone.now() +
+                          timezone.timedelta(days=1)}
+            )
+
+            if not created:
+                token_obj.token = uuid.uuid4()
+                token_obj.expires_at = timezone.now() + timezone.timedelta(days=1)
+                token_obj.save()
+
+            verification_link = "{}/verify-email/{}/{}/".format(
+                settings.REACT_APP_URL,
+                serializer.data["id"],
+                token_obj.token
+            )
+
+            context = {
+                'first_name': serializer.data["first_name"],
+                'email': serializer.data["email"],
+                'verification_link': verification_link,
+            }
+            send_email_verification_mail.delay(context)
+
+            return Response("New verification link sent to your email.", status=status.HTTP_200_OK)
+        except Exception as e:
+            # Handle exceptions gracefully, log them, or customize the response as needed
+            return Response("An error occurred while sending the verification link.", status=status.HTTP_400_BAD_REQUEST)
+
+
+# Contact Us Form ViewSet
+
+
+@method_decorator(csrf_exempt, name='dispatch')
+class ContactUsViewSet(ModelViewSet):
+    http_method_names = ['post', 'head', 'options']
+    serializer_class = ContactFormSerializer
+    permission_classes = (AllowAny, )
+
+    def create(self, request, *args, **kwargs):
+        serializer = self.get_serializer(data=request.data)
+
+        if serializer.is_valid():
+            context = {
+                "name": serializer.validated_data['name'],
+                "email": serializer.validated_data['email'],
+                "subject": serializer.validated_data['subject'],
+                "message": serializer.validated_data['message'],
+            }
+
+            try:
+                send_new_contact_mail.delay(context)
+                return Response({"message": "Message received successfully"}, status=status.HTTP_201_CREATED)
+            except Exception as e:
+                return Response({"error": "An error occurred while sending the message"}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+        else:
+            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)

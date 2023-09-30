@@ -46,6 +46,7 @@ INSTALLED_APPS = [
     'knox',
     'django_filters',
     'django_rest_passwordreset',
+    'defender',
 
     # installed apps
     'apps.accounts',
@@ -91,21 +92,23 @@ MIDDLEWARE = [
     'corsheaders.middleware.CorsMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
+    'backend.middleware.ConditionalCsrfMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
+    'defender.middleware.FailedLoginMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
 
-
 SESSION_COOKIE_SECURE = True
+CSRF_COOKIE_SECURE = True
 
 ROOT_URLCONF = 'backend.urls'
 
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [BASE_DIR, 'templates/',],
+        'DIRS': [os.path.join(BASE_DIR, 'templates')],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -180,16 +183,16 @@ EMAIL_HOST_PASSWORD = os.environ.get("HOST_PASSWORD")
 
 
 # worker settings
-CELERY_BROKER_URL = os.environ.get("REDIS_DB_HOST")
 
+DEFENDER_REDIS_URL = f'{os.environ.get("REDIS_DB_URL")}/0'
+CELERY_BROKER_URL = f'{os.environ.get("REDIS_DB_URL")}/1'
 
 CACHES = {
     "default": {
         "BACKEND": "django_redis.cache.RedisCache",
-        "LOCATION": os.environ.get("REDIS_DB_HOST"),
+        "LOCATION": f'{os.environ.get("REDIS_DB_URL")}/2',
         "OPTIONS": {
             "CLIENT_CLASS": "django_redis.client.DefaultClient",
-            "PASSWORD": os.environ.get("REDIS_DB_PASSWORD"),
         }
     }
 }
@@ -220,24 +223,40 @@ LOGGING = {
         'console': {
             'class': 'logging.StreamHandler'
         },
-        'file': {
-            # 'class': 'logging.FileHandler',
-            # 'filename': 'general.log',
+        'gunicorn.access': {
+            'level': 'INFO',
             'class': 'logging.handlers.TimedRotatingFileHandler',
-            'filename': os.path.join(LOGGING_DIR, 'general.log'),
-            # 'when': 'M',  # Rotate logs daily at every minute
-            # 'interval': 5,
-            # 'backupCount': 24, # Keep up to 12 backup log files (two hour's worth)
+            'filename': os.path.join(LOGGING_DIR, 'gunicorn/access.log'),
             'when': 'midnight',  # Rotate logs daily at midnight
-            'backupCount': 30, # Keep up to 30 backup log files (30 day's worth)
+            # Keep up to 30 backup log files (30 day's worth)
+            'backupCount': 30,
+            'formatter': 'verbose',
+        },
+        'gunicorn.error': {
+            'level': 'ERROR',
+            'class': 'logging.handlers.TimedRotatingFileHandler',
+            'filename': os.path.join(LOGGING_DIR, 'gunicorn/error.log'),
+            'when': 'midnight',  # Rotate logs daily at midnight
+            # Keep up to 30 backup log files (30 day's worth)
+            'backupCount': 30,
             'formatter': 'verbose',
         },
     },
     'loggers': {
         '': {
-            'handlers': ['console', 'file'],
+            'handlers': ['console'],
             'level': os.environ.get('DJANGO_LOG_LEVEL', 'INFO')
-        }
+        },
+        'gunicorn.access': {
+            'handlers': ['gunicorn.access'],
+            'level': 'INFO',
+            'propagate': False,
+        },
+        'gunicorn.error': {
+            'handlers': ['gunicorn.error'],
+            'level': 'ERROR',
+            'propagate': False,
+        },
     },
     'formatters': {
         'verbose': {
@@ -246,4 +265,3 @@ LOGGING = {
         }
     }
 }
-

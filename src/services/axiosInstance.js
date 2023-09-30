@@ -2,6 +2,7 @@ import axios from "axios";
 import { API_ROUTES } from "../constants/routes";
 
 const userAxios = axios.create({
+  withCredentials: true,
   baseURL: API_ROUTES,
 });
 
@@ -23,10 +24,10 @@ userAxios.interceptors.request.use(
 );
 
 userAxios.interceptors.response.use(
-  function (response) {
+  (response) => {
     return response;
   },
-  function (error) {
+  (error) => {
     if (error?.response?.data?.detail === "Invalid token.") {
       localStorage.removeItem("token");
     }

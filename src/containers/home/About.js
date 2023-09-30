@@ -15,17 +15,20 @@ const AboutBg = styled(Container)`
   background-size: cover; */
 
   margin: 10rem 0;
+  
+  // @media (max-width: 640px) {
+  //   margin: 5rem 0;
+  // }
 
-  /* color: #ffffff; */
   h1 {
-    /* font-size: 5rem; */
-    /* text-align: center; */
     margin-bottom: 2rem;
   }
   p {
     margin-bottom: 2rem;
-    font-size: 2rem;
     text-align: justify;
+    @media (min-width: 640px) {
+      font-size: 2rem;
+    }
   }
 `;
 
@@ -33,8 +36,8 @@ const AboutContainer = (props) => {
   return (
     <AboutBg fluid className="about-container">
       <Row>
-        <Col className="px-5">
-          <h2>About FitFlex</h2>
+        <Col xs={12} lg={6} className="px-4 px-sm-5">
+          <h2 className="text-center text-md-start">About FitFlex</h2>
           <p>
             At FitFlex, we believe that everyone deserves access to high-quality
             gym equipment, regardless of their budget. That's why we offer a
@@ -58,11 +61,11 @@ const AboutContainer = (props) => {
             equipment. We look forward to helping you reach your fitness goals!
           </p>
         </Col>
-        <Col className="px-0">
+        <Col xs={12} lg={6} className="px-0">
           <img
             src="/images/risen-wang-20jX9b35r_M-unsplash.webp"
             className="img-fluid"
-            alt=""
+            alt="fitflex gym"
           />
         </Col>
       </Row>

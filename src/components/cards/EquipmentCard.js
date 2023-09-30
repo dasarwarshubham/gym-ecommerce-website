@@ -34,16 +34,24 @@ const EquipmentCard = ({ data }) => {
 
   return (
     <Card className="border-0 shadow h-100 text-decoration-none">
-      <div style={{ position: "relative" }}>
-        <Card.Img variant="top" src={data.image} alt={data.name} />
+      <div style={{ position: "relative" }} className="ratio ratio-12x10">
+        <Card.Img
+          variant="top"
+          src={data.image}
+          alt={data.title?.replaceAll('-', '')}
+          className="img-fluid w-100 object-fit-cover"
+        />
         <Link
-          to={`${EQUIPMENTS}/${data.id}`}
+          aria-label={`Go to ${data.title?.replaceAll('-', '')} page`}
+          to={`${EQUIPMENTS}/${data.category}/${data.slug}`}
           style={{ position: "absolute", top: 0, bottom: 0, left: 0, right: 0 }}
         />
       </div>
-      <Card.Body>
-        <Card.Title>{data.name}</Card.Title>
-        <Card.Text>Price: ${data.price}</Card.Text>
+      <Card.Body className="d-flex flex-column justify-content-between">
+        <div>
+          <Card.Title className="text-truncate">{data.title}</Card.Title>
+          <Card.Text>Price: ${data.price}</Card.Text>
+        </div>
         <div className="d-grid">
           <Button variant="primary" onClick={handleAddToCart}>
             {alreadyInCart ? (

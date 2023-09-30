@@ -27,6 +27,7 @@
     "yup": "^1.2.0"
   },
   "scripts": {
+    "secure-start": "HTTPS=true SSL_CRT_FILE=certs/frontend.crt SSL_KEY_FILE=certs/frontend.key react-scripts start",
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",

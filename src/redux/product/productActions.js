@@ -1,17 +1,27 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import {
+  getCategoryList,
   getProductList,
+  getFeaturedProductList,
   getProductDetailsWithId,
 } from "../../services/productAPI";
 
-const retrieveProducts = createAsyncThunk("product/fetchAll", async () => {
-  const response = await getProductList();
+export const retrieveProducts = createAsyncThunk("product/fetchAll", async (category) => {
+  const response = await getProductList(category);
   return response;
 });
 
-const getProductById = createAsyncThunk("product/fetchById", async (id) => {
+export const retrieveFeaturedProducts = createAsyncThunk("product/fetchFeatured", async () => {
+  const response = await getFeaturedProductList();
+  return response;
+});
+
+export const getProductById = createAsyncThunk("product/fetchById", async (id) => {
   const response = await getProductDetailsWithId(id);
   return response;
 });
 
-export { retrieveProducts, getProductById };
+export const retrieveCategories = createAsyncThunk("product/category/fetchAll", async () => {
+  const response = await getCategoryList();
+  return response;
+});

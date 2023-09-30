@@ -11,7 +11,7 @@ const Ratings = ({ ratings, ...restProps }) => (
     starDimension="1em"
     starSpacing="0.2em"
     ignoreInlineStyles={false}
-    
+    {...restProps}
   />
 );
 

@@ -29,7 +29,7 @@ const CartButton = () => {
   const count = useSelector(selectCartItemsCount);
   return (
     <>
-      <CartContainer>
+      <CartContainer aria-label={`Cart: ${count} items`}>
         <MdOutlineShoppingCart
           className="cartIcon"
           style={{ color: "#ffffff" }}

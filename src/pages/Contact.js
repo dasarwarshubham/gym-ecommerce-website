@@ -1,18 +1,24 @@
-import React from "react";
+import React, { useState } from "react";
+import { Link } from "react-router-dom";
 
+import Col from "react-bootstrap/Col";
 import Container from "react-bootstrap/Container";
 import Row from "react-bootstrap/Row";
-import Col from "react-bootstrap/Col";
 
 import * as Yup from "yup";
 import {
-  FormikForm,
-  FormField,
   FormButton,
-  FormState,
+  FormField,
+  FormikForm
 } from "../components/form";
+import {
+  Error,
+  Success
+} from '../components/response';
 
-import { EMAIL } from "../constants/routes";
+import { publicAxios } from "../services/axiosInstance";
+
+import { API_ROUTES, EMAIL, HOME } from "../constants/routes";
 
 const initialValues = {
   name: "",
@@ -28,67 +34,89 @@ const validationSchema = Yup.object().shape({
   message: Yup.string()
     .required("Enter your message")
     .label("Message")
-    .max(500),
+    .max(600),
 });
 
-function simulateNetworkRequest(delay) {
-  return new Promise((resolve) => setTimeout(resolve, delay));
-}
 
 const ContactPage = () => {
-  const handleClick = (values, setSubmitting, resetForm) => {
-    simulateNetworkRequest(1000)
-      .then(() => {
-        alert(JSON.stringify(values));
-      })
-      .then(() => {
-        simulateNetworkRequest(1000).then(() => {
-          setSubmitting(false);
-        });
-      })
-      .finally(() => {
-        resetForm();
-      });
+  const [error, setError] = useState(null);
+  const [status, setStatus] = useState(null);
+
+  const handleClick = async (values, setSubmitting, resetForm) => {
+    await publicAxios({
+      method: "POST",
+      url: `${API_ROUTES.contact}`,
+      data: values,
+    }).then(() => {
+      setStatus("success");
+    }).catch((error) => {
+      setStatus("error");
+      setError(error);
+      console.log(error);
+    }).finally(() => {
+      setSubmitting(false);
+      resetForm();
+    })
   };
   return (
-    <Container className="my-5 py-5">
-      <Row className="justify-content-center align-items-center">
-        <Col xs={12} md={9} lg={8} xl={7}>
-          <h1>Get in Touch</h1>
-          <p className="mb-5">Let's Make Your Fitness Journey Extraordinary!</p>
-        </Col>
-        <Col xs={12} md={9} lg={8} xl={7}>
-          <FormikForm
-            style={{ maxWidth: "80%" }}
-            initialValues={initialValues}
-            validationSchema={validationSchema}
-            onSubmit={(values, { setSubmitting, resetForm }) =>
-              handleClick(values, setSubmitting, resetForm)
-            }
-          >
-            <FormField label="Name" name="name" />
-            <FormField label="Email address" type="email" name="email" />
-            <FormField label="Subject" name="subject" />
-            <FormField
-              label="Write a message"
-              as="textarea"
-              style={{ minHeight: "200px" }}
-              name="message"
+    <Container className="my-5 py-5" style={{ minHeight: "65vh" }}>
+      <Row className="justify-content-center align-items-center mx-0">
+        {status === "success" && (
+          <Col xs={12} md={7} lg={6}>
+            <Success title="Message recieved successfully!">
+              <>We will contact you shortly.</>
+              <br />
+              <Link className="btn btn-dark mt-4" to={HOME}>Continue</Link>
+            </Success>
+          </Col>
+        )}
+        {status === "error" && (
+          <Col xs={12} md={7} lg={6}>
+            <Error
+              title="Message not sent"
+              error={error}
+              action={() => setStatus(null)}
             />
+          </Col>
+        )}
+        {status === null && (
+          <>
+            <Col xs={12} md={9} lg={8} xl={7} className="text-center text-sm-start">
+              <h1>Get in Touch</h1>
+              <p className="mb-5">Let's Make Your Fitness Journey Extraordinary!</p>
+            </Col>
+            <Col xs={12} md={9} lg={8} xl={7}>
+              <FormikForm
+                initialValues={initialValues}
+                validationSchema={validationSchema}
+                onSubmit={(values, { setSubmitting, resetForm }) =>
+                  handleClick(values, setSubmitting, resetForm)
+                }
+              >
+                <FormField label="Name" name="name" />
+                <FormField label="Email address" type="email" name="email" />
+                <FormField label="Subject" name="subject" />
+                <FormField
+                  label="Write a message"
+                  as="textarea"
+                  style={{ minHeight: "200px" }}
+                  name="message"
+                />
 
-            <div className="d-grid col-9 col-sm-5 col-md-4 mb-5">
-              <FormButton>Submit</FormButton>
-            </div>
+                <div className="d-grid col-12 col-sm-5 col-md-4 mb-5 justify-content-center justify-content-sm-start">
+                  <FormButton>Submit</FormButton>
+                </div>
 
-            <p>
-              Or email us at&nbsp;
-              <a variant="link" href={EMAIL}>
-                info@fitflex.com
-              </a>
-            </p>
-            <FormState />
-          </FormikForm>
-        </Col>
+                <p className="text-center text-sm-start">
+                  Or email us at&nbsp;
+                  <a variant="link" href={EMAIL}>
+                    hello.fitflex@gmail.com
+                  </a>
+                </p>
+              </FormikForm>
+            </Col>
+          </>
+        )}
       </Row>
     </Container>
   );

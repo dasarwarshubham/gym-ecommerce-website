@@ -2,9 +2,19 @@ import { createSelector } from "reselect";
 
 const selectProductSlice = (state) => state.products;
 
-export const selectAllproducts = createSelector(
+export const selectAllProducts = createSelector(
   [selectProductSlice],
   (productSlice) => productSlice.productList
+);
+
+export const selectFeaturedProducts = createSelector(
+  [selectProductSlice],
+  (productSlice) => productSlice.featuredProductList
+);
+
+export const selectAllCategories = createSelector(
+  [selectProductSlice],
+  (productSlice) => productSlice.categoryList
 );
 
 export const selectSelectedProduct = createSelector(

@@ -38,6 +38,7 @@ import { getProductById } from "../../redux/product/productActions";
 
 // import required routes
 import { CART } from "../../constants/routes";
+import ReviewCard from "../../components/cards/ReviewCard";
 
 const EquipmentDetailsPage = () => {
   const { productId } = useParams();
@@ -104,15 +105,15 @@ const EquipmentDetailsPage = () => {
   const equipments_ratings =
     equipment?.reviews.length > 0
       ? equipment?.reviews.reduce(
-          (accumulator, obj) => accumulator + obj.ratings,
-          0
-        ) / equipment?.reviews.length
+        (accumulator, obj) => accumulator + obj.ratings,
+        0
+      ) / equipment?.reviews.length
       : 0;
 
   return (
     <Container className="my-5">
-      <Row>
-        <Col md={6}>
+      <Row className="mx-0 g-4 clearfix">
+        <Col md={6} className="float-md-start">
           <Swiper
             modules={[Autoplay, Pagination, Navigation]}
             spaceBetween={50}
@@ -123,11 +124,11 @@ const EquipmentDetailsPage = () => {
             navigation
           >
             {equipment_images.map((image, idx) => (
-              <SwiperSlide key={`equipment-${idx}`}>
+              <SwiperSlide key={`equipment-${idx}`} className="ratio ratio-1x1">
                 <Image
                   src={image?.image}
                   alt={equipment?.title}
-                  className="equipment-image img-fluid w-100"
+                  className="equipment-image img-fluid w-100 object-fit-cover"
                 />
               </SwiperSlide>
             ))}
@@ -147,7 +148,7 @@ const EquipmentDetailsPage = () => {
             <tbody>
               <tr>
                 <td>Price</td>
-                <td>{equipment?.price}</td>
+                <td>${equipment?.price}</td>
               </tr>
               <tr>
                 <td>Type</td>
@@ -159,22 +160,6 @@ const EquipmentDetailsPage = () => {
                   <Ratings ratings={equipments_ratings} />
                 </td>
               </tr>
-              {/* <tr>
-                <td>Rating</td>
-                <td>
-                  <Ratings ratings={equipment?.ratings} />
-                </td>
-              </tr> */}
-              {/* <tr>
-                <td>Review</td>
-                <td>
-                  {equipment?.reviews.length} - {equipments_ratings}
-                </td>
-              </tr> */}
-              <tr>
-                <td>Description</td>
-                <td>{equipment?.description}</td>
-              </tr>
             </tbody>
           </Table>
           {alreadyInCart ? (
@@ -185,7 +170,7 @@ const EquipmentDetailsPage = () => {
               Item added to cart&nbsp;
               <MdCheckCircle color="green" size={18} />
               <br />
-              <Button variant="primary" onClick={handleAddToCart}>
+              <Button className="mb-4" variant="primary" onClick={handleAddToCart}>
                 Go To Cart &#8594;
               </Button>
             </>
@@ -197,8 +182,29 @@ const EquipmentDetailsPage = () => {
               </Button>
             </div>
           )}
+          <div className="d-none d-xl-block">
+            <div className="d-block fs-5 fw-bold">Description</div>
+            {equipment.description}
+          </div>
+        </Col>
+        <Col md={12} className="d-block d-xl-none">
+          <div className="d-block fs-5 fw-bold">Description</div>
+          {equipment.description}
         </Col>
       </Row>
+      {equipment?.reviews.length > 0 && (
+        <>
+          <hr />
+          <Row className="mx-0 g-4">
+            <div className="d-block fs-5 fw-bold">Reviews</div>
+            {equipment?.reviews.map((review, idx) => (
+              <Col lg={6} key={`${equipment.id}-${idx}`}>
+                <ReviewCard data={review} />
+              </Col>
+            ))}
+          </Row>
+        </>
+      )}
     </Container>
   );
 };

@@ -56,7 +56,7 @@ const AddAddressCard = ({ isButton }) => {
 
   if (isButton && !isEditing) {
     return (
-      <Button variant="primary" onClick={() => setIsEditing(true)}>
+      <Button variant="primary mx-auto" onClick={() => setIsEditing(true)}>
         Add New Address
       </Button>
     );
@@ -92,7 +92,7 @@ const AddAddressCard = ({ isButton }) => {
       });
   };
   return (
-    <Card>
+    <Card className="w-100">
       <Card.Body>
         <FormikForm
           initialValues={initialValues}

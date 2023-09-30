@@ -6,21 +6,42 @@ import { Link } from "react-router-dom";
 
 import Nav from "react-bootstrap/Nav";
 import Navbar from "react-bootstrap/Navbar";
-import NavDropdown from "react-bootstrap/NavDropdown";
+// import NavDropdown from "react-bootstrap/NavDropdown";
 import Offcanvas from "react-bootstrap/Offcanvas";
 import { MdAccountCircle } from "react-icons/md";
 
 import CartButton from "./CartButton";
 
-import logo from "../../logo.svg";
 import * as ROUTES from "../../constants/routes";
 
 /****************** Styles ****************************/
 const Logo = styled.img`
   height: 5rem;
+  @media (max-width: 768px) {
+    height: 3.5rem;
+  }
+  @media (max-width: 375px) {
+    height: 2.5rem;
+  }
 `;
 const NavLink = styled(Nav.Link)`
   margin: 0 1.8rem;
+  @media (max-width: 768px) {
+    margin: 0 1rem;
+  }
+  @media (max-width: 375px) {
+    margin: 0 0.5rem;
+  }
+  .profileIcon {
+    @media (max-width: 375px) {
+      height: 2rem;
+    }
+  }
+  .cartIcon {
+    @media (max-width: 375px) {
+      height: 2rem;
+    }
+  }
 `;
 
 const OffCanvas = styled(Offcanvas)`
@@ -71,6 +92,7 @@ const OffCanvas = styled(Offcanvas)`
 /************************** Navbar Component ******************************/
 function NavbarContainer() {
   const [show, setShow] = useState(false);
+  const isAuthenticated = localStorage.getItem("token") ? true : false;
 
   const handleToggle = () => setShow(!show);
   const handleClose = () => show && setShow(false);
@@ -87,24 +109,23 @@ function NavbarContainer() {
       <Container fluid className="py-0">
         <Navbar.Toggle onClick={handleToggle} />
         <Navbar.Brand as={Link} to={ROUTES.HOME} onClick={handleClose}>
-          <Logo src={logo} alt="fitflex logo" />
+          <Logo src="/images/logo.svg" alt="fitflex logo" />
         </Navbar.Brand>
         <div className="d-flex">
           <NavLink
             className="nav-link"
             onClick={handleClose}
             as={Link}
-            to={ROUTES.LOGIN}
+            to={isAuthenticated ? ROUTES.PROFILE : ROUTES.LOGIN}
             aria-label="profile"
           >
-            <MdAccountCircle style={{ color: "#ffffff" }} size={28} />
+            <MdAccountCircle className="profileIcon" style={{ color: "#ffffff" }} size={28} />
           </NavLink>
           <NavLink
             className="nav-link"
             onClick={handleClose}
             as={Link}
             to={ROUTES.CART}
-            aria-label="cart"
           >
             <CartButton />
           </NavLink>
@@ -129,7 +150,16 @@ function NavbarContainer() {
               >
                 About
               </NavLink>
-              <NavDropdown
+              <NavLink
+                className="nav-link"
+                onClick={handleClose}
+                as={Link}
+                to={`${ROUTES.EQUIPMENTS}/${ROUTES.CATEGORIES}`}
+              >
+                Equipments
+              </NavLink>
+
+              {/* <NavDropdown
                 title="Equipments"
                 id={`offcanvasNavbarDropdown-expand-lg`}
                 className="nav-link"
@@ -148,7 +178,7 @@ function NavbarContainer() {
                 >
                   Commercial Equipment
                 </NavDropdown.Item>
-              </NavDropdown>
+              </NavDropdown> */}
               <NavLink
                 className="nav-link"
                 onClick={handleClose}

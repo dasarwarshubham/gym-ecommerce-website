@@ -18,7 +18,12 @@ CORS_ALLOWED_ORIGINS = [
 ]
 # CORS_ORIGIN_ALLOW_ALL = True
 CORS_ALLOW_CREDENTIALS = True
-CSRF_COOKIE_SECURE = True
+
+SESSION_COOKIE_SAMESITE = 'None'
+CSRF_COOKIE_SAMESITE = 'None'
+
+# CSRF_COOKIE_HTTPONLY = False
+# SECURE_CROSS_ORIGIN_OPENER_POLICY = None
 
 
 if DEBUG:
@@ -26,7 +31,7 @@ if DEBUG:
         'debug_toolbar',
         # 'silk'
     ]
-    MIDDLEWARE.insert(0,'debug_toolbar.middleware.DebugToolbarMiddleware')
+    MIDDLEWARE.insert(0, 'debug_toolbar.middleware.DebugToolbarMiddleware')
 #    MIDDLEWARE.append('silk.middleware.SilkyMiddleware')
     INTERNAL_IPS = [
         '127.0.0.1',

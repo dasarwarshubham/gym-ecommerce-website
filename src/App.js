@@ -2,9 +2,10 @@ import React, { lazy, Suspense, useEffect } from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import Loader from "./components/loader/Loader";
-
 import FooterContainer from "./containers/footer/FooterContainer";
 import Navbar from "./containers/navbar/NavbarContainer";
+
+import ScrollToTop from "./hooks/useScrollToTop";
 
 import * as ROUTES from "./constants/routes";
 import { PrivateRoute, PublicRoute } from "./helpers/RouteComponent";
@@ -29,8 +30,9 @@ const ForgotPasswordPage    = lazy(() => import(/* webpackChunkName: "forgotPass
 const VerifyEmailPage       = lazy(() => import(/* webpackChunkName: "verifyEmailPage" */ "./pages/account/VerifyEmailPage"));
 
 const Equipments            = lazy(() => import(/* webpackChunkName: "equipmentsPage" */ "./pages/equipments/Equipments"));
-const HomeEquipments        = lazy(() => import(/* webpackChunkName: "homeEquipmentsPage" */ "./pages/equipments/HomeEquipments"));
-const CommercialEquipments  = lazy(() => import(/* webpackChunkName: "commercialEquipmentsPage" */ "./pages/equipments/CommercialEquipments"));
+// const HomeEquipments        = lazy(() => import(/* webpackChunkName: "homeEquipmentsPage" */ "./pages/equipments/HomeEquipments"));
+// const CommercialEquipments  = lazy(() => import(/* webpackChunkName: "commercialEquipmentsPage" */ "./pages/equipments/CommercialEquipments"));
+const CategoryList          = lazy(() => import(/* webpackChunkName: "CategoryListPage" */ "./pages/equipments/CategoryList"));
 const EquipmentDetails      = lazy(() => import(/* webpackChunkName: "equipmentDetailsPage" */ "./pages/equipments/EquipmentDetails"));
 
 const BlogList              = lazy(() => import(/* webpackChunkName: "blogListPage" */ "./pages/blogs/BlogList"));
@@ -52,16 +54,16 @@ function App() {
     const cartId = localStorage.getItem("cartId");
 
     if (token) {
+      // Dispatch autoSignIn action with the token
       dispatch(autoLogin(token))
         .then(() => {
           dispatch(fetchAccountAddress());
           dispatch(fetchAccountOrder());
         })
         .catch((error) => {
-          console.log(error);
+          // console.log(error);
           dispatch(logoutUser());
         });
-      // Dispatch autoSignIn action with the token
     }
 
     if (cartId) {
@@ -78,6 +80,7 @@ function App() {
   return (
     <Router>
       <Navbar />
+      <ScrollToTop />
       <Suspense fallback={Loader()}>
         <Routes>
           <Route path={ROUTES.HOME}           Component={Home} />
@@ -107,10 +110,10 @@ function App() {
           </Route>
 
           <Route path={ROUTES.EQUIPMENTS}>
-          <Route index                        Component={Equipments} />
-            <Route path="home"                Component={HomeEquipments} />
-            <Route path="commercial"          Component={CommercialEquipments} />
-            <Route path=":productId"          Component={EquipmentDetails} />
+            <Route index                          Component={Equipments} />
+            <Route path="categories" exact        Component={CategoryList} />
+            <Route path=":categoryId"             Component={Equipments} />
+            <Route path=":caegoryId/:productId"   Component={EquipmentDetails} />
           </Route>
 
           <Route path={ROUTES.BLOGS}>

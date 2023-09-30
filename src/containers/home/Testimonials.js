@@ -6,7 +6,7 @@ import { Autoplay, Pagination } from "swiper";
 
 import TestimonialCard from "../../components/cards/TestimonialCard";
 
-const Testimonials = (props) => {
+const Testimonials = () => {
   const data = [
     {
       image: "https://dummyimage.com/400x400/ededed/000000",
@@ -72,20 +72,32 @@ const Testimonials = (props) => {
   return (
     <div className="overflow-hidden">
       <Container>
-        <h2 className="my-5">Testimonials from satisfied customers</h2>
+        <h2 className="my-5 text-center text-md-start">Testimonials from satisfied customers</h2>
         <Swiper
           modules={[Autoplay, Pagination]}
           className="overflow-visible my-5"
-          spaceBetween={50}
-          slidesPerView={2}
+          slidesPerView={1}
+          spaceBetween={0}
+          breakpoints={{
+            320: {
+              slidesPerView: 1,
+              spaceBetween: 30,
+            },
+            768: {
+              slidesPerView: 2,
+              spaceBetween: 40,
+            },
+            1024: {
+              slidesPerView: 2,
+              spaceBetween: 50,
+            },
+          }}
           grabCursor
           autoplay={{ delay: 5000 }}
           pagination={{
             el: ".custom-swiper-pagination",
             clickable: true,
           }}
-          // onSlideChange={() => console.log("slide change")}
-          // onSwiper={(swiper) => console.log(swiper)}
         >
           {data.map((testimonial, idx) => (
             <SwiperSlide key={`testimonial-${idx}`}>
@@ -93,7 +105,7 @@ const Testimonials = (props) => {
             </SwiperSlide>
           ))}
           <div className="my-5">
-            <div>
+            <div className="text-center text-md-start">
               <div className="custom-swiper-pagination"></div>
             </div>
           </div>

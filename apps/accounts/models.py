@@ -6,6 +6,7 @@ from .managers import CustomUserManager
 
 # from knox.models import AuthToken as KnoxAuthTokenModel
 # from django.contrib.auth.models import Group as DjangoGroupModel
+# from django_rest_passwordreset.models import ResetPasswordToken as DjangoResetPasswordToken
 
 
 class User(AbstractUser):
@@ -42,6 +43,15 @@ class EmailVerificationToken(models.Model):
 
     def __str__(self) -> str:
         return str(self.token)
+
+
+# overriding names of knox AuthToken model
+# class ResetPasswordToken(DjangoResetPasswordToken):
+#     class Meta:
+#         proxy = True
+#         verbose_name = 'Reset password token'
+#         verbose_name_plural = 'Reset password tokens'
+
 
 # # overriding names of knox AuthToken model
 # class AuthToken(KnoxAuthTokenModel):

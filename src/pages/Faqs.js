@@ -3,7 +3,7 @@ import React from "react";
 import Container from "react-bootstrap/Container";
 import Accordion from "react-bootstrap/Accordion";
 
-const FaqsPage = (props) => {
+const FaqsPage = () => {
   const faqs = [
     {
       question: "How do I place an order?",
@@ -58,10 +58,10 @@ const FaqsPage = (props) => {
   ];
 
   return (
-    <Container className="my-5 py-5" fluid="sm">
+    <Container className="my-5 py-5" style={{ minHeight: "65vh" }}>
       <h3 className="text-center mb-5">Frequently Asked Questions (FAQs)</h3>
 
-      <Accordion defaultActiveKey="0" flush>
+      <Accordion defaultActiveKey="0" flush className="px-4">
         {faqs.map((item, index) => (
           <Accordion.Item eventKey={index} key={`faqs-item-${index}`}>
             <Accordion.Header>{item.question}</Accordion.Header>

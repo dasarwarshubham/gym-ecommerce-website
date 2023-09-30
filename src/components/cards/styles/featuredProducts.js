@@ -6,8 +6,9 @@ export const ProductCard = styled(Card)`
   border-radius: 2rem;
   overflow: hidden;
   box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+  height: 100%;
   .card-img {
-    height: 40rem;
+    height: 100%;
     object-fit: cover;
   }
 `;

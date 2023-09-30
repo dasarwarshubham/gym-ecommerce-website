@@ -63,16 +63,9 @@ $accordion-body-padding-y: 1.5rem;
 $input-bg: $white;
 $input-placeholder-color: #b9bdc2;
 
-input:-webkit-autofill {
-  -webkit-box-shadow: 0 0 0 30px white inset !important;
-}
 
-input[type="number"]::-webkit-inner-spin-button,
-input[type="number"]::-webkit-outer-spin-button {
-  -webkit-appearance: none;
-  -moz-appearance: none;
-  appearance: none;
-  margin: 0;
+.navbar-toggler {
+  z-index: 1050;
 }
 
 @import "bootstrap/scss/variables";
@@ -121,6 +114,14 @@ input[type="number"]::-webkit-outer-spin-button {
 //   )
 // );
 
+$aspect-ratios: (
+  "1x1": 100%,
+  "4x3": calc(3 / 4 * 100%),
+  "12x10": calc(12 / 10 * 100%), //custom ratio added
+  "16x9": calc(9 / 16 * 100%),
+  "21x9": calc(9 / 21 * 100%),
+);
+
 // Layout & components
 @import "bootstrap/scss/root";
 @import "bootstrap/scss/reboot";
@@ -142,14 +143,14 @@ input[type="number"]::-webkit-outer-spin-button {
 @import "bootstrap/scss/tables";
 @import "bootstrap/scss/badge";
 @import "bootstrap/scss/tooltip";
-@import "bootstrap/scss/dropdown";
+@import "bootstrap/scss/list-group";
+// @import "bootstrap/scss/dropdown";
+// @import "bootstrap/scss/alert";
 // @import "bootstrap/scss/button-group";
 // @import "bootstrap/scss/toasts";
 // @import "bootstrap/scss/progress";
-// @import "bootstrap/scss/alert";
 // @import "bootstrap/scss/breadcrumb";
 // @import "bootstrap/scss/pagination";
-// @import "bootstrap/scss/list-group";
 // @import "bootstrap/scss/popover";
 // @import "bootstrap/scss/carousel";
 // @import "bootstrap/scss/placeholders";
@@ -157,10 +158,10 @@ input[type="number"]::-webkit-outer-spin-button {
 // Helpers
 @import "bootstrap/scss/helpers/visually-hidden";
 // @import "bootstrap/scss/helpers/text-truncation";
+@import "bootstrap/scss/helpers/ratio";
 // @import "bootstrap/scss/helpers/position";
 // @import "bootstrap/scss/helpers/colored-links";
 // @import "bootstrap/scss/helpers/clearfix";
-// @import "bootstrap/scss/helpers/ratio";
 // @import "bootstrap/scss/helpers/stacks";
 // @import "bootstrap/scss/helpers/stretched-link";
 // @import "bootstrap/scss/helpers/vr";
