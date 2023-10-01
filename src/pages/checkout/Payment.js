@@ -2,7 +2,7 @@ import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 
-import { CONFIRMATION, REVIEW } from "../../constants/routes";
+import { CONFIRMATION, HOME, REVIEW } from "../../constants/routes";
 
 import { Button, Card, Col, Container, Row } from "react-bootstrap";
 import * as Yup from "yup";
@@ -27,7 +27,7 @@ const PaymentPage = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const dispatch = useDispatch();
-  
+
   const cartLoading = useSelector(selectLoadingStatus);
   const cartItems = useSelector(selectCartItems);
 
@@ -50,13 +50,13 @@ const PaymentPage = () => {
             dispatch(fetchAccountOrder());
             dispatch(createNewCart());
           });
-        navigate(CONFIRMATION, {state: {status: "success", error: null, from: location.pathname }});
+        navigate(CONFIRMATION, { state: { status: "success", error: null, from: location.pathname } });
       }
     } catch (error) {
       setSubmitting(false);
       resetForm();
       let errorMsg = error.message
-      navigate(CONFIRMATION, {state: {status: "failed", error: errorMsg, from: location.pathname }});
+      navigate(CONFIRMATION, { state: { status: "failed", error: errorMsg, from: location.pathname } });
     }
   };
 
@@ -73,7 +73,12 @@ const PaymentPage = () => {
             No charges will be applied, and no real products or services will be provided.
           </h6>
           {cartItems?.length === 0 ? (
-            <p>Your cart is empty.</p>
+            <div className="text-center">
+              <p>Your cart is empty.</p>
+              <Link to={HOME} className="btn btn-primary">
+                Continue Shopping
+              </Link>
+            </div>
           ) : (
             <FormikForm
               initialValues={{ paymentMethod: "" }}

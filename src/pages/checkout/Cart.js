@@ -18,7 +18,7 @@ import {
 import { deleteAllItem, fetchCart } from "../../redux/checkout/cartActions";
 
 // import required routes
-import { SHIPPING } from "../../constants/routes";
+import { HOME, SHIPPING } from "../../constants/routes";
 
 const CartPage = () => {
   const dispatch = useDispatch();
@@ -37,19 +37,22 @@ const CartPage = () => {
     <Container className="my-5 py-5" style={{ minHeight: "65vh" }}>
       <Row className="g-4 mx-0">
         <Col xs={12}>
-        <h2 className="d-flex align-items-center">
-          Your Cart&nbsp;
-          {loading && (
-            <Spinner animation="grow">
-              <span className="visually-hidden">Loading...</span>
-            </Spinner>
-          )}
-          {error && <span className="text-danger">{error}</span>}
-        </h2>
+          <h2 className={`d-flex align-items-center ${count === 0 && 'justify-content-center'}`}>
+            Your Cart
+            {loading && (
+              <Spinner className="ms-2" animation="grow">
+                <span className="visually-hidden">Loading...</span>
+              </Spinner>
+            )}
+            {error && <span className="text-danger">{error}</span>}
+          </h2>
         </Col>
         {count === 0 ? (
-          <Col xs={12}>
+          <Col xs={12} className="text-center">
             <p>Your cart is empty.</p>
+            <Link to={HOME} className="btn btn-primary">
+              Continue Shopping
+            </Link>
           </Col>
         ) : (
           <>

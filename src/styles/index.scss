@@ -39,6 +39,7 @@ input[type="number"] {
   -moz-appearance: textfield;
 }
 
+// Custom new class
 .text-truncate {
   display: -webkit-box;
   -webkit-line-clamp: 2;
@@ -46,3 +47,39 @@ input[type="number"] {
   overflow: hidden;
   text-overflow: ellipsis;
 }
+
+//Equipment details container styles
+.equipment-details-container img {
+  height: auto;
+  width: 100%;
+  object-fit: contain;
+}
+
+/******** react image gallery styles overriding *********/
+.image-gallery-slides {
+  border: 1px solid var(--bs-border-color);
+  border-radius: 0.65rem;
+}
+
+.image-gallery-content.fullscreen {
+  top: 50% !important;
+  transform: translate(0, -50%) !important;
+  .image-gallery-slides {
+    border: 1px solid var(--bs-primary);
+    border-radius: 0;
+  }
+}
+
+.image-gallery-slide {
+  max-height: 90vh !important;
+  @media screen and (min-width: 1200px) {
+    max-height: 100vh !important;
+  }
+}
+
+.image-gallery-thumbnail-image {
+  height: 92px !important;
+  width: 100% !important;
+  object-fit: cover;
+}
+/******** react image gallery styles ends *********/

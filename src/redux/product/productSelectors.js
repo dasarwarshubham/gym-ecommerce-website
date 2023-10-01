@@ -7,6 +7,11 @@ export const selectAllProducts = createSelector(
   (productSlice) => productSlice.productList
 );
 
+export const selectProductCount = createSelector(
+  [selectProductSlice],
+  (productSlice) => productSlice.productCount
+);
+
 export const selectFeaturedProducts = createSelector(
   [selectProductSlice],
   (productSlice) => productSlice.featuredProductList

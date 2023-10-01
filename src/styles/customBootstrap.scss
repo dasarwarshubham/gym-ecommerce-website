@@ -68,6 +68,13 @@ $input-placeholder-color: #b9bdc2;
   z-index: 1050;
 }
 
+.page-item .page-link {
+  @media screen and (min-width: 576px) {
+    min-width: 35px;
+  }
+  text-align: center;
+}
+
 @import "bootstrap/scss/variables";
 @import "bootstrap/scss/variables-dark";
 @import "bootstrap/scss/mixins";
@@ -144,13 +151,13 @@ $aspect-ratios: (
 @import "bootstrap/scss/badge";
 @import "bootstrap/scss/tooltip";
 @import "bootstrap/scss/list-group";
+@import "bootstrap/scss/pagination";
 // @import "bootstrap/scss/dropdown";
 // @import "bootstrap/scss/alert";
 // @import "bootstrap/scss/button-group";
 // @import "bootstrap/scss/toasts";
 // @import "bootstrap/scss/progress";
 // @import "bootstrap/scss/breadcrumb";
-// @import "bootstrap/scss/pagination";
 // @import "bootstrap/scss/popover";
 // @import "bootstrap/scss/carousel";
 // @import "bootstrap/scss/placeholders";

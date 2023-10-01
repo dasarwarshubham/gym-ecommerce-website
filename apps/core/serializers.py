@@ -295,33 +295,42 @@ class ProductImageSerializer(serializers.ModelSerializer):
 
 class ProductSerializer(serializers.ModelSerializer):
     category = serializers.SerializerMethodField()
+    out_of_stock = serializers.SerializerMethodField()
 
     class Meta:
         model = Product
-        fields = ['id', 'title', 'slug', 'image', 'price', 'category']
+        fields = ['id', 'title', 'slug', 'image', 'price', 'category', 'out_of_stock']
 
     def get_category(self, product: Product):
         return product.category.title.lower()
+    
+    def get_out_of_stock(self, product: Product):
+        return product.inventory < 1
 
 
 class ProductDetailsSerializer(serializers.ModelSerializer):
     category = serializers.SerializerMethodField()
+    out_of_stock = serializers.SerializerMethodField()
     images = ProductImageSerializer(many=True, read_only=True)
     reviews = ReviewSerializer(many=True)
 
     class Meta:
         model = Product
         fields = ['id', 'title', 'description', 'slug',
-                  'image', 'price', 'price_with_tax', 'category', 'images', 'reviews']
+                  'image', 'price', 'price_with_tax', 'out_of_stock', 'category', 'images', 'reviews']
 
     price_with_tax = serializers.SerializerMethodField(
         method_name='calculate_tax')
 
     def calculate_tax(self, product: Product):
-        return product.price * Decimal(1.1)
+        # Round to two decimal places
+        return round(product.price * Decimal(1.1), 2)
 
     def get_category(self, product: Product):
         return product.category.title
+
+    def get_out_of_stock(self, product: Product):
+        return product.inventory < 1
 
 
 class ProductCreateSerializer(serializers.ModelSerializer):

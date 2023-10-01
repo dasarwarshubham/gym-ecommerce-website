@@ -6,7 +6,7 @@ function FeaturedProductCard({ item }) {
   return (
     <Link to={`${EQUIPMENTS}/${item.category}/${item.slug}`}>
       <ProductCard>
-        <div class="ratio ratio-4x3">
+        <div className="ratio ratio-4x3">
           <ProductCard.Img src={item.image} alt={item.title} />
         </div>
         <ProductCard.ImgOverlay>

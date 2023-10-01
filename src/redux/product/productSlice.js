@@ -16,6 +16,7 @@ const productSlice = createSlice({
     loading: false,
     productList: [],
     featuredProductList: [],
+    productCount: 0,
     categoryList: [],
     productDetails: null,
     error: null,
@@ -24,7 +25,8 @@ const productSlice = createSlice({
     builder
       .addCase(retrieveProducts.fulfilled, (state, action) => {
         state.loading = false;
-        state.productList = action.payload;
+        state.productList = action.payload.results;
+        state.productCount = action.payload.count;
         state.error = null;
       })
       .addCase(retrieveFeaturedProducts.fulfilled, (state, action) => {

@@ -1,21 +1,23 @@
 import { publicAxios } from "./axiosInstance";
 import { API_ROUTES } from "../constants/routes";
 
-export const getProductList = async (category) => {
+export const getProductList = async (category, pageNo) => {
   try {
     let response;
-    if (category) {
-      response = await publicAxios.get(`${API_ROUTES.equipments}/?category=${category}`);
-      if (response?.data?.results?.length === 0) {
-        throw new Error("Category not found")
-      }
-    } else {
-      response = await publicAxios.get(API_ROUTES.equipments);
+    // response = await publicAxios.get(`${API_ROUTES.equipments}/?category=${category}`);
+    const params = category && pageNo ? `?category=${category}&page=${pageNo}`
+      : category ? `?category=${category}`
+        : pageNo ? `?page=${pageNo}`
+          : null;
+
+    response = await publicAxios.get(`${API_ROUTES.equipments}/${params}`);
+    if (response?.data?.results?.length === 0) {
+      throw new Error("Category not found")
     }
-    return response.data.results;
+    return response.data;
   } catch (error) {
-    const errorMsg = error.message
-    // const errorMsg = "Sorry, Page Not Found";
+    // const errorMsg = error.message
+    const errorMsg = "Sorry, Page Not Found";
     throw new Error(errorMsg);
   }
 };

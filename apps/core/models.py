@@ -3,6 +3,7 @@ from django.contrib import admin
 from django.conf import settings
 from uuid import uuid4
 from django.core.validators import MinValueValidator, MaxValueValidator
+from ckeditor.fields import RichTextField
 from .utils.validators import validate_file_size
 
 
@@ -117,7 +118,7 @@ def product_directory_path(instance, filename):
 class Product(models.Model):
     title = models.CharField(max_length=255)
     slug = models.SlugField()
-    description = models.TextField()
+    description = RichTextField()
     image = models.ImageField(upload_to=product_directory_path)
     price = models.DecimalField(
         max_digits=8, decimal_places=2, validators=[MinValueValidator(1)])

@@ -47,6 +47,7 @@ INSTALLED_APPS = [
     'django_filters',
     'django_rest_passwordreset',
     'defender',
+    'ckeditor',
 
     # installed apps
     'apps.accounts',

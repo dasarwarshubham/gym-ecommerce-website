@@ -1,6 +1,6 @@
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import * as Yup from "yup";
 
 // import required Components
@@ -26,7 +26,7 @@ import {
 import AddAddressCard from "../../components/cards/AddAddressCard";
 import FormRadio from "../../components/cards/checkout/AddressFormRadio";
 import { FormButton, FormikForm } from "../../components/form";
-import { REVIEW } from "../../constants/routes";
+import { HOME, REVIEW } from "../../constants/routes";
 // import AddressCard from "../../components/cards/AddressCard";
 
 // const phoneRegExp =
@@ -63,10 +63,10 @@ const ShippingPage = () => {
     <Container className="my-5 py-5" style={{ minHeight: "65vh" }}>
       <Row className="g-4 mx-0">
         <Col xs={12}>
-          <h2 className="d-flex align-items-center">
-            Select Shipping Address&nbsp;
+          <h2 className={`d-flex align-items-center ${count === 0 && 'justify-content-center'}`}>
+            Select Shipping Address
             {loading && (
-              <Spinner animation="grow">
+              <Spinner className="ms-2" animation="grow">
                 <span className="visually-hidden">Loading...</span>
               </Spinner>
             )}
@@ -74,55 +74,58 @@ const ShippingPage = () => {
           </h2>
         </Col>
         {count === 0 ? (
-          <Col xs={12}>
+          <Col xs={12} className="text-center">
             <p>Your cart is empty.</p>
+            <Link to={HOME} className="btn btn-primary">
+              Continue Shopping
+            </Link>
           </Col>
         ) : (
-        <Col xs={12}>
-          <FormikForm
-            initialValues={{
-              delivery_address: cartAddress?.id,
-            }}
-            enableReinitialize
-            validationSchema={Yup.object().shape({
-              delivery_address: Yup.string().required().label("Delivery Address"),
-            })}
-            onSubmit={(values, { setSubmitting, resetForm }) =>
-              handleClick(values, setSubmitting, resetForm)
-            }
-          >
-            <Row className="">
-              <Col md={8}>
-                <Row className="g-4">
-                  {addresses?.map((address) => (
-                    <Col md={6} key={`shipping-address-${address.id}`}>
-                      <FormRadio value={address} name="delivery_address" />
-                    </Col>
-                  ))}
-                </Row>
-                <div className="d-flex d-sm-block my-4">
-                  <AddAddressCard className="mx-auto" isButton="true" />
-                </div>
-              </Col>
-              <Col md={4}>
-                <Card>
-                  <Card.Header>
-                    <Card.Title>Order Summary</Card.Title>
-                  </Card.Header>
-                  <Card.Body>
-                    <Card.Text>Total Items: {count}</Card.Text>
-                    <Card.Text>
-                      Total Amount: ${cart.cart_total_price.toFixed(2)}
-                    </Card.Text>
-                  </Card.Body>
-                  <Card.Footer className="d-grid">
-                    <FormButton>Proceed to Review</FormButton>
-                  </Card.Footer>
-                </Card>
-              </Col>
-            </Row>
-          </FormikForm>
-        </Col>
+          <Col xs={12}>
+            <FormikForm
+              initialValues={{
+                delivery_address: cartAddress?.id,
+              }}
+              enableReinitialize
+              validationSchema={Yup.object().shape({
+                delivery_address: Yup.string().required().label("Delivery Address"),
+              })}
+              onSubmit={(values, { setSubmitting, resetForm }) =>
+                handleClick(values, setSubmitting, resetForm)
+              }
+            >
+              <Row className="">
+                <Col md={8}>
+                  <Row className="g-4">
+                    {addresses?.map((address) => (
+                      <Col md={6} key={`shipping-address-${address.id}`}>
+                        <FormRadio value={address} name="delivery_address" />
+                      </Col>
+                    ))}
+                  </Row>
+                  <div className="d-flex d-sm-block my-4">
+                    <AddAddressCard className="mx-auto" isButton="true" />
+                  </div>
+                </Col>
+                <Col md={4}>
+                  <Card>
+                    <Card.Header>
+                      <Card.Title>Order Summary</Card.Title>
+                    </Card.Header>
+                    <Card.Body>
+                      <Card.Text>Total Items: {count}</Card.Text>
+                      <Card.Text>
+                        Total Amount: ${cart.cart_total_price.toFixed(2)}
+                      </Card.Text>
+                    </Card.Body>
+                    <Card.Footer className="d-grid">
+                      <FormButton>Proceed to Review</FormButton>
+                    </Card.Footer>
+                  </Card>
+                </Col>
+              </Row>
+            </FormikForm>
+          </Col>
         )}
       </Row>
     </Container>

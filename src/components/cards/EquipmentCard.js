@@ -2,7 +2,7 @@ import React from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { Card, Button } from "react-bootstrap";
-import { MdCheckCircle, MdOutlineShoppingCart } from "react-icons/md";
+import { MdCheckCircle, MdOutlineAddShoppingCart, MdOutlineRemoveShoppingCart } from "react-icons/md";
 import { CART, EQUIPMENTS } from "../../constants/routes";
 
 import { addItem, fetchCart } from "../../redux/checkout/cartActions";
@@ -53,19 +53,26 @@ const EquipmentCard = ({ data }) => {
           <Card.Text>Price: ${data.price}</Card.Text>
         </div>
         <div className="d-grid">
-          <Button variant="primary" onClick={handleAddToCart}>
-            {alreadyInCart ? (
-              <>
-                Added To Cart&nbsp;
-                <MdCheckCircle color="green" />
-              </>
-            ) : (
-              <>
-                Add to Cart&nbsp;
-                <MdOutlineShoppingCart />
-              </>
-            )}
-          </Button>
+          {data.out_of_stock ? (
+            <Button variant="outline" className="border border-dark text-muted" onClick={() => null}>
+              Out of Stock&nbsp;
+              <MdOutlineRemoveShoppingCart />
+            </Button>
+          ) : (
+            <Button variant="primary" onClick={handleAddToCart}>
+              {alreadyInCart ? (
+                <>
+                  Added To Cart&nbsp;
+                  <MdCheckCircle color="green" />
+                </>
+              ) : (
+                <>
+                  Add to Cart&nbsp;
+                  <MdOutlineAddShoppingCart />
+                </>
+              )}
+            </Button>
+          )}
         </div>
       </Card.Body>
     </Card>

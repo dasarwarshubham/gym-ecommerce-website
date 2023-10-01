@@ -12,6 +12,7 @@ ALLOWED_HOSTS = []
 
 # Replace with the URL of your React app
 CORS_ALLOWED_ORIGINS = [
+    "https://172.26.56.206:3000",
     # Add more allowed origins if needed
     "http://localhost:3000",
     "http://127.0.0.1:3000"
