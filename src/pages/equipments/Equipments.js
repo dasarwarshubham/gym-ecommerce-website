@@ -27,18 +27,19 @@ const EquipmentsPage = () => {
   const navigate = useNavigate()
   const { categoryId } = useParams();
   const dispatch = useDispatch();
-  
+
   // const loading = useSelector(selectLoadingStatus);
   const equipments = useSelector(selectAllProducts);
   const productCount = useSelector(selectProductCount);
   const error = useSelector(selectError);
 
   const { initialLoad } = useInitialLoad(equipments);
-  
+
   const queryParams = new URLSearchParams(location.search);
   const currentPage = parseInt(queryParams.get('page')) || 1;
-  const totalPages = Math.ceil(productCount / 20); // (productCount/productPerPage)
-  
+  const productPerPage = 20;
+  const totalPages = Math.ceil(productCount / productPerPage); // (productCount/productPerPage)
+
   const handlePageChange = (page) => {
     let newURL = `${EQUIPMENTS}?page=${page}`;
     if (categoryId) {
@@ -65,7 +66,7 @@ const EquipmentsPage = () => {
       </div>
     );
   }
-  if (productCount > 0) {
+  if (productCount > productPerPage) {
     return (
       <Container>
         <Row className="g-4 g-md-5 my-5 py-5 mx-0">
