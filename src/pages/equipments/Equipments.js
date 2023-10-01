@@ -27,18 +27,19 @@ const EquipmentsPage = () => {
   const navigate = useNavigate()
   const { categoryId } = useParams();
   const dispatch = useDispatch();
-  
+
   // const loading = useSelector(selectLoadingStatus);
   const equipments = useSelector(selectAllProducts);
   const productCount = useSelector(selectProductCount);
   const error = useSelector(selectError);
 
   const { initialLoad } = useInitialLoad(equipments);
-  
+
   const queryParams = new URLSearchParams(location.search);
   const currentPage = parseInt(queryParams.get('page')) || 1;
-  const totalPages = Math.ceil(productCount / 20); // (productCount/productPerPage)
-  
+  const productPerPage = 20;
+  const totalPages = Math.ceil(productCount / productPerPage); // (productCount/productPerPage)
+
   const handlePageChange = (page) => {
     let newURL = `${EQUIPMENTS}?page=${page}`;
     if (categoryId) {
@@ -75,15 +76,17 @@ const EquipmentsPage = () => {
             </Col>
           ))}
         </Row>
-        <Row className="mx-0 my-5 pb-5">
-          <Col xs={12} className="d-flex justify-content-center">
-            <MyPagination
-              totalPages={totalPages}
-              currentPage={currentPage}
-              handlePageChange={handlePageChange}
-            />
-          </Col>
-        </Row>
+        {productCount > productPerPage && (
+          <Row className="mx-0 my-5 pb-5">
+            <Col xs={12} className="d-flex justify-content-center">
+              <MyPagination
+                totalPages={totalPages}
+                currentPage={currentPage}
+                handlePageChange={handlePageChange}
+              />
+            </Col>
+          </Row>
+        )}
       </Container>
     );
   } else {
