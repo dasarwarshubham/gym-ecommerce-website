@@ -66,7 +66,7 @@ const EquipmentsPage = () => {
       </div>
     );
   }
-  if (productCount > productPerPage) {
+  if (productCount > 0) {
     return (
       <Container>
         <Row className="g-4 g-md-5 my-5 py-5 mx-0">
@@ -76,15 +76,17 @@ const EquipmentsPage = () => {
             </Col>
           ))}
         </Row>
-        <Row className="mx-0 my-5 pb-5">
-          <Col xs={12} className="d-flex justify-content-center">
-            <MyPagination
-              totalPages={totalPages}
-              currentPage={currentPage}
-              handlePageChange={handlePageChange}
-            />
-          </Col>
-        </Row>
+        {productCount > productPerPage && (
+          <Row className="mx-0 my-5 pb-5">
+            <Col xs={12} className="d-flex justify-content-center">
+              <MyPagination
+                totalPages={totalPages}
+                currentPage={currentPage}
+                handlePageChange={handlePageChange}
+              />
+            </Col>
+          </Row>
+        )}
       </Container>
     );
   } else {
