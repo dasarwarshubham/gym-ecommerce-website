@@ -13,13 +13,24 @@ const CTAContainer = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
+  height: 100%;
+  max-height: 540px;
   min-height: 480px;
   color: #ffffff;
+  @media screen and (max-width: 1200px) {
+    min-height: 380px;
+  }
+  @media screen and (max-width: 576px) {
+    min-height: 280px;
+  }
+  h4, p {
+    text-shadow: 1px -1px 7px rgba(0,0,0,0.65);    
+  }
 `;
 
 const CtaContainer = () => {
   return (
-    <CTAContainer style={{}}>
+    <CTAContainer>
       <Row className="mx-0">
         <Col>
           <div

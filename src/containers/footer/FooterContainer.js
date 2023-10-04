@@ -24,7 +24,7 @@ const FooterContainer = styled.div`
   .nav-link:hover{
     text-decoration: underline;
     text-underline-offset: 0.5rem;
-    color: gold;
+    color: orange;
   }
   
   li > .nav-link{ 
