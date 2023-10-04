@@ -19,12 +19,19 @@ const Header = styled.header`
   background-image: url("/images/anastase-maragos-9dzWZQWZMdE-unsplash.webp");
   background-repeat: no-repeat;
   background-position: center;
-  background-size: cover;
+  background-size: contain;
+  background-color: #000000;
   display: flex;
   justify-content: center;
   align-items: center;
-  min-height: 320px;
+  min-height: 40vh;
   color: #ffffff;
+  @media screen and ( max-width: 1024px){
+    min-height: 320px;
+  }
+  @media screen and ( max-width: 768px){
+    background-size: cover;
+  }
 `;
 
 const Container = styled(BsContainer)`

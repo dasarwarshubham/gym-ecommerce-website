@@ -2,10 +2,10 @@ import { Link } from "react-router-dom";
 import styled from "styled-components/macro";
 
 export const Container = styled.div`
+  background-image: url('/images/banner.webp');
   background-position: center;
   background-size: cover;
-  position: relative;
-  top: 0;
+  background-color: #212529;
   height: calc(100vh - 6.5rem);
 `;
 
@@ -14,8 +14,7 @@ export const Overlay = styled.div`
   flex-direction: column;
   justify-content: center;
   align-items: center;
-
-  /* border: 1px solid hotpink; */
+  width: 100%;
   height: 100%;
   background-color: rgba(0, 0, 0, 0.5);
 `;
@@ -24,14 +23,11 @@ export const Text = styled.h1`
   font-size: 8rem;
   color: #ffffff;
   text-align: center;
-  font-weight: 600;
-  /* color: rgba(240, 240, 240, 1); */
   @media (max-width: 640px) {
     font-size: 7rem;
   }
 
   span:last-child {
-    /* text-decoration: underline; */
     font-style: italic;
     text-transform: uppercase;
   }

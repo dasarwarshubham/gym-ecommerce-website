@@ -8,17 +8,8 @@ const AboutBg = styled(Container)`
   display: flex;
   justify-content: center;
   align-items: center;
-  /* height: 75vh;
-  background: url("./images/risen-wang-20jX9b35r_M-unsplash.png");
-  background-position: center;
-  background-repeat: no-repeat;
-  background-size: cover; */
 
   margin: 10rem 0;
-  
-  // @media (max-width: 640px) {
-  //   margin: 5rem 0;
-  // }
 
   h1 {
     margin-bottom: 2rem;
@@ -32,7 +23,7 @@ const AboutBg = styled(Container)`
   }
 `;
 
-const AboutContainer = (props) => {
+const AboutContainer = () => {
   return (
     <AboutBg fluid className="about-container">
       <Row>
@@ -63,7 +54,7 @@ const AboutContainer = (props) => {
         </Col>
         <Col xs={12} lg={6} className="px-0">
           <img
-            src="/images/risen-wang-20jX9b35r_M-unsplash.webp"
+            src="/images/about-us.webp"
             className="img-fluid"
             alt="fitflex gym"
           />
