@@ -13,6 +13,7 @@ const blogListSlice = createSlice({
   initialState: {
     loading: false,
     blogList: [],
+    blogCount: 0,
     blogDetails: null,
     error: null,
   },
@@ -20,7 +21,8 @@ const blogListSlice = createSlice({
     builder
       .addCase(retrieveBlogs.fulfilled, (state, action) => {
         state.loading = false;
-        state.blogList = action.payload;
+        state.blogList = action.payload.results;
+        state.blogCount = action.payload.count;
         state.error = null;
       })
       .addCase(getBlogById.fulfilled, (state, action) => {

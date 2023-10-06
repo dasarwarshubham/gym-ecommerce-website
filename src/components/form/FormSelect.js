@@ -18,6 +18,7 @@ const FormikSelect = ({
   fieldClass,
   children,
   radioValues,
+  placeholder = "Type Here",
   ...otherProps
 }) => {
   const { handleChange, errors, touched } = useFormikContext();
@@ -37,7 +38,7 @@ const FormikSelect = ({
             name={name}
             onChange={handleChange}
             isInvalid={touched[name] && !!errors[name]}
-            placeholder="Type here"
+            placeholder={placeholder}
             {...otherProps}
           >
             {children}
@@ -55,7 +56,7 @@ const FormikSelect = ({
         name={name}
         onChange={handleChange}
         isInvalid={touched[name] && !!errors[name]}
-        placeholder="Type here"
+        placeholder={placeholder}
         {...otherProps}
       >
         {children}

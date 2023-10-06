@@ -50,7 +50,7 @@ const EquipmentCard = ({ data }) => {
       <Card.Body className="d-flex flex-column justify-content-between">
         <div>
           <Card.Title className="text-truncate">{data.title}</Card.Title>
-          <Card.Text>Price: ${data.price}</Card.Text>
+          <Card.Text className="mb-3">Price: ${data.price}</Card.Text>
         </div>
         <div className="d-grid">
           {data.out_of_stock ? (

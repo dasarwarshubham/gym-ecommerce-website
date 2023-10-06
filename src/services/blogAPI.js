@@ -1,78 +1,38 @@
-const blogsData = [
-  {
-    id: 1,
-    title: "Getting Started with Home Workouts",
-    excerpt: "Learn how to kickstart your home workout routine.",
-    content: "This blog post will guide you through setting up...",
-    image: "https://dummyimage.com/400x400/ededed/000000",
-  },
-  {
-    id: 2,
-    title: "The Benefits of Cardio Exercise",
-    excerpt: "Discover the numerous advantages of cardio workouts.",
-    content: "Cardiovascular exercises are essential for maintaining...",
-    image: "https://dummyimage.com/400x400/ededed/000000",
-  },
-  {
-    id: 3,
-    title: "Strength Training 101",
-    excerpt: "A comprehensive guide to getting stronger through weightlifting.",
-    content:
-      "Strength training is a crucial component of a well-rounded fitness routine...",
-    image: "https://dummyimage.com/400x400/ededed/000000",
-  },
-  {
-    id: 4,
-    title: "Nutrition Essentials for Fitness",
-    excerpt: "Learn about the right foods to fuel your workouts.",
-    content:
-      "Proper nutrition plays a vital role in achieving your fitness goals...",
-    image: "https://dummyimage.com/400x400/ededed/000000",
-  },
-  {
-    id: 5,
-    title: "Effective Stretching Techniques",
-    excerpt:
-      "Improve your flexibility and prevent injuries with these stretches.",
-    content: "Incorporating regular stretching exercises into your routine...",
-    image: "https://dummyimage.com/400x400/ededed/000000",
-  },
-  {
-    id: 6,
-    title: "Mindfulness in Exercise",
-    excerpt: "Explore the benefits of mindful movement during workouts.",
-    content: "Mindfulness involves being fully present during your exercise...",
-    image: "https://dummyimage.com/400x400/ededed/000000",
-  },
-  // Add more blog entries
-];
+import { publicAxios } from "./axiosInstance";
+import { API_ROUTES } from "../constants/routes";
 
-function simulateNetworkRequest(delay) {
-  return new Promise((resolve) => setTimeout(resolve, delay));
-}
+// function simulateNetworkRequest(delay) {
+//   return new Promise((resolve) => setTimeout(resolve, delay));
+// }
 
-export const getBlogsList = async () => {
+export const getBlogsList = async (searchQuery, pageNo) => {
   try {
-    // const response = await axios.get(`${api_route}/blogs/`);
-    const response = await simulateNetworkRequest(1000).then(() => {
-      return blogsData;
-    });
-    return response;
+    let response;
+    const params = searchQuery && pageNo ? `?search=${searchQuery}&page=${pageNo}`
+      : searchQuery ? `?search=${searchQuery}`
+        : pageNo ? `?page=${pageNo}`
+          : null;
+    if (params !== null) {
+      response = await publicAxios.get(`${API_ROUTES.blogs}/${params}`);
+    } else {
+      response = await publicAxios.get(`${API_ROUTES.blogs}/`);
+    }
+    if (response?.data?.count === 0) {
+      throw new Error("Blogs Not Found");
+    }
+    return response.data;
   } catch (error) {
-    // const errorMsg = error.message
-    const errorMsg = "Sorry, Page Not Found";
+    const errorMsg = error.message
+    // const errorMsg = "Sorry, Page Not Found";
     throw new Error(errorMsg);
   }
 };
 
-export const getBlogDetailsWithId = async (id) => {
+export const getBlogDetailsWithId = async (slug) => {
   try {
-    // const response = await axios.get(`${api_route}/blogs/${id}/`);
-    const response = await simulateNetworkRequest(1000).then(() => {
-      return blogsData.find((blog) => blog.id === parseInt(id));
-    });
+    const response = await publicAxios.get(`${API_ROUTES.blogs}/${slug}/`);
     if (response) {
-      return response;
+      return response.data;
     } else {
       throw new Error("Blog Not Found");
     }

@@ -29,7 +29,9 @@ urlpatterns = [
     path(f'{os.environ.get("DJANGO_ADMIN_URL_SECRET")}/admin/defender/', include('defender.urls')),
     path(f'{os.environ.get("DJANGO_ADMIN_URL_SECRET")}/admin/', admin.site.urls),
     path('auth/', include('apps.accounts.urls')),
-    path('api/', include('apps.core.urls'))
+    path('api/', include('apps.core.urls')),
+    path('api/', include('apps.blogs.urls')),
+    path('ckeditor/', include('ckeditor_uploader.urls')),
 ]
 
 if settings.DEBUG:

@@ -34,6 +34,7 @@ export const YOUTUBE = "https://www.youtube.com";
 
 const API_BASE_URL = "https://fitflex.site";
 // const API_BASE_URL = "http://127.0.0.1:8000";
+// const API_BASE_URL = process.env.NODE_ENV === 'production' ? "https://fitflex.site" : "http://127.0.0.1:8000";
 
 export const API_ROUTES = {
   accounts: `${API_BASE_URL}/auth`,
@@ -44,4 +45,5 @@ export const API_ROUTES = {
   equipments: `${API_BASE_URL}/api/products`,
   cart: `${API_BASE_URL}/api/carts`,
   order: `${API_BASE_URL}/api/orders`,
+  blogs: `${API_BASE_URL}/api/blogs`,
 };

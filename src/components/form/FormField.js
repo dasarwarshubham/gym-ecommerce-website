@@ -17,6 +17,7 @@ const FormField = ({
   name,
   fieldClass,
   children,
+  placeholder = "Type here",
   ...otherProps
 }) => {
   const { handleChange, values, errors, touched, setFieldValue } =
@@ -40,7 +41,7 @@ const FormField = ({
               name={name}
               onChange={handleChange}
               isInvalid={touched[name] && !!errors[name]}
-              placeholder="Type here"
+              placeholder={placeholder}
               {...otherProps}
             >
               {children}
@@ -53,7 +54,7 @@ const FormField = ({
               value={values[name]}
               onChange={handleChange}
               isInvalid={touched[name] && !!errors[name]}
-              placeholder="Type here"
+              placeholder={placeholder}
               {...otherProps}
             >
               {children}
@@ -75,7 +76,7 @@ const FormField = ({
           name={name}
           onChange={handleChange}
           isInvalid={touched[name] && !!errors[name]}
-          placeholder="Type here"
+          placeholder={placeholder}
           {...otherProps}
         >
           {children}
@@ -100,7 +101,7 @@ const FormField = ({
             : (event) => setFieldValue(name, event.target.files[0])
         }
         isInvalid={touched[name] && !!errors[name]}
-        placeholder="Type here"
+        placeholder={placeholder}
         {...otherProps}
       >
         {children}

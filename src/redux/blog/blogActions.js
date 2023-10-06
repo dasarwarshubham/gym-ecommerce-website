@@ -1,8 +1,8 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import { getBlogsList, getBlogDetailsWithId } from "../../services/blogAPI";
 
-const retrieveBlogs = createAsyncThunk("blogs/fetchAll", async () => {
-  const response = await getBlogsList();
+const retrieveBlogs = createAsyncThunk("blogs/fetchAll", async ({ searchQuery, currentPage }) => {
+  const response = await getBlogsList(searchQuery, currentPage);
   return response;
 });
 
@@ -12,4 +12,3 @@ const getBlogById = createAsyncThunk("blogs/fetchById", async (id) => {
 });
 
 export { retrieveBlogs, getBlogById };
- 

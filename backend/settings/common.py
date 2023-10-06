@@ -48,10 +48,12 @@ INSTALLED_APPS = [
     'django_rest_passwordreset',
     'defender',
     'ckeditor',
+    'ckeditor_uploader',
 
     # installed apps
     'apps.accounts',
-    'apps.core'
+    'apps.core',
+    'apps.blogs'
 ]
 
 
@@ -264,5 +266,38 @@ LOGGING = {
             'format': '{asctime} ({levelname}) - {name} - {message}',
             'style': '{'
         }
+    }
+}
+
+
+CKEDITOR_UPLOAD_PATH = "blogs/"
+CKEDITOR_ALLOW_NONIMAGE_FILES = False
+CKEDITOR_IMAGE_BACKEND = "pillow"
+CKEDITOR_UPLOAD_SLUGIFY_FILENAME = True
+
+CKEDITOR_CONFIGS = {
+    'default': {
+        'width': '100%',
+        'height': '400px',
+        'skin': 'moono-lisa',  # or 'moono'
+        'toolbar': [
+            {'name': 'basicstyles',
+                'items': ['Bold', 'Italic', 'Underline', 'Strike', 'Subscript', 'Superscript', '-', 'RemoveFormat', 'cleanup']},
+            {'name': 'paragraph',
+                'items': ['NumberedList', 'BulletedList', '-', 'Outdent', 'Indent', '-', 'Blockquote', 'CreateDiv', '-',
+                          'JustifyLeft', 'JustifyCenter', 'JustifyRight', 'JustifyBlock', '-', 'BidiLtr', 'BidiRtl',
+                          'Language']},
+            {'name': 'links',
+                'items': ['Link', 'Unlink', 'Anchor']},
+            {'name': 'insert',
+                'items': ['Image', 'Table', 'HorizontalRule', 'Smiley', 'SpecialChar']},
+            '/',
+            {'name': 'styles', 'items': [
+                'Styles', 'Format', 'Font', 'FontSize']},
+            {'name': 'colors', 'items': ['TextColor', 'BGColor']},
+            {'name': 'tools', 'items': ['Maximize', 'ShowBlocks']},
+            {'name': 'source', 'items': ['Source']}
+        ],
+        'tabSpaces': 4,
     }
 }

@@ -7,6 +7,11 @@ export const selectAllBlogs = createSelector(
   (blogSlice) => blogSlice.blogList
 );
 
+export const selectBlogCount = createSelector(
+  [selectBlogSlice],
+  (blogSlice) => blogSlice.blogCount
+);
+
 export const selectSelectedBlog = createSelector(
   [selectBlogSlice],
   (blogSlice) => blogSlice.blogDetails

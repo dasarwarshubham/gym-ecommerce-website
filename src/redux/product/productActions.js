@@ -6,8 +6,8 @@ import {
   getProductDetailsWithId,
 } from "../../services/productAPI";
 
-export const retrieveProducts = createAsyncThunk("product/fetchAll", async ({ categoryId, currentPage }) => {
-  const response = await getProductList(categoryId, currentPage);
+export const retrieveProducts = createAsyncThunk("product/fetchAll", async ({ searchQuery, categoryId, currentPage }) => {
+  const response = await getProductList(searchQuery, categoryId, currentPage);
   return response;
 });
 

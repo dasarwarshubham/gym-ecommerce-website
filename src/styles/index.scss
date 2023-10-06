@@ -55,6 +55,16 @@ input[type="number"] {
   object-fit: contain;
 }
 
+//Blog details container styles
+.blog-details-container img {
+  height: auto !important;
+  width: 100% !important;
+  object-fit: contain !important;
+  margin-top: 2rem;
+  margin-bottom: 2rem;
+  border-radius: 1rem;
+}
+
 /******** react image gallery styles overriding *********/
 .image-gallery-slides {
   border: 1px solid var(--bs-border-color);

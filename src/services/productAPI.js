@@ -1,16 +1,24 @@
 import { publicAxios } from "./axiosInstance";
 import { API_ROUTES } from "../constants/routes";
 
-export const getProductList = async (category, pageNo) => {
+export const getProductList = async (searchQuery, category, pageNo) => {
   try {
     let response;
     // response = await publicAxios.get(`${API_ROUTES.equipments}/?category=${category}`);
-    const params = category && pageNo ? `?category=${category}&page=${pageNo}`
-      : category ? `?category=${category}`
-        : pageNo ? `?page=${pageNo}`
-          : null;
+    const params = searchQuery && category && pageNo ? `?search=${searchQuery}&category=${category}&page=${pageNo}`
+      : searchQuery && category ? `?category=${category}&search=${searchQuery}`
+        : searchQuery && pageNo ? `?search=${searchQuery}&page=${pageNo}`
+          : category && pageNo ? `?category=${category}&page=${pageNo}`
+            : searchQuery ? `?search=${searchQuery}`
+              : category ? `?category=${category}`
+                : pageNo ? `?page=${pageNo}`
+                  : null;
 
-    response = await publicAxios.get(`${API_ROUTES.equipments}/${params}`);
+    if (params !== null) {
+      response = await publicAxios.get(`${API_ROUTES.equipments}/${params}`);
+    } else {
+      response = await publicAxios.get(`${API_ROUTES.equipments}/`);
+    }
     if (response?.data?.results?.length === 0) {
       throw new Error("Category not found")
     }

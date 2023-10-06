@@ -71,13 +71,13 @@ class CustomerAddress(models.Model):
 
 
 # Category Model
-def product_directory_path(instance, filename):
+def category_directory_path(instance, filename):
     return 'categories/{}'.format(filename)
 
 
 class Category(models.Model):
     title = models.CharField(max_length=255)
-    image = models.ImageField(upload_to=product_directory_path)
+    image = models.ImageField(upload_to=category_directory_path)
     description = models.TextField()
     featured_product = models.ForeignKey(
         # 'Product',  '+' is added to solve circular dependency
