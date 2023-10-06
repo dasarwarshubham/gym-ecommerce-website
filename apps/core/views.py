@@ -10,6 +10,7 @@ from rest_framework.response import Response
 from rest_framework.mixins import CreateModelMixin, RetrieveModelMixin, DestroyModelMixin
 from rest_framework.viewsets import ModelViewSet, GenericViewSet
 from rest_framework import status
+from knox.auth import TokenAuthentication
 from .utils.pagination import DefaultPagination
 from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework.filters import SearchFilter, OrderingFilter
@@ -36,7 +37,7 @@ class CustomerViewSet(ModelViewSet):
     # def history(self, request, pk):
     #     return Response('ok')
 
-    @action(detail=False, methods=['GET', 'PATCH'], permission_classes=[IsAuthenticated])
+    @action(detail=False, methods=['GET', 'PATCH'], permission_classes=[IsAuthenticated], authentication_classes=[TokenAuthentication])
     def me(self, request):
         user = request.user.id
         customer = Customer.objects.get(account=user)
@@ -64,6 +65,7 @@ class CustomerViewSet(ModelViewSet):
 class CustomerAddressViewSet(ModelViewSet):
     http_method_names = ['get', 'post', 'patch', 'delete']
     serializer_class = CustomerAddressSerializer
+    authentication_classes = [TokenAuthentication]
     permission_classes = [IsAuthenticated]
 
     def get_queryset(self):
@@ -235,6 +237,7 @@ logger = logging.getLogger(__name__)
 
 class OrderViewSet(ModelViewSet):
     http_method_names = ['get', 'post', 'patch', 'delete', 'head', 'options']
+    authentication_classes = [TokenAuthentication]
 
     def get_permissions(self):
         if self.request.method in ['PATCH', 'DELETE']:
