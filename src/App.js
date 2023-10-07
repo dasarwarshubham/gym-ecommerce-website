@@ -113,7 +113,7 @@ function App() {
             <Route index                          Component={Equipments} />
             <Route path="categories" exact        Component={CategoryList} />
             <Route path=":categoryId"             Component={Equipments} />
-            <Route path=":caegoryId/:productId"   Component={EquipmentDetails} />
+            <Route path=":categoryId/:productId"  Component={EquipmentDetails} />
           </Route>
 
           <Route path={ROUTES.BLOGS}>

@@ -1,5 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
+import { Helmet } from "react-helmet";
 import styled from "styled-components/macro";
 
 import { Swiper, SwiperSlide } from "swiper/react";
@@ -126,6 +127,23 @@ const AboutPage = () => {
   ];
   return (
     <div>
+      <Helmet>
+        <link rel="canonical" href="https://fitflex.site/about" />
+
+        <meta name="description" content="Discover Fitflex's story, mission, core values and commitment to providing top-quality gym equipment. We're your trusted fitness equipment store." />
+        <meta name="keywords" content="Fitflex, About Us, Our Story, Our Team, Our Values, Fitness Equipment Store" />
+
+        <meta property="og:title" content="About Us | Fitflex - Your Gym Equipment Partner" />
+        <meta property="og:description" content="Discover Fitflex's story, mission, core values and commitment to providing top-quality gym equipment. We're your trusted fitness equipment store." />
+        <meta property="og:image" content="https://fitflex.site/fitflex-og-card.png" />
+        <meta property="og:url" content="https://fitflex.site/about" />
+
+        <meta name="twitter:title" content="About Us | Fitflex - Your Gym Equipment Partner" />
+        <meta name="twitter:description" content="Discover Fitflex's story, mission, core values and commitment to providing top-quality gym equipment. We're your trusted fitness equipment store." />
+        <meta name="twitter:image" content="https://fitflex.site/fitflex-twitter-card.png" />
+
+        <title>About Us | Fitflex - Your Gym Equipment Partner</title>
+      </Helmet>
       <Header>
         <h1>About Us</h1>
       </Header>

@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
+import { Helmet } from "react-helmet";
 
 import Col from "react-bootstrap/Col";
 import Container from "react-bootstrap/Container";
@@ -59,66 +60,85 @@ const ContactPage = () => {
     })
   };
   return (
-    <Container className="my-5 py-5" style={{ minHeight: "65vh" }}>
-      <Row className="justify-content-center align-items-center mx-0">
-        {status === "success" && (
-          <Col xs={12} md={7} lg={6}>
-            <Success title="Message recieved successfully!">
-              <>We will contact you shortly.</>
-              <br />
-              <Link className="btn btn-dark mt-4" to={HOME}>Continue</Link>
-            </Success>
-          </Col>
-        )}
-        {status === "error" && (
-          <Col xs={12} md={7} lg={6}>
-            <Error
-              title="Message not sent"
-              error={error}
-              action={() => setStatus(null)}
-            />
-          </Col>
-        )}
-        {status === null && (
-          <>
-            <Col xs={12} md={9} lg={8} xl={7} className="text-center text-sm-start">
-              <h1>Get in Touch</h1>
-              <p className="mb-5">Let's Make Your Fitness Journey Extraordinary!</p>
-            </Col>
-            <Col xs={12} md={9} lg={8} xl={7}>
-              <FormikForm
-                initialValues={initialValues}
-                validationSchema={validationSchema}
-                onSubmit={(values, { setSubmitting, resetForm }) =>
-                  handleClick(values, setSubmitting, resetForm)
-                }
-              >
-                <FormField label="Name" name="name" />
-                <FormField label="Email address" type="email" name="email" />
-                <FormField label="Subject" name="subject" />
-                <FormField
-                  label="Write a message"
-                  as="textarea"
-                  style={{ minHeight: "200px" }}
-                  name="message"
-                />
+    <>
+      <Helmet>
+        <link rel="canonical" href="https://fitflex.site/contact" />
 
-                <div className="d-grid col-12 col-sm-5 col-md-4 mb-5 justify-content-center justify-content-sm-start">
-                  <FormButton>Submit</FormButton>
-                </div>
+        <meta name="description" content="Need assistance? Contact Fitflex today! Reach our dedicated customer support team for help, inquiries, or feedback. We're here to serve you." />
+        <meta name="keywords" content="Contact Fitflex, Customer Support, Contact Information, Fitflex Help" />
 
-                <p className="text-center text-sm-start">
-                  Or email us at&nbsp;
-                  <a variant="link" href={EMAIL}>
-                    hello.fitflex@gmail.com
-                  </a>
-                </p>
-              </FormikForm>
+        <meta property="og:title" content="Contact Us | Fitflex - Reach Out for Assistance" />
+        <meta property="og:description" content="Need assistance? Contact Fitflex today! Reach our dedicated customer support team for help, inquiries, or feedback. We're here to serve you." />
+        <meta property="og:image" content="https://fitflex.site/fitflex-og-card.png" />
+        <meta property="og:url" content="https://fitflex.site/contact" />
+
+        <meta name="twitter:title" content="Contact Us | Fitflex - Reach Out for Assistance" />
+        <meta name="twitter:description" content="Need assistance? Contact Fitflex today! Reach our dedicated customer support team for help, inquiries, or feedback. We're here to serve you." />
+        <meta name="twitter:image" content="https://fitflex.site/fitflex-twitter-card.png" />
+
+        <title>Contact Us | Fitflex - Reach Out for Assistance</title>
+      </Helmet>
+      <Container className="my-5 py-5" style={{ minHeight: "65vh" }}>
+        <Row className="justify-content-center align-items-center mx-0">
+          {status === "success" && (
+            <Col xs={12} md={7} lg={6}>
+              <Success title="Message recieved successfully!">
+                <>We will contact you shortly.</>
+                <br />
+                <Link className="btn btn-dark mt-4" to={HOME}>Continue</Link>
+              </Success>
             </Col>
-          </>
-        )}
-      </Row>
-    </Container>
+          )}
+          {status === "error" && (
+            <Col xs={12} md={7} lg={6}>
+              <Error
+                title="Message not sent"
+                error={error}
+                action={() => setStatus(null)}
+              />
+            </Col>
+          )}
+          {status === null && (
+            <>
+              <Col xs={12} md={9} lg={8} xl={7} className="text-center text-sm-start">
+                <h1>Get in Touch</h1>
+                <p className="mb-5">Let's Make Your Fitness Journey Extraordinary!</p>
+              </Col>
+              <Col xs={12} md={9} lg={8} xl={7}>
+                <FormikForm
+                  initialValues={initialValues}
+                  validationSchema={validationSchema}
+                  onSubmit={(values, { setSubmitting, resetForm }) =>
+                    handleClick(values, setSubmitting, resetForm)
+                  }
+                >
+                  <FormField label="Name" name="name" />
+                  <FormField label="Email address" type="email" name="email" />
+                  <FormField label="Subject" name="subject" />
+                  <FormField
+                    label="Write a message"
+                    as="textarea"
+                    style={{ minHeight: "200px" }}
+                    name="message"
+                  />
+
+                  <div className="d-grid col-12 col-sm-5 col-md-4 mb-5 justify-content-center justify-content-sm-start">
+                    <FormButton>Submit</FormButton>
+                  </div>
+
+                  <p className="text-center text-sm-start">
+                    Or email us at&nbsp;
+                    <a variant="link" href={EMAIL}>
+                      hello.fitflex@gmail.com
+                    </a>
+                  </p>
+                </FormikForm>
+              </Col>
+            </>
+          )}
+        </Row>
+      </Container>
+    </>
   );
 };
 

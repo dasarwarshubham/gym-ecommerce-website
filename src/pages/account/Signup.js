@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
+import { Helmet } from "react-helmet";
 
 import Col from "react-bootstrap/Col";
 import Container from "react-bootstrap/Container";
@@ -71,45 +72,61 @@ const SignupPage = () => {
   };
 
   return (
-    <Container className="my-5">
-      <Row
-        className="justify-content-center align-items-center mx-0"
-        style={{ minHeight: "65vh" }}
-      >
-        {signupStatus === "success" && (
-          <Col xs={12} md={7} lg={6}>
-            <Success
-              title="Signup Successful!"
-            >
-              Please check your email for a verification link.
-            </Success>
-          </Col>
-        )}
-        {signupStatus === "error" && (
-          <Col xs={12} md={7} lg={6}>
-            <Error
-              title="Signup Failed"
-              error={error}
-              action={() => setSignupStatus(null)}
-            />
-          </Col>
-        )}
-        {signupStatus === null && (
-          <Col xs={12} md={9} lg={8} xl={7}>
-            <h1 className="text-center mb-4">Create an account</h1>
-            <FormikForm
-              initialValues={initialValues}
-              validationSchema={validationSchema}
-              onSubmit={(values, { setSubmitting, resetForm }) =>
-                handleClick(values, setSubmitting, resetForm)
-              }
-              encType="multipart/form-data"
-            >
-              {/* {error && <p className="text-danger">{error}</p>} */}
-              <FormField label="First Name" name="first_name" />
-              <FormField label="Last Name" name="last_name" />
-              <FormField label="Email" type="email" name="email" />
-              {/* <FormField label="Phone Number" name="phone" inputMode="numeric" />
+    <>
+      <Helmet>
+        <link rel="canonical" href="https://fitflex.site/signup" />
+
+        <meta name="description" content="Sign up for a Fitflex account. Begin your fitness journey with access to top-quality gym equipment and fitness gear." />
+        <meta name="keywords" content="Signup, Fitflex Account, Fitness Journey, User Registration" />
+
+        <meta property="og:title" content="Signup | Fitflex - Begin Your Fitness Journey" />
+        <meta property="og:description" content="Sign up for a Fitflex account. Begin your fitness journey with access to top-quality gym equipment and fitness gear." />
+        <meta property="og:url" content="https://fitflex.site/signup" />
+
+        <meta name="twitter:title" content="Signup | Fitflex - Begin Your Fitness Journey" />
+        <meta name="twitter:description" content="Sign up for a Fitflex account. Begin your fitness journey with access to top-quality gym equipment and fitness gear." />
+
+        <title>Signup | Fitflex - Begin Your Fitness Journey</title>
+      </Helmet>
+      <Container className="my-5">
+        <Row
+          className="justify-content-center align-items-center mx-0"
+          style={{ minHeight: "65vh" }}
+        >
+          {signupStatus === "success" && (
+            <Col xs={12} md={7} lg={6}>
+              <Success
+                title="Signup Successful!"
+              >
+                Please check your email for a verification link.
+              </Success>
+            </Col>
+          )}
+          {signupStatus === "error" && (
+            <Col xs={12} md={7} lg={6}>
+              <Error
+                title="Signup Failed"
+                error={error}
+                action={() => setSignupStatus(null)}
+              />
+            </Col>
+          )}
+          {signupStatus === null && (
+            <Col xs={12} md={9} lg={8} xl={7}>
+              <h1 className="text-center mb-4">Create an account</h1>
+              <FormikForm
+                initialValues={initialValues}
+                validationSchema={validationSchema}
+                onSubmit={(values, { setSubmitting, resetForm }) =>
+                  handleClick(values, setSubmitting, resetForm)
+                }
+                encType="multipart/form-data"
+              >
+                {/* {error && <p className="text-danger">{error}</p>} */}
+                <FormField label="First Name" name="first_name" />
+                <FormField label="Last Name" name="last_name" />
+                <FormField label="Email" type="email" name="email" />
+                {/* <FormField label="Phone Number" name="phone" inputMode="numeric" />
               <FormRadio
                 label="Gender"
                 name="gender"
@@ -119,30 +136,31 @@ const SignupPage = () => {
                   { label: "Prefer Not to Say", value: "NA" },
                 ]}
               /> */}
-              <FormField label="Password" type="password" name="password" />
-              <FormField
-                label="Re-enter password"
-                type="password"
-                name="confirm_password"
-              />
+                <FormField label="Password" type="password" name="password" />
+                <FormField
+                  label="Re-enter password"
+                  type="password"
+                  name="confirm_password"
+                />
 
-              <div className="d-grid col-9 col-mobile-8 col-sm-5 col-md-4 col-lg-3 mx-auto mb-4">
-                <FormButton>Signup</FormButton>
-              </div>
+                <div className="d-grid col-9 col-mobile-8 col-sm-5 col-md-4 col-lg-3 mx-auto mb-4">
+                  <FormButton>Signup</FormButton>
+                </div>
 
-              <div className="d-flex">
-                <p className="d-flex mx-auto">
-                  Already have an account?
-                  <Link className={`btn btn-link btn-sm p-0 ms-2`} to={LOGIN}>
-                    Login
-                  </Link>
-                </p>
-              </div>
-            </FormikForm>
-          </Col>
-        )}
-      </Row>
-    </Container>
+                <div className="d-flex">
+                  <p className="d-flex mx-auto">
+                    Already have an account?
+                    <Link className={`btn btn-link btn-sm p-0 ms-2`} to={LOGIN}>
+                      Login
+                    </Link>
+                  </p>
+                </div>
+              </FormikForm>
+            </Col>
+          )}
+        </Row>
+      </Container>
+    </>
   );
 };
 

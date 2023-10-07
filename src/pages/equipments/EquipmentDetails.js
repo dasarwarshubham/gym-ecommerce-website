@@ -1,6 +1,7 @@
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate, useParams } from "react-router-dom";
+import { Helmet } from "react-helmet";
 
 import { useMediaQuery } from "../../hooks/useMediaQuery";
 
@@ -50,7 +51,7 @@ import ImageGallery from "react-image-gallery";
 import "react-image-gallery/styles/scss/image-gallery.scss";
 
 const EquipmentDetailsPage = () => {
-  const { productId } = useParams();
+  const { categoryId, productId } = useParams();
 
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -140,6 +141,23 @@ const EquipmentDetailsPage = () => {
 
   return (
     <>
+      <Helmet>
+        <link rel="canonical" href={`https://fitflex.site/equipments/${categoryId}/${productId}`} />
+
+        <meta name="description" content={equipment?.description.slice(0,160)+'...'} />
+        <meta name="keywords" content="Gym Equipment Categories, Fitness Gear, Workout Essentials, Fitflex Product Range, Cardio, Recovery, Strength, Flexibility, Core" />
+
+        <meta property="og:title" content={`${equipment?.title} | ${categoryId.charAt(0).toUpperCase() + categoryId.slice(1)} Equipments | Fitflex`} />
+        <meta property="og:description" content={equipment?.description.slice(0,160)+'...'} />
+        <meta property="og:image" content={equipment.image} />
+        <meta property="og:url" content={`https://fitflex.site/equipments/${categoryId}/${productId}`} />
+
+        <meta name="twitter:title" content={`${equipment?.title} | ${categoryId.charAt(0).toUpperCase() + categoryId.slice(1)} Equipments | Fitflex`} />
+        <meta name="twitter:description" content={equipment?.description.slice(0,160)+'...'} />
+        <meta name="twitter:image" content={equipment.image} />
+
+        <title>{equipment?.title} | {categoryId.charAt(0).toUpperCase() + categoryId.slice(1)} Equipments | Fitflex</title>
+      </Helmet>
       <Container fluid="xxl" className="my-5">
         <Row className="mx-0 g-4 ">
           <Col md={6}>

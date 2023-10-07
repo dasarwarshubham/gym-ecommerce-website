@@ -32,9 +32,7 @@ export const INSTAGRAM = "https://www.instagram.com";
 export const FACEBOOK = "https://www.facebook.com";
 export const YOUTUBE = "https://www.youtube.com";
 
-const API_BASE_URL = "https://fitflex.site";
-// const API_BASE_URL = "http://127.0.0.1:8000";
-// const API_BASE_URL = process.env.NODE_ENV === 'production' ? "https://fitflex.site" : "http://127.0.0.1:8000";
+const API_BASE_URL = process.env.NODE_ENV === 'production' ? "https://fitflex.site" : "http://127.0.0.1:8000";
 
 export const API_ROUTES = {
   accounts: `${API_BASE_URL}/auth`,

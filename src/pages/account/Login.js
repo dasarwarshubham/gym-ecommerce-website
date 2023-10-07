@@ -1,6 +1,7 @@
 import React from "react";
 import { Link, useNavigate, useLocation } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
+import { Helmet } from "react-helmet";
 
 import Container from "react-bootstrap/Container";
 import Row from "react-bootstrap/Row";
@@ -59,50 +60,67 @@ const LoginPage = () => {
   };
 
   return (
-    <Container>
-      <Row
-        className="justify-content-center align-items-center mx-0"
-        style={{ minHeight: "70vh" }}
-      >
-        <Col xs={12} md={9} lg={8} xl={4}>
-          <h1 className="text-center mb-4">Login</h1>
+    <>
+      <Helmet>
+        <link rel="canonical" href="https://fitflex.site/login" />
 
-          <FormikForm
-            initialValues={{
-              username: "",
-              password: "",
-            }}
-            validationSchema={validationSchema}
-            onSubmit={(values, { setSubmitting, resetForm }) =>
-              handleClick(values, setSubmitting, resetForm)
-            }
-          >
-            {error && <p className="text-danger">{error}</p>}
-            <FormField label="Username" type="email" name="username" />
-            <FormField label="Password" type="password" name="password" />
-            <Link
-              className="btn btn-link btn-sm p-0 mx-auto mb-5 mt-2"
-              to={FORGOT_PASSWORD}
+        <meta name="description" content="Log in to your Fitflex account. Access your fitness profile, order history, and account settings." />
+        <meta name="keywords" content="Login, Fitflex Account, Fitness Profile, User Authentication" />
+
+        <meta property="og:title" content="Login | Fitflex - Access Your Fitness Profile" />
+        <meta property="og:description" content="Log in to your Fitflex account. Access your fitness profile, order history, and account settings." />
+        <meta property="og:url" content="https://fitflex.site/login" />
+
+        <meta name="twitter:title" content="Login | Fitflex - Access Your Fitness Profile" />
+        <meta name="twitter:description" content="Log in to your Fitflex account. Access your fitness profile, order history, and account settings." />
+
+        <title>Login | Fitflex - Access Your Fitness Profile</title>
+      </Helmet>
+      <Container>
+        <Row
+          className="justify-content-center align-items-center mx-0"
+          style={{ minHeight: "70vh" }}
+        >
+          <Col xs={12} md={9} lg={8} xl={4}>
+            <h1 className="text-center mb-4">Login</h1>
+
+            <FormikForm
+              initialValues={{
+                username: "",
+                password: "",
+              }}
+              validationSchema={validationSchema}
+              onSubmit={(values, { setSubmitting, resetForm }) =>
+                handleClick(values, setSubmitting, resetForm)
+              }
             >
-              Forgot your password?
-            </Link>
+              {error && <p className="text-danger">{error}</p>}
+              <FormField label="Username" type="email" name="username" />
+              <FormField label="Password" type="password" name="password" />
+              <Link
+                className="btn btn-link btn-sm p-0 mx-auto mb-5 mt-2"
+                to={FORGOT_PASSWORD}
+              >
+                Forgot your password?
+              </Link>
 
-            <div className="d-grid col-9 col-sm-5 col-md-4 mx-auto mb-4">
-              <FormButton>Login</FormButton>
-            </div>
+              <div className="d-grid col-9 col-sm-5 col-md-4 mx-auto mb-4">
+                <FormButton>Login</FormButton>
+              </div>
 
-            <div className="d-flex">
-              <p className="d-flex mx-auto">
-                Don't have an account?
-                <Link className={`btn btn-link btn-sm p-0 ms-2`} to={SIGNUP}>
-                  SignUp
-                </Link>
-              </p>
-            </div>
-          </FormikForm>
-        </Col>
-      </Row>
-    </Container>
+              <div className="d-flex">
+                <p className="d-flex mx-auto">
+                  Don't have an account?
+                  <Link className={`btn btn-link btn-sm p-0 ms-2`} to={SIGNUP}>
+                    SignUp
+                  </Link>
+                </p>
+              </div>
+            </FormikForm>
+          </Col>
+        </Row>
+      </Container>
+    </>
   );
 };
 

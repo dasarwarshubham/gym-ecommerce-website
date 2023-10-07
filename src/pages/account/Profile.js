@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
+import { Helmet } from "react-helmet";
 import styled from "styled-components/macro";
 
 import {
@@ -101,82 +102,99 @@ const ProfilePage = () => {
   };
 
   return (
-    <Container className="my-5 py-4" style={{ minHeight: "70vh" }}>
-      <Row className="justify-content-center mx-0 mt-5">
-        <Col md={12}>
-          <div className="d-flex justify-content-between align-items-center">
-            <h2>User Profile</h2>
-            <div>
-              <Button
-                variant="danger"
-                title="logout"
-                onClick={handleLogout}
-                className="me-3"
-              >
-                {loading ? (
-                  <Spinner as="span" size="sm" animation="border" />
-                ) : (
-                  <>Logout</>
-                )}
-              </Button>
+    <>
+      <Helmet>
+        <link rel="canonical" href="https://fitflex.site/profile" />
+
+        <meta name="description" content="Manage your Fitflex account. View your fitness profile, order history, saved addresses, and account security settings." />
+        <meta name="keywords" content="Fitflex Profile, Account Management, Order History, Account Security" />
+
+        <meta property="og:title" content="Fitflex Profile | Manage Your Account" />
+        <meta property="og:description" content="Manage your Fitflex account. View your fitness profile, order history, saved addresses, and account security settings." />
+        <meta property="og:url" content="https://fitflex.site/profile" />
+
+        <meta name="twitter:title" content="Fitflex Profile | Manage Your Account" />
+        <meta name="twitter:description" content="Manage your Fitflex account. View your fitness profile, order history, saved addresses, and account security settings." />
+
+        <title>Fitflex Profile | Manage Your Account</title>
+      </Helmet>
+      <Container className="my-5 py-4" style={{ minHeight: "70vh" }}>
+        <Row className="justify-content-center mx-0 mt-5">
+          <Col md={12}>
+            <div className="d-flex justify-content-between align-items-center">
+              <h2>User Profile</h2>
+              <div>
+                <Button
+                  variant="danger"
+                  title="logout"
+                  onClick={handleLogout}
+                  className="me-3"
+                >
+                  {loading ? (
+                    <Spinner as="span" size="sm" animation="border" />
+                  ) : (
+                    <>Logout</>
+                  )}
+                </Button>
+              </div>
             </div>
-          </div>
-          <hr />
-          <Tab.Container
-            id="profile-tabs"
-            activeKey={activeTab}
-            onSelect={handleTabChange}
-          >
-            <Row>
-              <TabsColumn md={3}>
-                <Nav fill justify variant="pills">
-                  <Nav.Item>
-                    <Nav.Link eventKey="account"><FaRegCircleUser size={16} /><span className="tab-text">Account Details</span></Nav.Link>
-                  </Nav.Item>
-                  <Nav.Item>
-                    <Nav.Link eventKey="orders"><GoPackage size={16} /><span className="tab-text">Your Orders</span></Nav.Link>
-                  </Nav.Item>
-                  {/* <Nav.Item>
+            <hr />
+            <Tab.Container
+              id="profile-tabs"
+              activeKey={activeTab}
+              onSelect={handleTabChange}
+            >
+              <Row>
+                <TabsColumn md={3}>
+                  <Nav fill justify variant="pills">
+                    <Nav.Item>
+                      <Nav.Link eventKey="account"><FaRegCircleUser size={16} /><span className="tab-text">Account Details</span></Nav.Link>
+                    </Nav.Item>
+                    <Nav.Item>
+                      <Nav.Link eventKey="orders"><GoPackage size={16} /><span className="tab-text">Your Orders</span></Nav.Link>
+                    </Nav.Item>
+                    {/* <Nav.Item>
                     <Nav.Link eventKey="favorites"><FaHeart size={16} /><span className="tab-text">Favorites</span></Nav.Link>
                   </Nav.Item> */}
-                  <Nav.Item>
-                    <Nav.Link eventKey="address"><FaAddressCard size={16} /><span className="tab-text">Manage Address</span></Nav.Link>
-                  </Nav.Item>
-                  {/* <Nav.Item>
+                    <Nav.Item>
+                      <Nav.Link eventKey="address"><FaAddressCard size={16} /><span className="tab-text">Manage Address</span></Nav.Link>
+                    </Nav.Item>
+                    {/* <Nav.Item>
                     <Nav.Link eventKey="payments"><MdPayment size={16} /><span className="tab-text">Payment Methods</span></Nav.Link>
                   </Nav.Item> */}
-                  <Nav.Item>
-                    <Nav.Link eventKey="security"><MdSecurity size={16} /><span className="tab-text">Security</span></Nav.Link>
-                  </Nav.Item>
-                </Nav>
-              </TabsColumn>
-              <Col md={9}>
-                <Tab.Content className="pt-5 pt-md-0">
-                  <Tab.Pane eventKey="account">
-                    <PersonalInfoSection />
-                  </Tab.Pane>
-                  <Tab.Pane eventKey="orders" style={{ maxHeight: "75vh", overflowY: "auto" }}>
-                    <OrderSection />
-                  </Tab.Pane>
-                  {/* <Tab.Pane eventKey="favorites">
+                    <Nav.Item>
+                      <Nav.Link eventKey="security"><MdSecurity size={16} /><span className="tab-text">Security</span></Nav.Link>
+                    </Nav.Item>
+                  </Nav>
+                </TabsColumn>
+                <Col md={9}>
+                  <Tab.Content className="pt-5 pt-md-0">
+                    <Tab.Pane eventKey="account">
+                      <PersonalInfoSection />
+                    </Tab.Pane>
+                    <Tab.Pane eventKey="orders" style={{ maxHeight: "75vh", overflowY: "auto" }}>
+                      <OrderSection />
+                    </Tab.Pane>
+                    {/* <Tab.Pane eventKey="favorites">
                     <FavoriteSection />
                   </Tab.Pane> */}
-                  <Tab.Pane eventKey="address">
-                    <AddressSection />
-                  </Tab.Pane>
-                  {/* <Tab.Pane eventKey="payments">
+                    <Tab.Pane eventKey="address">
+                      <AddressSection />
+                    </Tab.Pane>
+                    {/* <Tab.Pane eventKey="payments">
                     <PaymentsSection />
                   </Tab.Pane> */}
-                  <Tab.Pane eventKey="security">
-                    <SecuritySection />
-                  </Tab.Pane>
-                </Tab.Content>
-              </Col>
-            </Row>
-          </Tab.Container>
-        </Col>
-      </Row>
-    </Container>
+                    <Tab.Pane eventKey="security">
+                      <SecuritySection />
+                    </Tab.Pane>
+                  </Tab.Content>
+                </Col>
+              </Row>
+            </Tab.Container>
+          </Col>
+        </Row>
+      </Container>
+    </>
   );
 };
 

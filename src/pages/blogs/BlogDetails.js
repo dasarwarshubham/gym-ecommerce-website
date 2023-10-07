@@ -1,6 +1,7 @@
 import React, { useEffect } from "react";
 import { useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
+import { Helmet } from "react-helmet";
 
 import DOMPurify from 'dompurify';
 
@@ -55,11 +56,30 @@ const BlogDetailsPage = () => {
   const publishDate = date.toLocaleDateString("en-US", options);
 
   return (
-    <Container className="my-5 py-5" style={{ minHeight: "65vh" }}>
-      <h2 className="text-center mb-5">{blogDetails?.title}</h2>
-      <div className="blog-details-container" dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(blogDetails?.content, { USE_PROFILES: { html: true } }) }}></div>
-      <p className="my-4">Blog published on {publishDate}</p>
-    </Container>
+    <>
+      <Helmet>
+        <link rel="canonical" href={`https://fitflex.site/blogs/${blogDetails?.slug}`} />
+
+        <meta name="description" content={`${blogDetails?.description.slice(0, 160)}...`} />
+        <meta name="keywords" content="Fitness Blog, [Blog Title], Health Tips, Workout Advice, Fitflex Blog" />
+
+        <meta property="og:title" content={`${blogDetails?.title} | Fitness Blog | Fitflex - Read Informative Articles`} />
+        <meta property="og:description" content={`${blogDetails?.description.slice(0, 160)}...`} />
+        <meta property="og:image" content={blogDetails?.image} />
+        <meta property="og:url" content={`https://fitflex.site/blogs/${blogDetails?.slug}`} />
+
+        <meta name="twitter:title" content={`${blogDetails?.title} | Fitness Blog | Fitflex - Read Informative Articles`} />
+        <meta name="twitter:description" content={`${blogDetails?.description.slice(0, 160)}...`} />
+        <meta name="twitter:image" content={blogDetails?.image} />
+
+        <title>{blogDetails?.title} | Fitness Blog | Fitflex - Read Informative Articles</title>
+      </Helmet>
+      <Container className="my-5 py-5" style={{ minHeight: "65vh" }}>
+        <h2 className="text-center mb-5">{blogDetails?.title}</h2>
+        <div className="blog-details-container" dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(blogDetails?.content, { USE_PROFILES: { html: true } }) }}></div>
+        <p className="my-4">Blog published on {publishDate}</p>
+      </Container>
+    </>
   );
 };
 

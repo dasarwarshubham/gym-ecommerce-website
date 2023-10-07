@@ -1,6 +1,7 @@
 import React, { useEffect } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
+import { Helmet } from "react-helmet";
 import * as Yup from "yup";
 
 // import custom hook
@@ -75,50 +76,69 @@ const BlogListPage = () => {
   }
   if (blogCount > 0) {
     return (
-      <Container className="my-5 py-5" style={{ minHeight: "65vh" }}>
-        <Row className="g-5 mx-0 mb-5 justify-content-center">
-          <Col xs={12} lg={9} xl={7}>
-            <FormikForm
-              initialValues={{
-                search: "",
-                page: currentPage
-              }}
-              validationSchema={Yup.object().shape({
-                search: Yup.string().required().label("Search"),
-              })}
-              onSubmit={async (values, { setSubmitting, resetForm }) =>
-                handleClick(values, setSubmitting, resetForm)
-              }
-              enableReinitialize
-              className="row mx-0 g-2 g-md-4"
-            >
-              <FormField
-                name="search"
-                placeholder="Search blogs here..."
-                fieldClass="col col-md-9"
-              />
-              <FormButton className="col-2 col-md-3" style={{ minWidth: 'unset' }}>
-                <MdOutlineSearch size={20} />
-                <span className="d-none d-md-inline-flex">
-                  Search
-                </span>
-              </FormButton>
-            </FormikForm>
-          </Col>
-        </Row>
-        <Row className="g-5 my-5 mx-0">
-          {blogs.map((blog) => (
-            <Col key={blog.id} sm={6} md={4}>
-              <BlogCard blog={blog} />
+      <>
+        <Helmet>
+          <link rel="canonical" href="https://fitflex.site/blogs" />
+
+          <meta name="description" content="Explore a wealth of fitness knowledge with Fitflex's blog collection. Access health tips, workout guides, and stay inspired on your fitness journey." />
+          <meta name="keywords" content="Fitflex Blogs, Fitness Articles, Health Tips, Workout Guides" />
+
+          <meta property="og:title" content="Fitness Blogs | Fitflex - Stay Informed and Inspired" />
+          <meta property="og:description" content="Explore a wealth of fitness knowledge with Fitflex's blog collection. Access health tips, workout guides, and stay inspired on your fitness journey." />
+          <meta property="og:image" content="https://fitflex.site/fitflex-og-card.png" />
+          <meta property="og:url" content="https://fitflex.site/blogs" />
+
+          <meta name="twitter:title" content="Fitness Blogs | Fitflex - Stay Informed and Inspired" />
+          <meta name="twitter:description" content="Explore a wealth of fitness knowledge with Fitflex's blog collection. Access health tips, workout guides, and stay inspired on your fitness journey." />
+          <meta name="twitter:image" content="https://fitflex.site/fitflex-twitter-card.png" />
+
+          <title>Fitness Blogs | Fitflex - Stay Informed and Inspired</title>
+        </Helmet>
+        <Container className="my-5 py-5" style={{ minHeight: "65vh" }}>
+          <Row className="g-5 mx-0 mb-5 justify-content-center">
+            <Col xs={12} lg={9} xl={7}>
+              <FormikForm
+                initialValues={{
+                  search: "",
+                  page: currentPage
+                }}
+                validationSchema={Yup.object().shape({
+                  search: Yup.string().required().label("Search"),
+                })}
+                onSubmit={async (values, { setSubmitting, resetForm }) =>
+                  handleClick(values, setSubmitting, resetForm)
+                }
+                enableReinitialize
+                className="row mx-0 g-2 g-md-4"
+              >
+                <FormField
+                  name="search"
+                  placeholder="Search blogs here..."
+                  fieldClass="col col-md-9"
+                />
+                <FormButton className="col-2 col-md-3" style={{ minWidth: 'unset' }}>
+                  <MdOutlineSearch size={20} />
+                  <span className="d-none d-md-inline-flex">
+                    Search
+                  </span>
+                </FormButton>
+              </FormikForm>
             </Col>
-          ))}
-        </Row>
-        <MyPagination
-          totalPages={totalPages}
-          currentPage={currentPage}
-          handlePageChange={handlePageChange}
-        />
-      </Container>
+          </Row>
+          <Row className="g-5 my-5 mx-0">
+            {blogs.map((blog) => (
+              <Col key={blog.id} sm={6} md={4}>
+                <BlogCard blog={blog} />
+              </Col>
+            ))}
+          </Row>
+          <MyPagination
+            totalPages={totalPages}
+            currentPage={currentPage}
+            handlePageChange={handlePageChange}
+          />
+        </Container>
+      </>
     )
   } else {
     return (

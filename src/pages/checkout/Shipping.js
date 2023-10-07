@@ -1,6 +1,7 @@
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
+import { Helmet } from "react-helmet";
 import * as Yup from "yup";
 
 // import required Components
@@ -60,75 +61,92 @@ const ShippingPage = () => {
   };
 
   return (
-    <Container className="my-5 py-5" style={{ minHeight: "65vh" }}>
-      <Row className="g-4 mx-0">
-        <Col xs={12}>
-          <h2 className={`d-flex align-items-center ${count === 0 && 'justify-content-center'}`}>
-            Select Shipping Address
-            {loading && (
-              <Spinner className="ms-2" animation="grow">
-                <span className="visually-hidden">Loading...</span>
-              </Spinner>
-            )}
-            {error && <span className="text-danger">{error}</span>}
-          </h2>
-        </Col>
-        {count === 0 ? (
-          <Col xs={12} className="text-center">
-            <p>Your cart is empty.</p>
-            <Link to={HOME} className="btn btn-primary">
-              Continue Shopping
-            </Link>
-          </Col>
-        ) : (
+    <>
+      <Helmet>
+        <link rel="canonical" href="https://fitflex.site/shipping" />
+
+        <meta name="description" content="Select your delivery address for shipping. Get your gym equipment and fitness gear delivered to your doorstep safely and efficiently." />
+        <meta name="keywords" content="Select Shipping Address, Gym Equipment Store, Fitness Gear Shipping" />
+
+        <meta property="og:title" content="Shipping Address Selection | Fitflex - Gym Equipment Store" />
+        <meta property="og:description" content="Select your delivery address for shipping. Get your gym equipment and fitness gear delivered to your doorstep safely and efficiently." />
+        <meta property="og:url" content="https://fitflex.site/shipping" />
+
+        <meta name="twitter:title" content="Shipping Address Selection | Fitflex - Gym Equipment Store" />
+        <meta name="twitter:description" content="Select your delivery address for shipping. Get your gym equipment and fitness gear delivered to your doorstep safely and efficiently." />
+
+        <title>Shipping Address Selection | Fitflex - Gym Equipment Store</title>
+      </Helmet>
+      <Container className="my-5 py-5" style={{ minHeight: "65vh" }}>
+        <Row className="g-4 mx-0">
           <Col xs={12}>
-            <FormikForm
-              initialValues={{
-                delivery_address: cartAddress?.id,
-              }}
-              enableReinitialize
-              validationSchema={Yup.object().shape({
-                delivery_address: Yup.string().required().label("Delivery Address"),
-              })}
-              onSubmit={(values, { setSubmitting, resetForm }) =>
-                handleClick(values, setSubmitting, resetForm)
-              }
-            >
-              <Row className="">
-                <Col md={8}>
-                  <Row className="g-4">
-                    {addresses?.map((address) => (
-                      <Col md={6} key={`shipping-address-${address.id}`}>
-                        <FormRadio value={address} name="delivery_address" />
-                      </Col>
-                    ))}
-                  </Row>
-                  <div className="d-flex d-sm-block my-4">
-                    <AddAddressCard className="mx-auto" isButton="true" />
-                  </div>
-                </Col>
-                <Col md={4}>
-                  <Card>
-                    <Card.Header>
-                      <Card.Title>Order Summary</Card.Title>
-                    </Card.Header>
-                    <Card.Body>
-                      <Card.Text>Total Items: {count}</Card.Text>
-                      <Card.Text>
-                        Total Amount: ${cart.cart_total_price.toFixed(2)}
-                      </Card.Text>
-                    </Card.Body>
-                    <Card.Footer className="d-grid">
-                      <FormButton>Proceed to Review</FormButton>
-                    </Card.Footer>
-                  </Card>
-                </Col>
-              </Row>
-            </FormikForm>
+            <h2 className={`d-flex align-items-center ${count === 0 && 'justify-content-center'}`}>
+              Select Shipping Address
+              {loading && (
+                <Spinner className="ms-2" animation="grow">
+                  <span className="visually-hidden">Loading...</span>
+                </Spinner>
+              )}
+              {error && <span className="text-danger">{error}</span>}
+            </h2>
           </Col>
-        )}
-      </Row>
-    </Container>
+          {count === 0 ? (
+            <Col xs={12} className="text-center">
+              <p>Your cart is empty.</p>
+              <Link to={HOME} className="btn btn-primary">
+                Continue Shopping
+              </Link>
+            </Col>
+          ) : (
+            <Col xs={12}>
+              <FormikForm
+                initialValues={{
+                  delivery_address: cartAddress?.id,
+                }}
+                enableReinitialize
+                validationSchema={Yup.object().shape({
+                  delivery_address: Yup.string().required().label("Delivery Address"),
+                })}
+                onSubmit={(values, { setSubmitting, resetForm }) =>
+                  handleClick(values, setSubmitting, resetForm)
+                }
+              >
+                <Row className="">
+                  <Col md={8}>
+                    <Row className="g-4">
+                      {addresses?.map((address) => (
+                        <Col md={6} key={`shipping-address-${address.id}`}>
+                          <FormRadio value={address} name="delivery_address" />
+                        </Col>
+                      ))}
+                    </Row>
+                    <div className="d-flex d-sm-block my-4">
+                      <AddAddressCard className="mx-auto" isButton="true" />
+                    </div>
+                  </Col>
+                  <Col md={4}>
+                    <Card>
+                      <Card.Header>
+                        <Card.Title>Order Summary</Card.Title>
+                      </Card.Header>
+                      <Card.Body>
+                        <Card.Text>Total Items: {count}</Card.Text>
+                        <Card.Text>
+                          Total Amount: ${cart.cart_total_price.toFixed(2)}
+                        </Card.Text>
+                      </Card.Body>
+                      <Card.Footer className="d-grid">
+                        <FormButton>Proceed to Review</FormButton>
+                      </Card.Footer>
+                    </Card>
+                  </Col>
+                </Row>
+              </FormikForm>
+            </Col>
+          )}
+        </Row>
+      </Container>
+    </>
   );
 };
 

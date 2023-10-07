@@ -1,4 +1,5 @@
 import React from "react";
+import { Helmet } from "react-helmet";
 
 import Container from "react-bootstrap/Container";
 import Accordion from "react-bootstrap/Accordion";
@@ -58,18 +59,37 @@ const FaqsPage = () => {
   ];
 
   return (
-    <Container className="my-5 py-5" style={{ minHeight: "65vh" }}>
-      <h3 className="text-center mb-5">Frequently Asked Questions (FAQs)</h3>
+    <>
+      <Helmet>
+        <link rel="canonical" href="https://fitflex.site/faqs" />
 
-      <Accordion defaultActiveKey="0" flush className="px-4">
-        {faqs.map((item, index) => (
-          <Accordion.Item eventKey={index} key={`faqs-item-${index}`}>
-            <Accordion.Header>{item.question}</Accordion.Header>
-            <Accordion.Body>{item.answer}</Accordion.Body>
-          </Accordion.Item>
-        ))}
-      </Accordion>
-    </Container>
+        <meta name="description" content="Find answers to common queries about gym equipment, shipping, returns, and more on the Fitflex FAQs page. We're here to assist you." />
+        <meta name="keywords" content="FAQs, Frequently Asked Questions, Fitflex FAQs, Gym Equipment Queries" />
+
+        <meta property="og:title" content="Frequently Asked Questions (FAQs) | Fitflex" />
+        <meta property="og:description" content="Find answers to common queries about gym equipment, shipping, returns, and more on the Fitflex FAQs page. We're here to assist you." />
+        <meta property="og:image" content="https://fitflex.site/fitflex-og-card.png" />
+        <meta property="og:url" content="https://fitflex.site/faqs" />
+
+        <meta name="twitter:title" content="Frequently Asked Questions (FAQs) | Fitflex" />
+        <meta name="twitter:description" content="Find answers to common queries about gym equipment, shipping, returns, and more on the Fitflex FAQs page. We're here to assist you." />
+        <meta name="twitter:image" content="https://fitflex.site/fitflex-twitter-card.png" />
+
+        <title>Frequently Asked Questions (FAQs) | Fitflex</title>
+      </Helmet>
+      <Container className="my-5 py-5" style={{ minHeight: "65vh" }}>
+        <h3 className="text-center mb-5">Frequently Asked Questions (FAQs)</h3>
+
+        <Accordion defaultActiveKey="0" flush className="px-4">
+          {faqs.map((item, index) => (
+            <Accordion.Item eventKey={index} key={`faqs-item-${index}`}>
+              <Accordion.Header>{item.question}</Accordion.Header>
+              <Accordion.Body>{item.answer}</Accordion.Body>
+            </Accordion.Item>
+          ))}
+        </Accordion>
+      </Container>
+    </>
   );
 };
 
